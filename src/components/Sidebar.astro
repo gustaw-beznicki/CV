@@ -1,0 +1,46 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+const { ui, nav, contact } = content;
+---
+
+<aside class="sidebar">
+  <div class="sidebar-block">
+    <div class="sidebar-label">{ui.sectionsLabel}</div>
+    <ul class="sidebar-nav">
+      {nav.map((item) => (
+        <li><a href={`#${item.id}`}>{item.label}</a></li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="sidebar-block">
+    <div class="sidebar-label">{ui.contactLabel}</div>
+    <div class="sidebar-text">
+      <strong>{ui.emailLabel}</strong>
+      <a href={`mailto:${contact.email}`}>{contact.email}</a>
+    </div>
+    <div class="sidebar-text" style="margin-top: 0.75rem;">
+      <strong>{ui.linkedinLabel}</strong>
+      <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer">{contact.linkedinLabel}</a>
+    </div>
+    <div class="sidebar-text" style="margin-top: 0.75rem;">
+      <strong>{ui.locationLabel}</strong>
+      <span class="sidebar-loc">{contact.location}</span>
+    </div>
+    <div class="sidebar-text sidebar-note" style="margin-top: 0.85rem;">
+      {ui.recruiterNote}
+    </div>
+  </div>
+
+  <div class="sidebar-block">
+    <div class="sidebar-label">{ui.exportLabel}</div>
+    <div class="sidebar-text">
+      <button type="button" class="print-link" data-print>{ui.printAction}</button>
+    </div>
+  </div>
+</aside>

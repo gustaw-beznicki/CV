@@ -1,0 +1,95 @@
+---
+import "@fontsource-variable/fraunces/full.css";
+import "@fontsource-variable/fraunces/full-italic.css";
+import "@fontsource-variable/instrument-sans/index.css";
+import "@fontsource-variable/jetbrains-mono/index.css";
+import "../styles/global.css";
+
+import type { CVContent } from "../content/types";
+import LanguageSwitcher from "../components/LanguageSwitcher.astro";
+import Hero from "../components/Hero.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Highlights from "../components/Highlights.astro";
+import Skills from "../components/Skills.astro";
+import Experience from "../components/Experience.astro";
+import Education from "../components/Education.astro";
+import Certifications from "../components/Certifications.astro";
+import Languages from "../components/Languages.astro";
+import Interests from "../components/Interests.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+
+const site = Astro.site?.toString().replace(/\/$/, "") ?? "https://gustawbeznicki.dev";
+const enHref = `${site}/`;
+const plHref = `${site}/pl`;
+const canonical = content.locale === "pl" ? plHref : enHref;
+const ogImage = `${site}/og-image.png`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Gustaw Beźnicki",
+  jobTitle: "Senior Software Engineer & Team Lead",
+  url: enHref,
+  email: `mailto:${content.contact.email}`,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Gdańsk",
+    addressCountry: "PL",
+  },
+  sameAs: [content.footer.githubUrl, content.footer.linkedinUrl],
+};
+---
+
+<!doctype html>
+<html lang={content.locale}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{content.meta.title}</title>
+    <meta name="description" content={content.meta.description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="pl" href={plHref} />
+    <link rel="alternate" hreflang="x-default" href={enHref} />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={content.meta.title} />
+    <meta property="og:description" content={content.meta.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content={content.locale === "pl" ? "pl_PL" : "en_US"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={content.meta.title} />
+    <meta name="twitter:description" content={content.meta.description} />
+    <meta name="twitter:image" content={ogImage} />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />
+  </head>
+  <body>
+    <LanguageSwitcher locale={content.locale} />
+    <Hero content={content} />
+    <main>
+      <Sidebar content={content} />
+      <article class="content">
+        <Highlights content={content} />
+        <Skills content={content} />
+        <Experience content={content} />
+        <Education content={content} />
+        <Certifications content={content} />
+        <Languages content={content} />
+        <Interests content={content} />
+      </article>
+    </main>
+    <Footer content={content} />
+
+    <script>
+      import "../scripts/enhance";
+    </script>
+  </body>
+</html>

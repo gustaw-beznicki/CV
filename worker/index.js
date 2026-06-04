@@ -1,20 +1,21 @@
-// Serves the static CV. Redirects www.gustawbeznicki.dev -> gustawbeznicki.dev
-// so the apex is the single canonical URL, and adds security headers to every
-// response.
+// Serves the static CV (Astro build output in ./dist). Redirects
+// www.gustawbeznicki.dev -> gustawbeznicki.dev so the apex is the single
+// canonical URL, and adds security headers to every response.
 const CANONICAL_HOST = "gustawbeznicki.dev";
 
 // Content-Security-Policy notes:
-//  - 'unsafe-inline' is required for script-src/style-src because the page uses
-//    an inline <script>, inline style="" attributes, and an inline onclick.
-//    There is no user-generated content or third-party JS, so the XSS surface is
-//    minimal. Google Fonts needs googleapis (CSS) + gstatic (font files); the
-//    background noise SVG is a data: image.
+//  - Fonts are self-hosted (Fontsource) and JS is bundled to external files by
+//    Astro, so no third-party hosts are needed.
+//  - 'unsafe-inline' stays on style-src for inline style="" attributes and any
+//    build-injected styles, and on script-src for the inline JSON-LD block.
+//    There is no user-generated content or third-party JS, so the XSS surface
+//    is minimal. The background noise SVG is a data: image.
 const CSP = [
   "default-src 'self'",
   "base-uri 'self'",
   "script-src 'self' 'unsafe-inline'",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-  "font-src 'self' https://fonts.gstatic.com",
+  "style-src 'self' 'unsafe-inline'",
+  "font-src 'self'",
   "img-src 'self' data:",
   "connect-src 'self'",
   "form-action 'none'",

@@ -1,0 +1,24 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+---
+
+<section id="highlights">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2 class="section-title">{content.sectionTitles.highlights}</h2>
+  </div>
+
+  <div class="highlights">
+    {content.highlights.map((h) => (
+      <div class="highlight">
+        <div class="highlight-tag">{h.tag}</div>
+        <p class="highlight-text" set:html={h.html}></p>
+      </div>
+    ))}
+  </div>
+</section>
