@@ -1066,14 +1066,17 @@
       padding: 0 0 0.3cm 0;
       border-left: 0;
       margin-bottom: 0;
-      page-break-inside: avoid;
+      /* Allow breaking inside long roles to avoid gaps between sections */
+      page-break-inside: auto;
     }
 
+    /* Keep role header (title + company) with its first content */
     .exp-item::before { display: none; }
 
     .exp-header {
       margin-bottom: 0.08cm;
       overflow: hidden;
+      page-break-after: avoid;
     }
 
     .exp-period {
@@ -1300,9 +1303,9 @@
   </div>
   <h1>Gustaw <em>Beźnicki</em></h1>
   <p class="hero-role">
-    <strong>Senior Software Engineer</strong> moving toward Engineering Leadership.
-    Seven years building distributed systems in .NET and Azure.
-    Co-founder at <strong>B-B-Digital</strong>. Tech Lead at <strong>Lavamme</strong>.
+    <strong>Senior Software Engineer at KMD</strong> — building a cloud settlement &amp; billing platform
+    and leading a six-person Polish-Danish team. Seven years in distributed .NET systems.
+    Two ventures on the side: <strong>B-B-Digital</strong> and <strong>Lavamme</strong>.
   </p>
   <div class="hero-contact">
     <a href="mailto:gustaw.beznicki@gmail.com">gustaw.beznicki@gmail.com</a>
@@ -1368,42 +1371,42 @@
         <div class="highlight">
           <div class="highlight-tag">Engineering</div>
           <p class="highlight-text">
-            <strong>7+ years</strong> as a .NET engineer building distributed cloud systems
-            for enterprise clients across <strong>Energy, Banking, e-Commerce, and Logistics</strong>.
+            Seven years of enterprise .NET — across <strong>banking</strong>, <strong>energy</strong>,
+            <strong>e-commerce</strong>, and <strong>logistics</strong>.
           </p>
         </div>
 
         <div class="highlight">
           <div class="highlight-tag">Current Role</div>
           <p class="highlight-text">
-            <strong>Team Lead responsibilities at KMD</strong> for a 6-engineer Polish-Danish team.
-            Owns architecture decisions, mentors developers, and represents the team in
-            cross-team and delivery-management discussions.
+            Leads a <strong>Polish-Danish team of six engineers</strong> at KMD — owns the architecture,
+            coaches the team, and represents them in cross-team and delivery-management discussions.
           </p>
         </div>
 
         <div class="highlight">
           <div class="highlight-tag">AI Adoption</div>
           <p class="highlight-text">
-            <strong>Leading the team's AI tooling rollout</strong> — Copilot configurations,
-            agentic developer workflows, and a custom in-house agent that drafts
-            High-Level Design documents.
+            <strong>Brought AI into the team's daily workflow</strong> — shared Copilot instructions,
+            agentic coding workflows, and an in-house agent that drafts High-Level Design documents
+            from rough notes.
           </p>
         </div>
 
         <div class="highlight">
           <div class="highlight-tag">Side Ventures</div>
           <p class="highlight-text">
-            <strong>Co-founder at B-B-Digital</strong> (productized web for Polish SMBs)
-            and <strong>Tech Lead at Lavamme</strong> (Shopify-based fashion e-commerce, running since 2024).
+            Two ventures alongside the day job: <strong>B-B-Digital</strong>, a productized web service
+            for Polish SMBs (co-founded 2026), and <strong>Lavamme</strong>, a Shopify-based fashion
+            e-commerce (co-founded 2024).
           </p>
         </div>
 
         <div class="highlight">
           <div class="highlight-tag">Leadership Growth</div>
           <p class="highlight-text">
-            Investing in the people side — recent training in <strong>NVC</strong>,
-            effective communication, and cross-cultural Polish-Danish team dynamics.
+            <strong>Spent 2024 building the leadership toolkit</strong> — certifications in NVC,
+            effective communication, and Polish-Danish team dynamics.
           </p>
         </div>
       </div>
@@ -1529,23 +1532,23 @@
           <div class="exp-company"><em>KMD Poland</em> · Warsaw</div>
         </div>
         <p class="exp-context">
-          Cloud-based settlement &amp; billing platform automating complex calculation processes for enterprise clients.
-          6-person team operating within a wider cross-team environment.
+          Cloud settlement &amp; billing platform automating complex calculation flows for enterprise clients.
+          Six-person engineering team within a wider multi-team setup.
         </p>
 
         <div class="exp-group-label">Engineering &amp; Technical Leadership</div>
         <ul class="exp-list">
-          <li>Owns architecture and solution-design decisions across major epics, with both technical and business factors in mind</li>
-          <li>Leading AI tooling adoption across the team — Copilot instructions, agentic developer workflows, and an in-house agent for High-Level Design drafting</li>
-          <li>Works with the Product Owner on feature scoping — turning unclear requirements into well-defined user stories</li>
-          <li>Hands-on backend development on critical platform components, plus growing involvement in Angular/TypeScript microfrontends</li>
+          <li>Owns architecture decisions across the team's major epics — weighing technical correctness against business priorities</li>
+          <li>Brought AI tooling into the team's daily workflow: shared Copilot instructions, agentic coding workflows, and an in-house agent that turns rough notes into draft High-Level Design documents</li>
+          <li>Pairs with the Product Owner on feature scoping — turning loose business asks into engineer-ready user stories</li>
+          <li>Still ships code: backend on the platform's critical paths, with growing time spent on Angular/TypeScript microfrontends</li>
         </ul>
 
         <div class="exp-group-label">People &amp; Team Growth</div>
         <ul class="exp-list">
-          <li>Supports developer growth through day-to-day collaboration, with 1-on-1s when individual coaching is needed — covering both technical and soft-skill challenges</li>
-          <li>Runs onboarding for new engineers, helping them get up to speed quickly</li>
-          <li>Main technical point of contact in cross-team work and in delivery-management discussions on team direction and capacity</li>
+          <li>Coaches engineers through everyday collaboration, with focused 1-on-1s when someone needs the dedicated time — across both technical and personal challenges</li>
+          <li>Owns onboarding for new joiners — pair sessions and platform walkthroughs to shorten time-to-contribution</li>
+          <li>Acts as the team's main technical contact across teams and in delivery-management conversations on direction and capacity</li>
         </ul>
 
         <div class="exp-tech">
@@ -1563,9 +1566,9 @@
         </div>
         <p class="exp-context">Same platform — settlement &amp; billing. 5–7 person SCRUM team.</p>
         <ul class="exp-list">
-          <li>Backend development on a cloud-based settlement &amp; billing solution</li>
-          <li>Contributed to frontend development tasks within the project</li>
-          <li>Collaborated closely with three other teams to ensure seamless integration and orchestration of processes</li>
+          <li>Backend feature delivery on the settlement &amp; billing platform</li>
+          <li>Contributed to frontend tasks as the team's frontend capabilities grew</li>
+          <li>Worked closely with three sibling teams to keep cross-service integration and orchestration solid</li>
         </ul>
         <div class="exp-tech">
           <span class="exp-tech-label">Stack:</span>
@@ -1581,9 +1584,9 @@
           <div class="exp-company"><em>B-B-Digital</em></div>
         </div>
         <p class="exp-body">
-          Co-founded a software house focused on web solutions for Polish SMBs and independent professionals
-          (lawyers, doctors, architects). Built the technical foundation around a white-label template system
-          that ships per-client deployments quickly. Responsible for tech direction, delivery framework, and client scoping.
+          Co-founded a software house building productized websites for Polish independent professionals —
+          lawyers, doctors, architects. Designed the white-label template system (Astro + Sanity CMS)
+          that ships per-client deployments fast. Owns tech direction, delivery framework, and client scoping.
         </p>
         <div class="exp-tech">
           <span class="exp-tech-label">Stack:</span>
@@ -1599,9 +1602,10 @@
           <div class="exp-company"><em>Lavamme</em></div>
         </div>
         <p class="exp-body">
-          Co-founded a fashion e-commerce brand and built its tech foundation. Delivered the Shopify storefront
-          with integrations for payments, logistics, and customer experience. Beyond engineering, involved in
-          product strategy, brand, pricing, and customer journey decisions — learning business ownership in practice.
+          Co-founded a fashion e-commerce brand and built the tech side from scratch. Delivered the
+          Shopify storefront with payments, logistics, and customer-experience integrations. Stayed
+          close to the business too — product, brand, pricing, customer journey — picking up
+          commercial ownership alongside engineering.
         </p>
       </div>
 
@@ -1613,9 +1617,8 @@
           <div class="exp-company"><em>ISA</em> · Łódź</div>
         </div>
         <p class="exp-body">
-          Instructing and mentoring individuals in .NET development as part of a team of trainers delivering programming
-          courses and workshops. Developed curriculum materials, conducted training sessions, and provided personalised
-          guidance to students at various skill levels.
+          Taught .NET development alongside a team of trainers — courses, workshops, and one-to-one
+          guidance. Built curriculum materials and ran sessions for students at varying skill levels.
         </p>
         <div class="exp-tech">
           <span class="exp-tech-label">Stack:</span>
@@ -1630,10 +1633,10 @@
           <h3 class="exp-title">Software Engineer</h3>
           <div class="exp-company"><em>Sii Poland</em> · Łódź</div>
         </div>
-        <p class="exp-context">E-commerce SaaS engine with headless architecture and microservices. Leading development efforts in a 5-person SCRUM team.</p>
+        <p class="exp-context">E-commerce SaaS engine — headless architecture, microservices. Led development in a 5-person SCRUM team.</p>
         <ul class="exp-list">
-          <li>Development of new functionalities for the e-commerce platform</li>
-          <li>Maintenance and optimisation of legacy components</li>
+          <li>Shipped new functionality across the platform</li>
+          <li>Maintained and optimised legacy services</li>
         </ul>
         <div class="exp-tech">
           <span class="exp-tech-label">Stack:</span>
@@ -1648,10 +1651,10 @@
           <h3 class="exp-title">.NET Developer</h3>
           <div class="exp-company"><em>BAKK</em> · Łódź</div>
         </div>
-        <p class="exp-context">Debt and loan management system (desktop + web API). 5–8 person SCRUM teams.</p>
+        <p class="exp-context">Debt and loan management platform — desktop application + Web API. 5–8 person SCRUM teams.</p>
         <ul class="exp-list">
-          <li>Built C# applications including: automatic loan disbursement module (Santander Bank integration), Invoice OCR Web API</li>
-          <li>Delivered code against functional and technical specifications; modified existing systems; documented technical specs</li>
+          <li>Built key C# modules including an automatic loan disbursement system (Santander Bank integration) and an Invoice OCR Web API</li>
+          <li>Delivered features against functional and technical specs, extended existing systems, and kept documentation current</li>
         </ul>
         <div class="exp-tech">
           <span class="exp-tech-label">Stack:</span>
@@ -1682,7 +1685,7 @@
         </div>
         <p class="exp-context">Internet Banking and Mobile Banking. 50-person ITIL team, 3–4 person subteams.</p>
         <ul class="exp-list">
-          <li>Development tasks based on system requirements; introduced automation tooling (PowerShell scripts); regression and performance testing</li>
+          <li>Delivered development work against system requirements, introduced PowerShell automation tooling, and ran regression and performance testing</li>
         </ul>
         <div class="exp-tech">
           <span class="exp-tech-label">Stack:</span>
@@ -1847,7 +1850,7 @@
       // Hero
       '.hero-meta span:nth-of-type(1)': 'Curriculum Vitae',
       '.hero-meta span:nth-of-type(3)': 'Gdańsk / Zdalnie',
-      '.hero-role': '<strong>Senior Software Engineer</strong> w drodze do Engineering Leadership. Siedem lat budowania systemów rozproszonych w .NET i Azure. Co-founder w <strong>B-B-Digital</strong>. Tech Lead w <strong>Lavamme</strong>.',
+      '.hero-role': '<strong>Senior Software Engineer w KMD</strong> — buduje chmurową platformę rozliczeniowo-billingową i prowadzi sześcioosobowy polsko-duński zespół. Siedem lat w systemach rozproszonych .NET. Dwa własne projekty obok pracy: <strong>B-B-Digital</strong> i <strong>Lavamme</strong>.',
       '.hero-contact > span': 'Gdańsk · Polska',
       '.hero-scroll': 'Przewiń',
 
@@ -1873,34 +1876,34 @@
     },
 
     lists: {
-      // Sidebar nav (7 items)
+      // Sidebar nav
       '.sidebar-nav a': [
         'Najważniejsze', 'Umiejętności', 'Doświadczenie',
         'Edukacja', 'Certyfikaty', 'Języki', 'Zainteresowania'
       ],
 
-      // Sidebar labels (Sections, Contact, Export)
+      // Sidebar labels
       '.sidebar-label': ['Sekcje', 'Kontakt', 'Eksport'],
 
-      // Sidebar contact strongs (Email, Phone, Location)
+      // Sidebar contact strongs
       '.sidebar-block:nth-of-type(2) .sidebar-text strong': ['Email', 'Telefon', 'Lokalizacja'],
 
-      // Highlights tags (5)
+      // Highlights tags
       '.highlight-tag': [
         'Inżynieria', 'Obecna rola', 'Wdrożenie AI',
         'Własne projekty', 'Rozwój liderski'
       ],
 
-      // Highlights texts (5)
+      // Highlights texts — rewritten to match new EN versions
       '.highlight-text': [
-        '<strong>Ponad 7 lat</strong> jako inżynier .NET — budowanie rozproszonych systemów chmurowych dla klientów enterprise w <strong>energetyce, bankowości, e-commerce i logistyce</strong>.',
-        '<strong>Obowiązki Team Leada w KMD</strong> dla 6-osobowego zespołu polsko-duńskiego. Odpowiada za decyzje architektoniczne, mentoruje deweloperów i reprezentuje zespół w rozmowach międzyzespołowych oraz z delivery managementem.',
-        '<strong>Prowadzi wdrożenie narzędzi AI w zespole</strong> — konfiguracje Copilota, agentyczne workflow deweloperskie i własny agent szkicujący dokumenty High-Level Design.',
-        '<strong>Co-founder w B-B-Digital</strong> (zproduktyzowane strony www dla polskich małych i średnich firm) oraz <strong>Tech Lead w Lavamme</strong> (e-commerce modowy oparty o Shopify, działający od 2024).',
-        'Inwestuje w stronę ludzką — niedawne szkolenia z <strong>NVC</strong>, efektywnej komunikacji oraz dynamiki zespołów polsko-duńskich.',
+        'Siedem lat w enterprise&rsquo;owym .NET — w <strong>bankowości</strong>, <strong>energetyce</strong>, <strong>e-commerce</strong> i <strong>logistyce</strong>.',
+        'Prowadzi <strong>polsko-duński zespół sześciu inżynierów</strong> w KMD — odpowiada za architekturę, coachuje zespół i reprezentuje go w rozmowach międzyzespołowych oraz z delivery managementem.',
+        '<strong>Wprowadził AI do codziennego workflow zespołu</strong> — wspólne instrukcje Copilota, agentyczne procesy kodowania oraz wewnętrznego agenta tworzącego dokumenty High-Level Design ze zgrubnych notatek.',
+        'Dwa własne projekty obok pracy etatowej: <strong>B-B-Digital</strong> — zproduktyzowane usługi webowe dla polskich SMB (założone w 2026), oraz <strong>Lavamme</strong> — modowy e-commerce na Shopify (założone w 2024).',
+        '<strong>Cały 2024 poświęcił na budowanie warsztatu liderskiego</strong> — certyfikaty z NVC, efektywnej komunikacji oraz dynamiki zespołów polsko-duńskich.',
       ],
 
-      // Skill category labels (7)
+      // Skill categories
       '.skill-cat': [
         'Liderstwo i komunikacja',
         'Backend',
@@ -1911,7 +1914,7 @@
         'Programowanie wspierane AI',
       ],
 
-      // Leadership row tags (row 1, 8 items)
+      // Leadership row tags
       '.skill-row:nth-of-type(1) .skill-tag': [
         'Decyzje techniczne',
         'Mentoring i coaching',
@@ -1923,13 +1926,13 @@
         'Komunikacja PL ↔ DK',
       ],
 
-      // Backend row tags (row 2, 11 items - mostly same, "Design Patterns" → "Wzorce projektowe")
+      // Backend row tags
       '.skill-row:nth-of-type(2) .skill-tag': [
         'C#', '.NET (4.5 – 10)', 'ASP.NET', 'Entity Framework', 'MediatR', 'Dapper',
         'CQRS', 'DDD', 'Event-driven', 'SOLID', 'Wzorce projektowe',
       ],
 
-      // Quality row tags (row 5, 10 items)
+      // Quality row tags
       '.skill-row:nth-of-type(5) .skill-tag': [
         'Testy jednostkowe i integracyjne',
         'MSTest', 'NUnit', 'AutoFixture', 'Moq', 'FakeItEasy',
@@ -1937,12 +1940,12 @@
         'Strukturyzowane logowanie',
       ],
 
-      // AI row tags (row 7, 3 items)
+      // AI row tags
       '.skill-row:nth-of-type(7) .skill-tag': [
         'Claude Code', 'GitHub Copilot', 'Własne skille i agenci',
       ],
 
-      // Experience role titles (10)
+      // Experience role titles
       '.exp-title': [
         'Senior Software Engineer & Solution Expert',
         'Software Engineer',
@@ -1956,7 +1959,7 @@
         'Software Engineer',
       ],
 
-      // Experience companies (10)
+      // Experience companies
       '.exp-company': [
         '<em>KMD Poland</em> · Warszawa',
         '<em>KMD Poland</em> · Warszawa',
@@ -1970,7 +1973,7 @@
         '<em>Rossmann SDP</em> · Łódź',
       ],
 
-      // Experience periods (Present → obecnie, Remote → Zdalnie)
+      // Experience periods
       '.exp-period': [
         '07 / 2025 — obecnie<span class="pill">Teraz</span>',
         '02 / 2023 — 06 / 2025',
@@ -1984,56 +1987,56 @@
         '08 / 2018 — 02 / 2019',
       ],
 
-      // Experience contexts (6: KMD current, KMD prior, Sii, BAKK, Unit4, Accenture)
+      // Experience contexts (6: KMD curr, KMD prior, Sii, BAKK, Unit4, Accenture)
       '.exp-context': [
-        'Chmurowa platforma rozliczeniowo-billingowa automatyzująca złożone procesy kalkulacyjne dla klientów enterprise. Zespół 6-osobowy działający w szerszym środowisku międzyzespołowym.',
+        'Chmurowa platforma rozliczeniowo-billingowa automatyzująca złożone procesy kalkulacyjne dla klientów enterprise. Sześcioosobowy zespół inżynierski w szerszym środowisku międzyzespołowym.',
         'Ta sama platforma — rozliczenia i billing. Zespół SCRUM 5–7 osób.',
-        'Silnik e-commerce SaaS w architekturze headless opartej na mikroserwisach. Prowadzenie prac developerskich w zespole SCRUM 5-osobowym.',
-        'System zarządzania długiem i pożyczkami (aplikacja desktopowa + web API). Zespoły SCRUM 5–8 osób.',
-        'Web&rsquo;owy i desktopowy system HR. Zespół SCRUM 4-osobowy.',
-        'Internet Banking i Mobile Banking. Zespół ITIL 50-osobowy, podzespoły 3–4 osobowe.',
+        'Silnik e-commerce SaaS — architektura headless, mikroserwisy. Prowadził prace developerskie w 5-osobowym zespole SCRUM.',
+        'Platforma do zarządzania długiem i pożyczkami — aplikacja desktopowa + Web API. Zespoły SCRUM 5–8 osób.',
+        'Webowy i desktopowy system HR. 4-osobowy zespół SCRUM.',
+        'Internet Banking i Mobile Banking. 50-osobowy zespół ITIL, podzespoły 3–4 osobowe.',
       ],
 
       // Experience bodies (4: B-B-Digital, Lavamme, ISA, Rossmann)
       '.exp-body': [
-        'Współzałożyciel software house&rsquo;u skupionego na rozwiązaniach webowych dla polskich małych i średnich firm oraz niezależnych specjalistów (prawnicy, lekarze, architekci). Zbudował fundament techniczny w oparciu o system szablonów white-label umożliwiający szybkie wdrożenia per klient. Odpowiada za kierunek techniczny, framework dostarczania i scoping klientów.',
-        'Współzałożyciel marki e-commerce w branży modowej. Zbudował fundament techniczny — sklep Shopify z integracjami dla płatności, logistyki i doświadczeń klienta. Oprócz inżynierii zaangażowany w decyzje produktowe, branding, pricing i customer journey — praktyczna nauka prowadzenia biznesu.',
-        'Nauczanie i mentoring w zakresie .NET jako część zespołu trenerów prowadzących kursy programowania i warsztaty. Tworzenie materiałów dydaktycznych, prowadzenie sesji szkoleniowych i indywidualne wsparcie kursantów na różnym poziomie zaawansowania.',
-        'Analiza wymagań, projektowanie aplikacji, programowanie w .NET i MS-SQL, utrzymanie i wsparcie systemów legacy.',
+        'Współzałożyciel software house&rsquo;u tworzącego zproduktyzowane strony dla polskich niezależnych specjalistów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS) umożliwiający szybkie wdrożenia per klient. Odpowiada za kierunek techniczny, framework dostarczania oraz scoping klientów.',
+        'Współzałożyciel marki e-commerce z branży modowej; zbudował stronę techniczną od podstaw. Dostarczył sklep Shopify z integracjami płatności, logistyki i doświadczeń klienta. Pozostaje blisko biznesu — produkt, marka, pricing, customer journey — rozwijając kompetencje komercyjne równolegle z inżynierskimi.',
+        'Uczył programowania w .NET jako część zespołu trenerów — kursy, warsztaty i indywidualne konsultacje. Tworzył materiały dydaktyczne i prowadził zajęcia dla kursantów na różnych poziomach zaawansowania.',
+        'Analiza wymagań, projektowanie aplikacji, programowanie w .NET i MS-SQL, utrzymanie systemów legacy.',
       ],
 
-      // Experience group labels (2: only KMD current)
+      // Experience group labels
       '.exp-group-label': [
         'Inżynieria i przywództwo techniczne',
         'Ludzie i rozwój zespołu',
       ],
 
-      // Experience bullets (15 total in order)
+      // Experience bullets (15 total, in order)
       '.exp-list li': [
         // KMD current — Engineering (4)
-        'Odpowiada za decyzje architektoniczne i projektowanie rozwiązań w głównych epikach, biorąc pod uwagę zarówno aspekty techniczne, jak i biznesowe',
-        'Prowadzi wdrażanie narzędzi AI w zespole — instrukcje Copilota, agentyczne workflow deweloperskie i wewnętrzny agent do szkicowania dokumentów High-Level Design',
-        'Współpracuje z Product Ownerem przy scopingu funkcjonalności — przekształca niejasne wymagania w dobrze zdefiniowane user story',
-        'Praktyczna praca z backendem nad krytycznymi komponentami platformy oraz rosnące zaangażowanie w mikrofrontendy w Angular/TypeScript',
+        'Odpowiada za decyzje architektoniczne w głównych epikach zespołu — ważąc poprawność techniczną z priorytetami biznesowymi',
+        'Wprowadził narzędzia AI do codziennego workflow zespołu: wspólne instrukcje Copilota, agentyczne procesy kodowania oraz wewnętrznego agenta zamieniającego zgrubne notatki w szkice dokumentów High-Level Design',
+        'Pracuje ramię w ramię z Product Ownerem przy scopingu funkcjonalności — przerabia luźne oczekiwania biznesowe w user story gotowe dla zespołu inżynierskiego',
+        'Dalej dostarcza kod: backend na krytycznych ścieżkach platformy, z coraz większym udziałem w mikrofrontendach Angular/TypeScript',
         // KMD current — People (3)
-        'Wspiera rozwój deweloperów przez codzienną współpracę i spotkania 1-na-1 wtedy, gdy potrzebny jest indywidualny coaching — zarówno w obszarze technicznym, jak i miękkim',
-        'Prowadzi onboarding nowych inżynierów, pomagając im szybko wejść w temat',
-        'Główny techniczny punkt kontaktu w pracy międzyzespołowej oraz w rozmowach z delivery managementem o kierunku rozwoju i kapacycie zespołu',
+        'Coachuje inżynierów poprzez codzienną współpracę, ze skoncentrowanymi spotkaniami 1-na-1 wtedy, gdy ktoś potrzebuje indywidualnego czasu — zarówno w wyzwaniach technicznych, jak i osobistych',
+        'Odpowiada za onboarding nowych członków zespołu — sesje pair programmingu i przeglądy platformy skracające czas do pierwszej kontrybucji',
+        'Pełni rolę głównego punktu kontaktu technicznego zespołu — w pracy międzyzespołowej oraz w rozmowach z delivery managementem o kierunku i kapacycie',
         // KMD prior (3)
-        'Praca z backendem nad chmurowym rozwiązaniem rozliczeniowo-billingowym',
-        'Współudział w zadaniach frontendowych w ramach projektu',
-        'Ścisła współpraca z trzema innymi zespołami w celu zapewnienia płynnej integracji i orkiestracji procesów',
+        'Dostarczanie funkcjonalności backendowych na platformie rozliczeniowo-billingowej',
+        'Udział w zadaniach frontendowych w miarę jak rosły kompetencje frontendowe zespołu',
+        'Bliska współpraca z trzema bratnimi zespołami nad solidną integracją i orkiestracją międzyserwisową',
         // Sii (2)
-        'Rozwój nowych funkcjonalności platformy e-commerce',
-        'Utrzymanie i optymalizacja komponentów legacy',
+        'Dostarczał nową funkcjonalność na platformie',
+        'Utrzymywał i optymalizował usługi legacy',
         // BAKK (2)
-        'Budowa aplikacji w C#, m.in.: moduł automatycznej wypłaty pożyczek (integracja z Santander Bank), Invoice OCR Web API',
-        'Dostarczanie kodu zgodnie ze specyfikacjami funkcjonalnymi i technicznymi; modyfikacje istniejących systemów; dokumentowanie specyfikacji technicznych',
+        'Zbudował kluczowe moduły w C#, w tym system automatycznej wypłaty pożyczek (integracja z Santander Bank) oraz Invoice OCR Web API',
+        'Dostarczał funkcjonalności zgodne ze specyfikacjami funkcjonalnymi i technicznymi, rozbudowywał istniejące systemy i utrzymywał aktualną dokumentację',
         // Accenture (1)
-        'Zadania developerskie w oparciu o wymagania systemowe; wprowadzenie narzędzi automatyzacji (skrypty PowerShell); testy regresyjne i wydajnościowe',
+        'Dostarczał prace developerskie zgodne z wymaganiami systemowymi, wprowadził narzędzia automatyzacji w PowerShell oraz prowadził testy regresyjne i wydajnościowe',
       ],
 
-      // Stack labels: "Stack:" → "Technologie:" (9 occurrences)
+      // Stack labels
       '.exp-tech-label': Array(9).fill('Technologie:'),
 
       // Education
@@ -2049,7 +2052,7 @@
         'Stypendium rektora dla najlepszych studentów (od listopada 2018)',
       ],
 
-      // Certification + Languages names (10 certs + 2 langs = 12)
+      // Certifications + Languages names
       '.cert-name': [
         'Claude Code 101',
         'Introduction to Subagents',
@@ -2065,7 +2068,6 @@
         'Angielski',
       ],
 
-      // Certification issuers + language proficiencies (12)
       '.cert-issuer': [
         'Anthropic', 'Anthropic',
         'Umiejętności miękkie', 'Umiejętności miękkie', 'Umiejętności miękkie',
