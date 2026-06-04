@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gustaw Beźnicki — Senior Software Engineer & Team Lead</title>
+<meta name="description" content="Senior Software Engineer transitioning into Engineering Leadership. 7+ years in .NET and distributed cloud systems. Co-founder of B-B-Digital. Tech Lead at Lavamme.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..800,0..100&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --bg:           #0e0f13;
+    --bg-alt:       #14161e;
+    --surface:      #181a23;
+    --border:       #262936;
+    --border-soft:  #1f2230;
+    --muted:        #6b7282;
+    --text-soft:    #9da3b1;
+    --text:         #c8cad2;
+    --bright:       #f0f0f4;
+    --accent:       #d4a574;
+    --accent-soft:  rgba(212, 165, 116, 0.12);
+    --accent-line:  rgba(212, 165, 116, 0.3);
+
+    --serif:    'Fraunces', Georgia, serif;
+    --sans:     'Instrument Sans', system-ui, sans-serif;
+    --mono:     'JetBrains Mono', ui-monospace, monospace;
+
+    --max:      1180px;
+    --gap:      clamp(2rem, 4vw, 4rem);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  /* Background atmospherics */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(circle at 80% -10%, rgba(212, 165, 116, 0.05), transparent 50%),
+      radial-gradient(circle at -10% 100%, rgba(100, 130, 180, 0.04), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+    opacity: 0.025;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  /* ─── LANGUAGE SWITCHER ─── */
+  .lang-switcher {
+    position: fixed;
+    top: 1.25rem;
+    right: 1.25rem;
+    display: flex;
+    gap: 2px;
+    z-index: 100;
+    background: rgba(20, 22, 30, 0.85);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 3px;
+  }
+
+  .lang-btn {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    padding: 0.4rem 0.65rem;
+    background: transparent;
+    color: var(--muted);
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .lang-btn:hover {
+    color: var(--text);
+  }
+
+  .lang-btn.active {
+    background: var(--accent);
+    color: var(--bg);
+  }
+
+  @media (max-width: 600px) {
+    .lang-switcher {
+      top: 0.75rem;
+      right: 0.75rem;
+    }
+    .lang-btn {
+      padding: 0.3rem 0.5rem;
+      font-size: 0.68rem;
+    }
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 5vw, 6rem);
+    position: relative;
+    max-width: var(--max);
+    margin: 0 auto;
+    z-index: 2;
+  }
+
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.1s ease forwards;
+  }
+
+  .hero-meta::before {
+    content: '';
+    width: 24px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 350;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-size: clamp(3.5rem, 10vw, 8.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    color: var(--bright);
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s ease forwards;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 300;
+    color: var(--accent);
+  }
+
+  .hero-role {
+    font-family: var(--sans);
+    font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+    color: var(--text-soft);
+    max-width: 640px;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+    opacity: 0;
+    animation: fadeUp 1s 0.5s ease forwards;
+  }
+
+  .hero-role strong {
+    color: var(--bright);
+    font-weight: 500;
+  }
+
+  .hero-contact {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2.5rem);
+    flex-wrap: wrap;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 1s 0.7s ease forwards;
+  }
+
+  .hero-contact a {
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 2px;
+  }
+
+  .hero-contact a:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent-line);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0;
+    animation: fadeUp 1s 1s ease forwards, float 2.5s 1.5s ease-in-out infinite;
+  }
+
+  .hero-scroll::after {
+    content: '↓';
+    display: block;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(-50%, 0); }
+    50%      { transform: translate(-50%, 6px); }
+  }
+
+  /* ─── MAIN LAYOUT ─── */
+  main {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 4rem clamp(1.5rem, 5vw, 6rem) 6rem;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: clamp(2.5rem, 5vw, 5rem);
+  }
+
+  /* ─── STICKY SIDEBAR ─── */
+  .sidebar {
+    position: sticky;
+    top: 2rem;
+    align-self: start;
+    font-size: 0.9rem;
+  }
+
+  .sidebar-block {
+    margin-bottom: 2.5rem;
+  }
+
+  .sidebar-block:last-child { margin-bottom: 0; }
+
+  .sidebar-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.85rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .sidebar-nav { list-style: none; }
+
+  .sidebar-nav li { margin-bottom: 0.6rem; }
+
+  .sidebar-nav a {
+    color: var(--text-soft);
+    text-decoration: none;
+    font-size: 0.88rem;
+    transition: color 0.2s, padding-left 0.25s;
+    display: inline-block;
+    border-left: 1px solid transparent;
+    padding-left: 0;
+  }
+
+  .sidebar-nav a:hover,
+  .sidebar-nav a.active {
+    color: var(--bright);
+    padding-left: 12px;
+    border-left-color: var(--accent);
+  }
+
+  .sidebar-text {
+    color: var(--text-soft);
+    font-size: 0.85rem;
+    line-height: 1.55;
+  }
+
+  .sidebar-text strong {
+    color: var(--text);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  .sidebar-text a {
+    color: var(--text-soft);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .sidebar-text a:hover { color: var(--accent); }
+
+  /* ─── CONTENT ─── */
+  .content section {
+    margin-bottom: 5rem;
+    scroll-margin-top: 2rem;
+  }
+
+  .content section:last-child { margin-bottom: 0; }
+
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .section-num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    font-size: clamp(1.6rem, 3vw, 2.1rem);
+    line-height: 1;
+    color: var(--bright);
+    letter-spacing: -0.01em;
+  }
+
+  /* ─── SUMMARY ─── */
+  .summary-body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--text);
+    max-width: 64ch;
+  }
+
+  .summary-body strong {
+    color: var(--bright);
+    font-weight: 500;
+  }
+
+  /* ─── HIGHLIGHTS ─── */
+  .highlights {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .highlight {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    transition: padding-left 0.3s, background 0.3s;
+  }
+
+  .highlight:first-child { padding-top: 0; }
+  .highlight:last-child { border-bottom: 0; }
+
+  .highlight:hover {
+    background: linear-gradient(90deg, var(--accent-soft) 0%, transparent 60%);
+    padding-left: 0.75rem;
+  }
+
+  .highlight-tag {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding-top: 0.35rem;
+    position: relative;
+  }
+
+  .highlight-tag::before {
+    content: '';
+    position: absolute;
+    left: -1rem;
+    top: 0.7rem;
+    width: 8px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .highlight-text {
+    font-family: var(--serif);
+    font-weight: 350;
+    font-variation-settings: "opsz" 144, "SOFT" 50;
+    font-size: 1.15rem;
+    line-height: 1.5;
+    color: var(--text);
+    letter-spacing: -0.005em;
+  }
+
+  .highlight-text strong {
+    color: var(--bright);
+    font-weight: 500;
+    font-style: italic;
+  }
+
+  /* ─── SKILLS ─── */
+  .skills-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .skill-row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1.5rem;
+    align-items: baseline;
+  }
+
+  .skill-cat {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding-top: 0.45rem;
+  }
+
+  .skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .skill-tag {
+    font-family: var(--sans);
+    font-size: 0.82rem;
+    padding: 0.35rem 0.7rem;
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border-soft);
+    border-radius: 4px;
+    transition: all 0.2s;
+    cursor: default;
+  }
+
+  .skill-tag:hover {
+    border-color: var(--accent-line);
+    color: var(--accent);
+    background: var(--accent-soft);
+    transform: translateY(-1px);
+  }
+
+  .skill-tag.is-lead {
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-color: var(--accent-line);
+  }
+
+  /* ─── EXPERIENCE ─── */
+  .exp-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 2.5rem;
+    margin-bottom: 0;
+    border-left: 1px solid var(--border-soft);
+  }
+
+  .exp-item:last-child {
+    padding-bottom: 0;
+    border-left-color: transparent;
+  }
+
+  .exp-item::before {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 0.5rem;
+    width: 9px;
+    height: 9px;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    transition: all 0.25s;
+  }
+
+  .exp-item.current::before {
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  .exp-header {
+    margin-bottom: 1rem;
+  }
+
+  .exp-period {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.4rem;
+  }
+
+  .exp-period .pill {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 3px;
+    margin-left: 0.5rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 0.65rem;
+  }
+
+  .exp-title {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    color: var(--bright);
+    line-height: 1.2;
+    margin-bottom: 0.35rem;
+    letter-spacing: -0.01em;
+  }
+
+  .exp-company {
+    font-family: var(--sans);
+    color: var(--text-soft);
+    font-size: 0.95rem;
+  }
+
+  .exp-company em {
+    color: var(--accent);
+    font-style: normal;
+  }
+
+  .exp-context {
+    color: var(--text-soft);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+
+  .exp-group-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 1.2rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .exp-list {
+    list-style: none;
+    margin-bottom: 1rem;
+  }
+
+  .exp-list li {
+    position: relative;
+    padding-left: 1.1rem;
+    margin-bottom: 0.55rem;
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .exp-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    opacity: 0.6;
+  }
+
+  .exp-body {
+    color: var(--text);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  .exp-tech {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.7;
+    padding-top: 0.6rem;
+    border-top: 1px dashed var(--border-soft);
+    margin-top: 1rem;
+  }
+
+  .exp-tech-label {
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-right: 0.3rem;
+  }
+
+  /* ─── EDUCATION & CERTS ─── */
+  .edu-item {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    align-items: baseline;
+  }
+
+  .edu-item:last-child { border-bottom: 0; }
+
+  .edu-year {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .edu-detail strong {
+    color: var(--bright);
+    font-weight: 500;
+    font-size: 0.98rem;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .edu-detail span {
+    color: var(--text-soft);
+    font-size: 0.88rem;
+  }
+
+  .edu-detail em {
+    display: block;
+    color: var(--muted);
+    font-style: italic;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+  }
+
+  .cert-list {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cert-item {
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: 1.5rem;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--border-soft);
+    align-items: baseline;
+    transition: background 0.2s;
+  }
+
+  .cert-item:last-child { border-bottom: 0; }
+
+  .cert-item:hover {
+    background: rgba(255,255,255,0.015);
+  }
+
+  .cert-year {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--accent);
+  }
+
+  .cert-name {
+    color: var(--text);
+    font-size: 0.95rem;
+  }
+
+  .cert-issuer {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── INTERESTS ─── */
+  .interests-list {
+    font-family: var(--serif);
+    font-weight: 350;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--text);
+    font-style: italic;
+    letter-spacing: -0.005em;
+    max-width: 60ch;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 3rem clamp(1.5rem, 5vw, 6rem) 4rem;
+    border-top: 1px solid var(--border-soft);
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .footer-cta {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--bright);
+    margin-bottom: 2rem;
+    line-height: 1.3;
+  }
+
+  .footer-cta a {
+    color: var(--accent);
+    text-decoration: none;
+    border-bottom: 1px solid var(--accent-line);
+    transition: border-color 0.2s;
+  }
+
+  .footer-cta a:hover {
+    border-bottom-color: var(--accent);
+  }
+
+  .footer-meta {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 860px) {
+    main {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 3rem 1.25rem 4rem;
+    }
+
+    .sidebar {
+      position: static;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem 1.25rem;
+    }
+
+    .sidebar-nav li { margin: 0; }
+
+    .skill-row {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .skill-cat {
+      padding-top: 0;
+    }
+
+    .highlight {
+      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .highlight-tag {
+      padding-top: 0;
+    }
+
+    .highlight-tag::before {
+      display: none;
+    }
+
+    .highlight-text {
+      font-size: 1.05rem;
+    }
+
+    .edu-item, .cert-item {
+      grid-template-columns: 70px 1fr;
+    }
+
+    .cert-issuer {
+      grid-column: 2;
+      margin-top: 0.2rem;
+    }
+  }
+
+  /* ─── PRINT — Classic CV ─── */
+  @media print {
+    @page {
+      size: A4;
+      margin: 1.4cm 1.6cm;
+    }
+
+    /* Hard reset */
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    body {
+      background: white;
+      color: #1a1a1a;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      line-height: 1.4;
+    }
+
+    body::before, body::after { display: none; }
+
+    .lang-switcher { display: none; }
+
+    /* ── HEADER (was Hero) ── */
+    .hero {
+      min-height: auto;
+      padding: 0;
+      max-width: none;
+      margin: 0 0 0.5cm;
+      display: block;
+      border-bottom: 2px solid #1a1a1a;
+      padding-bottom: 0.35cm;
+    }
+
+    .hero-meta, .hero-scroll { display: none; }
+
+    .hero h1 {
+      font-family: Georgia, 'Times New Roman', serif;
+      font-weight: 700;
+      font-variation-settings: normal;
+      font-size: 22pt;
+      color: #1a1a1a;
+      letter-spacing: 0;
+      margin-bottom: 0.15cm;
+      line-height: 1.1;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .hero-role {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 10pt;
+      color: #333;
+      line-height: 1.4;
+      max-width: none;
+      margin-bottom: 0.2cm;
+    }
+
+    .hero-role strong { color: #1a1a1a; font-weight: 600; }
+
+    .hero-contact {
+      font-size: 9pt;
+      color: #444;
+      gap: 0;
+      margin-bottom: 0;
+      display: block;
+    }
+
+    .hero-contact a, .hero-contact span {
+      color: #444;
+      border: 0;
+      padding: 0;
+      text-decoration: none;
+      margin-right: 0.4cm;
+    }
+
+    .hero-contact a::after,
+    .hero-contact span::after {
+      content: '·';
+      margin-left: 0.4cm;
+      color: #999;
+    }
+
+    .hero-contact > *:last-child::after { display: none; }
+
+    /* ── MAIN ── */
+    main {
+      display: block;
+      padding: 0;
+      max-width: none;
+      gap: 0;
+    }
+
+    .sidebar { display: none; }
+
+    .content section {
+      margin-bottom: 0.4cm;
+      page-break-inside: auto;
+    }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      display: block;
+      margin: 0 0 0.2cm;
+      padding-bottom: 0.08cm;
+      border-bottom: 1px solid #888;
+      page-break-after: avoid;
+    }
+
+    .section-num { display: none; }
+
+    .section-title {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-variation-settings: normal;
+      font-size: 11pt;
+      color: #1a1a1a;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1;
+    }
+
+    /* ── HIGHLIGHTS ── */
+    .highlights { display: block; }
+
+    .highlight {
+      display: block;
+      padding: 0.05cm 0 0.05cm 0.45cm;
+      border: 0;
+      background: none;
+      position: relative;
+      page-break-inside: avoid;
+      grid-template-columns: none;
+      gap: 0;
+    }
+
+    .highlight::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      top: 0.05cm;
+      color: #1a1a1a;
+      font-weight: 700;
+    }
+
+    .highlight:hover {
+      background: none;
+      padding-left: 0.45cm;
+    }
+
+    .highlight-tag {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 0;
+    }
+
+    .highlight-tag::before { display: none; }
+    .highlight-tag::after { content: ' — '; color: #666; font-weight: 400; }
+
+    .highlight-text {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-style: normal;
+      font-weight: 400;
+      font-size: 9.5pt;
+      color: #1a1a1a;
+      line-height: 1.4;
+      letter-spacing: 0;
+    }
+
+    .highlight-text strong {
+      color: #1a1a1a;
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    /* ── SKILLS ── */
+    .skills-grid {
+      display: block;
+      gap: 0;
+    }
+
+    .skill-row {
+      display: block;
+      grid-template-columns: none;
+      gap: 0;
+      margin-bottom: 0.12cm;
+      page-break-inside: avoid;
+    }
+
+    .skill-cat {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-transform: none;
+      letter-spacing: 0;
+      padding: 0;
+    }
+
+    .skill-cat::after { content: ': '; }
+
+    .skill-tags {
+      display: inline;
+      gap: 0;
+    }
+
+    .skill-tag, .skill-tag.is-lead {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      font-weight: 400;
+      background: none;
+      color: #1a1a1a;
+      border: 0;
+      border-radius: 0;
+      padding: 0;
+    }
+
+    .skill-tag::after { content: ' · '; color: #888; }
+    .skill-tag:last-child::after { content: ''; }
+
+    /* ── EXPERIENCE ── */
+    .exp-item {
+      padding: 0 0 0.3cm 0;
+      border-left: 0;
+      margin-bottom: 0;
+      page-break-inside: avoid;
+    }
+
+    .exp-item::before { display: none; }
+
+    .exp-header {
+      margin-bottom: 0.08cm;
+      overflow: hidden;
+    }
+
+    .exp-period {
+      float: right;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 8.5pt;
+      color: #555;
+      letter-spacing: 0;
+      margin: 0;
+      text-align: right;
+    }
+
+    .exp-period .pill { display: none; }
+
+    .exp-title {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-weight: 700;
+      font-variation-settings: normal;
+      font-size: 10.5pt;
+      color: #1a1a1a;
+      line-height: 1.25;
+      margin-bottom: 0;
+      letter-spacing: 0;
+    }
+
+    .exp-company {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      color: #333;
+      font-size: 9.5pt;
+      font-style: normal;
+    }
+
+    .exp-company em {
+      color: #1a1a1a;
+      font-style: normal;
+      font-weight: 600;
+    }
+
+    .exp-context {
+      color: #444;
+      font-size: 9pt;
+      font-style: italic;
+      margin: 0.1cm 0;
+      line-height: 1.35;
+    }
+
+    .exp-group-label {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      color: #1a1a1a;
+      text-transform: none;
+      letter-spacing: 0;
+      margin: 0.15cm 0 0.05cm;
+    }
+
+    .exp-list {
+      margin-bottom: 0.1cm;
+      list-style: none;
+      padding: 0;
+    }
+
+    .exp-list li {
+      padding-left: 0.4cm;
+      margin-bottom: 0.05cm;
+      color: #1a1a1a;
+      font-size: 9pt;
+      line-height: 1.35;
+      position: relative;
+    }
+
+    .exp-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0.1cm;
+      color: #1a1a1a;
+      opacity: 1;
+    }
+
+    .exp-body {
+      color: #1a1a1a;
+      font-size: 9pt;
+      line-height: 1.4;
+      margin: 0.05cm 0 0.1cm;
+    }
+
+    .exp-tech {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 8.5pt;
+      color: #555;
+      line-height: 1.35;
+      padding-top: 0.08cm;
+      border-top: 0;
+      margin-top: 0.1cm;
+      font-style: italic;
+    }
+
+    .exp-tech-label {
+      color: #1a1a1a;
+      font-weight: 700;
+      font-style: normal;
+      margin: 0;
+      letter-spacing: 0;
+    }
+
+    /* ── EDUCATION & CERTS ── */
+    .edu-item {
+      display: block;
+      border-bottom: 0;
+      padding: 0.05cm 0;
+      gap: 0;
+      grid-template-columns: none;
+      page-break-inside: avoid;
+    }
+
+    .edu-year {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .edu-year::after { content: '  ·  '; color: #999; font-weight: 400; }
+
+    .edu-detail { display: inline; }
+
+    .edu-detail strong {
+      display: inline;
+      color: #1a1a1a;
+      font-size: 9.5pt;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .edu-detail strong::after { content: ' · '; color: #888; font-weight: 400; }
+
+    .edu-detail span {
+      color: #333;
+      font-size: 9pt;
+    }
+
+    .edu-detail em {
+      display: block;
+      color: #555;
+      font-style: italic;
+      font-size: 8.5pt;
+      margin: 0.02cm 0 0 0;
+      padding-left: 0;
+    }
+
+    .cert-list { display: block; }
+
+    .cert-item {
+      display: block;
+      border: 0;
+      padding: 0.03cm 0;
+      gap: 0;
+      grid-template-columns: none;
+      page-break-inside: avoid;
+    }
+
+    .cert-item:hover { background: none; }
+
+    .cert-year {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      color: #1a1a1a;
+    }
+
+    .cert-year::after { content: '  ·  '; color: #999; font-weight: 400; }
+
+    .cert-name {
+      display: inline;
+      color: #1a1a1a;
+      font-size: 9pt;
+    }
+
+    .cert-name::after { content: '  ·  '; color: #999; }
+
+    .cert-issuer {
+      display: inline;
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9pt;
+      color: #555;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+
+    /* ── INTERESTS ── */
+    .interests-list {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 9.5pt;
+      font-weight: 400;
+      font-style: normal;
+      font-variation-settings: normal;
+      color: #1a1a1a;
+      line-height: 1.4;
+      letter-spacing: 0;
+      max-width: none;
+    }
+
+    /* ── FOOTER ── */
+    footer { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══ LANGUAGE SWITCHER ═══ -->
+<div class="lang-switcher" role="group" aria-label="Language">
+  <button class="lang-btn active" data-lang="en" aria-pressed="true">EN</button>
+  <button class="lang-btn" data-lang="pl" aria-pressed="false">PL</button>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-meta">
+    <span>Curriculum Vitae</span>
+    <span>· 2026 ·</span>
+    <span>Gdańsk / Remote</span>
+  </div>
+  <h1>Gustaw <em>Beźnicki</em></h1>
+  <p class="hero-role">
+    <strong>Senior Software Engineer</strong> moving toward Engineering Leadership.
+    Seven years building distributed systems in .NET and Azure.
+    Co-founder at <strong>B-B-Digital</strong>. Tech Lead at <strong>Lavamme</strong>.
+  </p>
+  <div class="hero-contact">
+    <a href="mailto:gustaw.beznicki@gmail.com">gustaw.beznicki@gmail.com</a>
+    <a href="tel:+48792922105">+48 792 922 105</a>
+    <span>Gdańsk · Poland</span>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</header>
+
+<!-- ═══ MAIN ═══ -->
+<main>
+
+  <!-- ─── SIDEBAR ─── -->
+  <aside class="sidebar">
+    <div class="sidebar-block">
+      <div class="sidebar-label">Sections</div>
+      <ul class="sidebar-nav">
+        <li><a href="#highlights">Highlights</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#education">Education</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+        <li><a href="#languages">Languages</a></li>
+        <li><a href="#interests">Interests</a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-label">Contact</div>
+      <div class="sidebar-text">
+        <strong>Email</strong>
+        <a href="mailto:gustaw.beznicki@gmail.com">gustaw.beznicki@gmail.com</a>
+      </div>
+      <div class="sidebar-text" style="margin-top: 0.75rem;">
+        <strong>Phone</strong>
+        <a href="tel:+48792922105">+48 792 922 105</a>
+      </div>
+      <div class="sidebar-text" style="margin-top: 0.75rem;">
+        <strong>Location</strong>
+        <span class="sidebar-loc">Gdańsk / Remote</span>
+      </div>
+    </div>
+
+    <div class="sidebar-block">
+      <div class="sidebar-label">Export</div>
+      <div class="sidebar-text">
+        <a href="#" onclick="window.print(); return false;" style="border-bottom: 1px solid var(--border); padding-bottom: 1px;">→ Print / Save as PDF</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ─── CONTENT ─── -->
+  <article class="content">
+
+    <!-- ─── HIGHLIGHTS ─── -->
+    <section id="highlights">
+      <div class="section-header">
+        <span class="section-num">01</span>
+        <h2 class="section-title">Highlights</h2>
+      </div>
+
+      <div class="highlights">
+        <div class="highlight">
+          <div class="highlight-tag">Engineering</div>
+          <p class="highlight-text">
+            <strong>7+ years</strong> as a .NET engineer building distributed cloud systems
+            for enterprise clients across <strong>Energy, Banking, e-Commerce, and Logistics</strong>.
+          </p>
+        </div>
+
+        <div class="highlight">
+          <div class="highlight-tag">Current Role</div>
+          <p class="highlight-text">
+            <strong>Team Lead responsibilities at KMD</strong> for a 6-engineer Polish-Danish team.
+            Owns architecture decisions, mentors developers, and represents the team in
+            cross-team and delivery-management discussions.
+          </p>
+        </div>
+
+        <div class="highlight">
+          <div class="highlight-tag">AI Adoption</div>
+          <p class="highlight-text">
+            <strong>Leading the team's AI tooling rollout</strong> — Copilot configurations,
+            agentic developer workflows, and a custom in-house agent that drafts
+            High-Level Design documents.
+          </p>
+        </div>
+
+        <div class="highlight">
+          <div class="highlight-tag">Side Ventures</div>
+          <p class="highlight-text">
+            <strong>Co-founder at B-B-Digital</strong> (productized web for Polish SMBs)
+            and <strong>Tech Lead at Lavamme</strong> (Shopify-based fashion e-commerce, running since 2024).
+          </p>
+        </div>
+
+        <div class="highlight">
+          <div class="highlight-tag">Leadership Growth</div>
+          <p class="highlight-text">
+            Investing in the people side — recent training in <strong>NVC</strong>,
+            effective communication, and cross-cultural Polish-Danish team dynamics.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── SKILLS ─── -->
+    <section id="skills">
+      <div class="section-header">
+        <span class="section-num">02</span>
+        <h2 class="section-title">Skills</h2>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="skill-row">
+          <div class="skill-cat">Leadership &amp; Comms</div>
+          <div class="skill-tags">
+            <span class="skill-tag is-lead">Technical decision-making</span>
+            <span class="skill-tag is-lead">Mentoring &amp; coaching</span>
+            <span class="skill-tag is-lead">1-on-1s</span>
+            <span class="skill-tag is-lead">Cross-team coordination</span>
+            <span class="skill-tag is-lead">Backlog collaboration</span>
+            <span class="skill-tag is-lead">AI tooling adoption</span>
+            <span class="skill-tag is-lead">NVC</span>
+            <span class="skill-tag is-lead">PL ↔ DK communication</span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-cat">Backend Engineering</div>
+          <div class="skill-tags">
+            <span class="skill-tag">C#</span>
+            <span class="skill-tag">.NET (4.5 – 10)</span>
+            <span class="skill-tag">ASP.NET</span>
+            <span class="skill-tag">Entity Framework</span>
+            <span class="skill-tag">MediatR</span>
+            <span class="skill-tag">Dapper</span>
+            <span class="skill-tag">CQRS</span>
+            <span class="skill-tag">DDD</span>
+            <span class="skill-tag">Event-driven</span>
+            <span class="skill-tag">SOLID</span>
+            <span class="skill-tag">Design Patterns</span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-cat">Cloud / DevOps</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Azure App Service</span>
+            <span class="skill-tag">Azure Functions</span>
+            <span class="skill-tag">Event Grid</span>
+            <span class="skill-tag">Key Vault</span>
+            <span class="skill-tag">Docker</span>
+            <span class="skill-tag">Helm Charts</span>
+            <span class="skill-tag">ArgoCD</span>
+            <span class="skill-tag">GitHub Actions</span>
+            <span class="skill-tag">Azure DevOps Pipelines</span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-cat">Data &amp; Messaging</div>
+          <div class="skill-tags">
+            <span class="skill-tag">MS SQL</span>
+            <span class="skill-tag">ElasticSearch</span>
+            <span class="skill-tag">Redis</span>
+            <span class="skill-tag">Kafka</span>
+            <span class="skill-tag">RabbitMQ</span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-cat">Quality &amp; Observability</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Unit &amp; integration testing</span>
+            <span class="skill-tag">MSTest</span>
+            <span class="skill-tag">NUnit</span>
+            <span class="skill-tag">AutoFixture</span>
+            <span class="skill-tag">Moq</span>
+            <span class="skill-tag">FakeItEasy</span>
+            <span class="skill-tag">OpenTelemetry</span>
+            <span class="skill-tag">App Insights</span>
+            <span class="skill-tag">OpenSearch</span>
+            <span class="skill-tag">Structured logging</span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-cat">Frontend &amp; Web</div>
+          <div class="skill-tags">
+            <span class="skill-tag">Angular</span>
+            <span class="skill-tag">TypeScript</span>
+            <span class="skill-tag">Astro</span>
+            <span class="skill-tag">Sanity CMS</span>
+            <span class="skill-tag">Tailwind CSS</span>
+          </div>
+        </div>
+
+        <div class="skill-row">
+          <div class="skill-cat">AI-Assisted Dev</div>
+          <div class="skill-tags">
+            <span class="skill-tag is-lead">Claude Code</span>
+            <span class="skill-tag is-lead">GitHub Copilot</span>
+            <span class="skill-tag is-lead">Custom skills &amp; agents</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ─── EXPERIENCE ─── -->
+    <section id="experience">
+      <div class="section-header">
+        <span class="section-num">03</span>
+        <h2 class="section-title">Experience</h2>
+      </div>
+
+      <!-- KMD current -->
+      <div class="exp-item current">
+        <div class="exp-header">
+          <div class="exp-period">07 / 2025 — Present<span class="pill">Now</span></div>
+          <h3 class="exp-title">Senior Software Engineer &amp; Solution Expert</h3>
+          <div class="exp-company"><em>KMD Poland</em> · Warsaw</div>
+        </div>
+        <p class="exp-context">
+          Cloud-based settlement &amp; billing platform automating complex calculation processes for enterprise clients.
+          6-person team operating within a wider cross-team environment.
+        </p>
+
+        <div class="exp-group-label">Engineering &amp; Technical Leadership</div>
+        <ul class="exp-list">
+          <li>Owns architecture and solution-design decisions across major epics, with both technical and business factors in mind</li>
+          <li>Leading AI tooling adoption across the team — Copilot instructions, agentic developer workflows, and an in-house agent for High-Level Design drafting</li>
+          <li>Works with the Product Owner on feature scoping — turning unclear requirements into well-defined user stories</li>
+          <li>Hands-on backend development on critical platform components, plus growing involvement in Angular/TypeScript microfrontends</li>
+        </ul>
+
+        <div class="exp-group-label">People &amp; Team Growth</div>
+        <ul class="exp-list">
+          <li>Supports developer growth through day-to-day collaboration, with 1-on-1s when individual coaching is needed — covering both technical and soft-skill challenges</li>
+          <li>Runs onboarding for new engineers, helping them get up to speed quickly</li>
+          <li>Main technical point of contact in cross-team work and in delivery-management discussions on team direction and capacity</li>
+        </ul>
+
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          .NET 10 · C# · Azure (App Service, Functions, Event Grid, Key Vault, App Insights) · MSSQL · ElasticSearch · Redis · Kafka · CQRS · DDD · MediatR · Entity Framework · Angular · TypeScript · Docker · Helm · ArgoCD · GitHub Actions · OpenTelemetry · OpenSearch · MSTest · AutoFixture · Moq
+        </div>
+      </div>
+
+      <!-- KMD prior -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">02 / 2023 — 06 / 2025</div>
+          <h3 class="exp-title">Software Engineer</h3>
+          <div class="exp-company"><em>KMD Poland</em> · Warsaw</div>
+        </div>
+        <p class="exp-context">Same platform — settlement &amp; billing. 5–7 person SCRUM team.</p>
+        <ul class="exp-list">
+          <li>Backend development on a cloud-based settlement &amp; billing solution</li>
+          <li>Contributed to frontend development tasks within the project</li>
+          <li>Collaborated closely with three other teams to ensure seamless integration and orchestration of processes</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          .NET/C# · Azure · MSSQL · CQRS · DDD · MediatR · Kafka · Entity Framework · MSTest · AutoFixture · Moq
+        </div>
+      </div>
+
+      <!-- B-B-Digital -->
+      <div class="exp-item current">
+        <div class="exp-header">
+          <div class="exp-period">2026 — Present · Remote</div>
+          <h3 class="exp-title">Co-founder &amp; Tech Lead</h3>
+          <div class="exp-company"><em>B-B-Digital</em></div>
+        </div>
+        <p class="exp-body">
+          Co-founded a software house focused on web solutions for Polish SMBs and independent professionals
+          (lawyers, doctors, architects). Built the technical foundation around a white-label template system
+          that ships per-client deployments quickly. Responsible for tech direction, delivery framework, and client scoping.
+        </p>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages
+        </div>
+      </div>
+
+      <!-- Lavamme -->
+      <div class="exp-item current">
+        <div class="exp-header">
+          <div class="exp-period">03 / 2024 — Present · Remote</div>
+          <h3 class="exp-title">Co-founder &amp; Tech Lead</h3>
+          <div class="exp-company"><em>Lavamme</em></div>
+        </div>
+        <p class="exp-body">
+          Co-founded a fashion e-commerce brand and built its tech foundation. Delivered the Shopify storefront
+          with integrations for payments, logistics, and customer experience. Beyond engineering, involved in
+          product strategy, brand, pricing, and customer journey decisions — learning business ownership in practice.
+        </p>
+      </div>
+
+      <!-- ISA -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">04 / 2023 — 05 / 2024</div>
+          <h3 class="exp-title">Programming Trainer</h3>
+          <div class="exp-company"><em>ISA</em> · Łódź</div>
+        </div>
+        <p class="exp-body">
+          Instructing and mentoring individuals in .NET development as part of a team of trainers delivering programming
+          courses and workshops. Developed curriculum materials, conducted training sessions, and provided personalised
+          guidance to students at various skill levels.
+        </p>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          C# · ASP.NET · .NET Core · Entity Framework · Visual Studio
+        </div>
+      </div>
+
+      <!-- Sii -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">08 / 2021 — 02 / 2023</div>
+          <h3 class="exp-title">Software Engineer</h3>
+          <div class="exp-company"><em>Sii Poland</em> · Łódź</div>
+        </div>
+        <p class="exp-context">E-commerce SaaS engine with headless architecture and microservices. Leading development efforts in a 5-person SCRUM team.</p>
+        <ul class="exp-list">
+          <li>Development of new functionalities for the e-commerce platform</li>
+          <li>Maintenance and optimisation of legacy components</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          .NET 6 · Docker · ElasticSearch · ArgoCD · MongoDB · MSSQL · Dapper · RabbitMQ · Azure DevOps
+        </div>
+      </div>
+
+      <!-- BAKK -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">04 / 2020 — 07 / 2021</div>
+          <h3 class="exp-title">.NET Developer</h3>
+          <div class="exp-company"><em>BAKK</em> · Łódź</div>
+        </div>
+        <p class="exp-context">Debt and loan management system (desktop + web API). 5–8 person SCRUM teams.</p>
+        <ul class="exp-list">
+          <li>Built C# applications including: automatic loan disbursement module (Santander Bank integration), Invoice OCR Web API</li>
+          <li>Delivered code against functional and technical specifications; modified existing systems; documented technical specs</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          ASP.NET MVC · ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Hangfire · Entity Framework 6/Core · Azure DevOps
+        </div>
+      </div>
+
+      <!-- Unit4 -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">01 / 2020 — 03 / 2020</div>
+          <h3 class="exp-title">Software Engineer</h3>
+          <div class="exp-company"><em>Unit4</em> · Wrocław</div>
+        </div>
+        <p class="exp-context">Web and desktop HR system. 4-person SCRUM team.</p>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test
+        </div>
+      </div>
+
+      <!-- Accenture -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">03 / 2019 — 12 / 2019</div>
+          <h3 class="exp-title">Software Engineer</h3>
+          <div class="exp-company"><em>Accenture Technology</em> · Łódź</div>
+        </div>
+        <p class="exp-context">Internet Banking and Mobile Banking. 50-person ITIL team, 3–4 person subteams.</p>
+        <ul class="exp-list">
+          <li>Development tasks based on system requirements; introduced automation tooling (PowerShell scripts); regression and performance testing</li>
+        </ul>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          ASP.NET WebApi · .NET 4.5–4.7 · T-SQL · Entity Framework 6 · MS-Test · Java · Android · PowerShell
+        </div>
+      </div>
+
+      <!-- Rossmann -->
+      <div class="exp-item">
+        <div class="exp-header">
+          <div class="exp-period">08 / 2018 — 02 / 2019</div>
+          <h3 class="exp-title">Software Engineer</h3>
+          <div class="exp-company"><em>Rossmann SDP</em> · Łódź</div>
+        </div>
+        <p class="exp-body">
+          Requirements analysis, application design, .NET and MS-SQL development, legacy system maintenance and support.
+        </p>
+        <div class="exp-tech">
+          <span class="exp-tech-label">Stack:</span>
+          .NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ─── EDUCATION ─── -->
+    <section id="education">
+      <div class="section-header">
+        <span class="section-num">04</span>
+        <h2 class="section-title">Education</h2>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-year">2020</div>
+        <div class="edu-detail">
+          <strong>Bachelor of Engineering · Computer Systems</strong>
+          <span>Technical University of Łódź</span>
+          <em>President's stipend for outstanding students (awarded November 2018)</em>
+        </div>
+      </div>
+
+      <div class="edu-item">
+        <div class="edu-year">2016</div>
+        <div class="edu-detail">
+          <strong>Medical University of Łódź</strong>
+          <span>5 semesters completed</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── CERTIFICATIONS ─── -->
+    <section id="certifications">
+      <div class="section-header">
+        <span class="section-num">05</span>
+        <h2 class="section-title">Certifications</h2>
+      </div>
+
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-year">2026</div>
+          <div class="cert-name">Claude Code 101</div>
+          <div class="cert-issuer">Anthropic</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2026</div>
+          <div class="cert-name">Introduction to Subagents</div>
+          <div class="cert-issuer">Anthropic</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2024</div>
+          <div class="cert-name">Effective Communication</div>
+          <div class="cert-issuer">Soft Skills</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2024</div>
+          <div class="cert-name">Nonviolent Communication (NVC)</div>
+          <div class="cert-issuer">Soft Skills</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2024</div>
+          <div class="cert-name">Communication in Polish-Danish Teams</div>
+          <div class="cert-issuer">Soft Skills</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2022</div>
+          <div class="cert-name">Domain-Driven Design &amp; Event Storming</div>
+          <div class="cert-issuer">Engineering</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2020</div>
+          <div class="cert-name">Azure Fundamentals</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2019</div>
+          <div class="cert-name">Microservices with Spring Cloud and Docker</div>
+          <div class="cert-issuer">Engineering</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2018</div>
+          <div class="cert-name">Programming in C# / 20483</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">2018</div>
+          <div class="cert-name">ITA 105 – OOP</div>
+          <div class="cert-issuer">Microsoft</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── LANGUAGES ─── -->
+    <section id="languages">
+      <div class="section-header">
+        <span class="section-num">06</span>
+        <h2 class="section-title">Languages</h2>
+      </div>
+      <div class="cert-list">
+        <div class="cert-item">
+          <div class="cert-year">PL</div>
+          <div class="cert-name">Polish</div>
+          <div class="cert-issuer">Native</div>
+        </div>
+        <div class="cert-item">
+          <div class="cert-year">EN</div>
+          <div class="cert-name">English</div>
+          <div class="cert-issuer">Advanced</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── INTERESTS ─── -->
+    <section id="interests">
+      <div class="section-header">
+        <span class="section-num">07</span>
+        <h2 class="section-title">Interests</h2>
+      </div>
+      <p class="interests-list">
+        Psychology · Cooking · Dog behaviour · Running · Strength training · Books &amp; audiobooks
+      </p>
+    </section>
+
+  </article>
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <p class="footer-cta">
+    Got something interesting to build? <br>
+    <a href="mailto:gustaw.beznicki@gmail.com">Let's talk →</a>
+  </p>
+  <p class="footer-meta">© 2026 · Gustaw Beźnicki · Crafted in Gdańsk</p>
+</footer>
+
+<script>
+  // ═══════════════════════════════════════════════
+  // BILINGUAL SUPPORT — Polish translations
+  // ═══════════════════════════════════════════════
+
+  const PL = {
+    singles: {
+      // Hero
+      '.hero-meta span:nth-of-type(1)': 'Curriculum Vitae',
+      '.hero-meta span:nth-of-type(3)': 'Gdańsk / Zdalnie',
+      '.hero-role': '<strong>Senior Software Engineer</strong> w drodze do Engineering Leadership. Siedem lat budowania systemów rozproszonych w .NET i Azure. Co-founder w <strong>B-B-Digital</strong>. Tech Lead w <strong>Lavamme</strong>.',
+      '.hero-contact > span': 'Gdańsk · Polska',
+      '.hero-scroll': 'Przewiń',
+
+      // Sidebar location
+      '.sidebar-loc': 'Gdańsk / Zdalnie',
+      '.sidebar-block:nth-of-type(3) .sidebar-text a': '→ Drukuj / Zapisz jako PDF',
+
+      // Section titles
+      '#highlights .section-title': 'Najważniejsze',
+      '#skills .section-title': 'Umiejętności',
+      '#experience .section-title': 'Doświadczenie',
+      '#education .section-title': 'Edukacja',
+      '#certifications .section-title': 'Certyfikaty',
+      '#languages .section-title': 'Języki',
+      '#interests .section-title': 'Zainteresowania',
+
+      // Interests
+      '.interests-list': 'Psychologia · Gotowanie · Psi behawioryzm · Bieganie · Siłownia · Książki i audiobooki',
+
+      // Footer
+      '.footer-cta': 'Masz coś ciekawego do zbudowania? <br> <a href="mailto:gustaw.beznicki@gmail.com">Pogadajmy →</a>',
+      '.footer-meta': '© 2026 · Gustaw Beźnicki · Stworzone w Gdańsku',
+    },
+
+    lists: {
+      // Sidebar nav (7 items)
+      '.sidebar-nav a': [
+        'Najważniejsze', 'Umiejętności', 'Doświadczenie',
+        'Edukacja', 'Certyfikaty', 'Języki', 'Zainteresowania'
+      ],
+
+      // Sidebar labels (Sections, Contact, Export)
+      '.sidebar-label': ['Sekcje', 'Kontakt', 'Eksport'],
+
+      // Sidebar contact strongs (Email, Phone, Location)
+      '.sidebar-block:nth-of-type(2) .sidebar-text strong': ['Email', 'Telefon', 'Lokalizacja'],
+
+      // Highlights tags (5)
+      '.highlight-tag': [
+        'Inżynieria', 'Obecna rola', 'Wdrożenie AI',
+        'Własne projekty', 'Rozwój liderski'
+      ],
+
+      // Highlights texts (5)
+      '.highlight-text': [
+        '<strong>Ponad 7 lat</strong> jako inżynier .NET — budowanie rozproszonych systemów chmurowych dla klientów enterprise w <strong>energetyce, bankowości, e-commerce i logistyce</strong>.',
+        '<strong>Obowiązki Team Leada w KMD</strong> dla 6-osobowego zespołu polsko-duńskiego. Odpowiada za decyzje architektoniczne, mentoruje deweloperów i reprezentuje zespół w rozmowach międzyzespołowych oraz z delivery managementem.',
+        '<strong>Prowadzi wdrożenie narzędzi AI w zespole</strong> — konfiguracje Copilota, agentyczne workflow deweloperskie i własny agent szkicujący dokumenty High-Level Design.',
+        '<strong>Co-founder w B-B-Digital</strong> (zproduktyzowane strony www dla polskich małych i średnich firm) oraz <strong>Tech Lead w Lavamme</strong> (e-commerce modowy oparty o Shopify, działający od 2024).',
+        'Inwestuje w stronę ludzką — niedawne szkolenia z <strong>NVC</strong>, efektywnej komunikacji oraz dynamiki zespołów polsko-duńskich.',
+      ],
+
+      // Skill category labels (7)
+      '.skill-cat': [
+        'Liderstwo i komunikacja',
+        'Backend',
+        'Cloud / DevOps',
+        'Dane i messaging',
+        'Jakość i observability',
+        'Frontend',
+        'Programowanie wspierane AI',
+      ],
+
+      // Leadership row tags (row 1, 8 items)
+      '.skill-row:nth-of-type(1) .skill-tag': [
+        'Decyzje techniczne',
+        'Mentoring i coaching',
+        '1-na-1',
+        'Koordynacja międzyzespołowa',
+        'Współpraca przy backlogu',
+        'Wdrażanie narzędzi AI',
+        'NVC',
+        'Komunikacja PL ↔ DK',
+      ],
+
+      // Backend row tags (row 2, 11 items - mostly same, "Design Patterns" → "Wzorce projektowe")
+      '.skill-row:nth-of-type(2) .skill-tag': [
+        'C#', '.NET (4.5 – 10)', 'ASP.NET', 'Entity Framework', 'MediatR', 'Dapper',
+        'CQRS', 'DDD', 'Event-driven', 'SOLID', 'Wzorce projektowe',
+      ],
+
+      // Quality row tags (row 5, 10 items)
+      '.skill-row:nth-of-type(5) .skill-tag': [
+        'Testy jednostkowe i integracyjne',
+        'MSTest', 'NUnit', 'AutoFixture', 'Moq', 'FakeItEasy',
+        'OpenTelemetry', 'App Insights', 'OpenSearch',
+        'Strukturyzowane logowanie',
+      ],
+
+      // AI row tags (row 7, 3 items)
+      '.skill-row:nth-of-type(7) .skill-tag': [
+        'Claude Code', 'GitHub Copilot', 'Własne skille i agenci',
+      ],
+
+      // Experience role titles (10)
+      '.exp-title': [
+        'Senior Software Engineer & Solution Expert',
+        'Software Engineer',
+        'Co-founder & Tech Lead',
+        'Co-founder & Tech Lead',
+        'Trener programowania',
+        'Software Engineer',
+        'Programista .NET',
+        'Software Engineer',
+        'Software Engineer',
+        'Software Engineer',
+      ],
+
+      // Experience companies (10)
+      '.exp-company': [
+        '<em>KMD Poland</em> · Warszawa',
+        '<em>KMD Poland</em> · Warszawa',
+        '<em>B-B-Digital</em>',
+        '<em>Lavamme</em>',
+        '<em>ISA</em> · Łódź',
+        '<em>Sii Poland</em> · Łódź',
+        '<em>BAKK</em> · Łódź',
+        '<em>Unit4</em> · Wrocław',
+        '<em>Accenture Technology</em> · Łódź',
+        '<em>Rossmann SDP</em> · Łódź',
+      ],
+
+      // Experience periods (Present → obecnie, Remote → Zdalnie)
+      '.exp-period': [
+        '07 / 2025 — obecnie<span class="pill">Teraz</span>',
+        '02 / 2023 — 06 / 2025',
+        '2026 — obecnie · Zdalnie',
+        '03 / 2024 — obecnie · Zdalnie',
+        '04 / 2023 — 05 / 2024',
+        '08 / 2021 — 02 / 2023',
+        '04 / 2020 — 07 / 2021',
+        '01 / 2020 — 03 / 2020',
+        '03 / 2019 — 12 / 2019',
+        '08 / 2018 — 02 / 2019',
+      ],
+
+      // Experience contexts (6: KMD current, KMD prior, Sii, BAKK, Unit4, Accenture)
+      '.exp-context': [
+        'Chmurowa platforma rozliczeniowo-billingowa automatyzująca złożone procesy kalkulacyjne dla klientów enterprise. Zespół 6-osobowy działający w szerszym środowisku międzyzespołowym.',
+        'Ta sama platforma — rozliczenia i billing. Zespół SCRUM 5–7 osób.',
+        'Silnik e-commerce SaaS w architekturze headless opartej na mikroserwisach. Prowadzenie prac developerskich w zespole SCRUM 5-osobowym.',
+        'System zarządzania długiem i pożyczkami (aplikacja desktopowa + web API). Zespoły SCRUM 5–8 osób.',
+        'Web&rsquo;owy i desktopowy system HR. Zespół SCRUM 4-osobowy.',
+        'Internet Banking i Mobile Banking. Zespół ITIL 50-osobowy, podzespoły 3–4 osobowe.',
+      ],
+
+      // Experience bodies (4: B-B-Digital, Lavamme, ISA, Rossmann)
+      '.exp-body': [
+        'Współzałożyciel software house&rsquo;u skupionego na rozwiązaniach webowych dla polskich małych i średnich firm oraz niezależnych specjalistów (prawnicy, lekarze, architekci). Zbudował fundament techniczny w oparciu o system szablonów white-label umożliwiający szybkie wdrożenia per klient. Odpowiada za kierunek techniczny, framework dostarczania i scoping klientów.',
+        'Współzałożyciel marki e-commerce w branży modowej. Zbudował fundament techniczny — sklep Shopify z integracjami dla płatności, logistyki i doświadczeń klienta. Oprócz inżynierii zaangażowany w decyzje produktowe, branding, pricing i customer journey — praktyczna nauka prowadzenia biznesu.',
+        'Nauczanie i mentoring w zakresie .NET jako część zespołu trenerów prowadzących kursy programowania i warsztaty. Tworzenie materiałów dydaktycznych, prowadzenie sesji szkoleniowych i indywidualne wsparcie kursantów na różnym poziomie zaawansowania.',
+        'Analiza wymagań, projektowanie aplikacji, programowanie w .NET i MS-SQL, utrzymanie i wsparcie systemów legacy.',
+      ],
+
+      // Experience group labels (2: only KMD current)
+      '.exp-group-label': [
+        'Inżynieria i przywództwo techniczne',
+        'Ludzie i rozwój zespołu',
+      ],
+
+      // Experience bullets (15 total in order)
+      '.exp-list li': [
+        // KMD current — Engineering (4)
+        'Odpowiada za decyzje architektoniczne i projektowanie rozwiązań w głównych epikach, biorąc pod uwagę zarówno aspekty techniczne, jak i biznesowe',
+        'Prowadzi wdrażanie narzędzi AI w zespole — instrukcje Copilota, agentyczne workflow deweloperskie i wewnętrzny agent do szkicowania dokumentów High-Level Design',
+        'Współpracuje z Product Ownerem przy scopingu funkcjonalności — przekształca niejasne wymagania w dobrze zdefiniowane user story',
+        'Praktyczna praca z backendem nad krytycznymi komponentami platformy oraz rosnące zaangażowanie w mikrofrontendy w Angular/TypeScript',
+        // KMD current — People (3)
+        'Wspiera rozwój deweloperów przez codzienną współpracę i spotkania 1-na-1 wtedy, gdy potrzebny jest indywidualny coaching — zarówno w obszarze technicznym, jak i miękkim',
+        'Prowadzi onboarding nowych inżynierów, pomagając im szybko wejść w temat',
+        'Główny techniczny punkt kontaktu w pracy międzyzespołowej oraz w rozmowach z delivery managementem o kierunku rozwoju i kapacycie zespołu',
+        // KMD prior (3)
+        'Praca z backendem nad chmurowym rozwiązaniem rozliczeniowo-billingowym',
+        'Współudział w zadaniach frontendowych w ramach projektu',
+        'Ścisła współpraca z trzema innymi zespołami w celu zapewnienia płynnej integracji i orkiestracji procesów',
+        // Sii (2)
+        'Rozwój nowych funkcjonalności platformy e-commerce',
+        'Utrzymanie i optymalizacja komponentów legacy',
+        // BAKK (2)
+        'Budowa aplikacji w C#, m.in.: moduł automatycznej wypłaty pożyczek (integracja z Santander Bank), Invoice OCR Web API',
+        'Dostarczanie kodu zgodnie ze specyfikacjami funkcjonalnymi i technicznymi; modyfikacje istniejących systemów; dokumentowanie specyfikacji technicznych',
+        // Accenture (1)
+        'Zadania developerskie w oparciu o wymagania systemowe; wprowadzenie narzędzi automatyzacji (skrypty PowerShell); testy regresyjne i wydajnościowe',
+      ],
+
+      // Stack labels: "Stack:" → "Technologie:" (9 occurrences)
+      '.exp-tech-label': Array(9).fill('Technologie:'),
+
+      // Education
+      '.edu-detail strong': [
+        'Inżynier · Systemy komputerowe',
+        'Uniwersytet Medyczny w Łodzi',
+      ],
+      '.edu-detail span': [
+        'Politechnika Łódzka',
+        'Ukończone 5 semestrów',
+      ],
+      '.edu-detail em': [
+        'Stypendium rektora dla najlepszych studentów (od listopada 2018)',
+      ],
+
+      // Certification + Languages names (10 certs + 2 langs = 12)
+      '.cert-name': [
+        'Claude Code 101',
+        'Introduction to Subagents',
+        'Efektywna komunikacja',
+        'Porozumienie bez przemocy (NVC)',
+        'Komunikacja w zespołach polsko-duńskich',
+        'Domain-Driven Design & Event Storming',
+        'Azure Fundamentals',
+        'Mikroserwisy w Spring Cloud i Dockerze',
+        'Programowanie w C# / 20483',
+        'ITA 105 – OOP',
+        'Polski',
+        'Angielski',
+      ],
+
+      // Certification issuers + language proficiencies (12)
+      '.cert-issuer': [
+        'Anthropic', 'Anthropic',
+        'Umiejętności miękkie', 'Umiejętności miękkie', 'Umiejętności miękkie',
+        'Inżynieria',
+        'Microsoft',
+        'Inżynieria',
+        'Microsoft', 'Microsoft',
+        'Natywny', 'Zaawansowany',
+      ],
+    },
+  };
+
+  const originals = new WeakMap();
+
+  function snapshotOriginals() {
+    Object.keys(PL.singles).forEach(sel => {
+      const el = document.querySelector(sel);
+      if (el && !originals.has(el)) originals.set(el, el.innerHTML);
+    });
+    Object.keys(PL.lists).forEach(sel => {
+      document.querySelectorAll(sel).forEach(el => {
+        if (!originals.has(el)) originals.set(el, el.innerHTML);
+      });
+    });
+  }
+
+  function setLang(lang) {
+    snapshotOriginals();
+    document.documentElement.lang = lang;
+    document.body.dataset.lang = lang;
+
+    // Singles
+    Object.entries(PL.singles).forEach(([sel, val]) => {
+      const el = document.querySelector(sel);
+      if (!el) return;
+      el.innerHTML = lang === 'pl' ? val : (originals.get(el) || el.innerHTML);
+    });
+
+    // Lists
+    Object.entries(PL.lists).forEach(([sel, vals]) => {
+      document.querySelectorAll(sel).forEach((el, i) => {
+        if (lang === 'pl' && vals[i] !== undefined) {
+          el.innerHTML = vals[i];
+        } else if (originals.has(el)) {
+          el.innerHTML = originals.get(el);
+        }
+      });
+    });
+
+    // Toggle state
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      const isActive = btn.dataset.lang === lang;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    // URL hash
+    if (lang === 'pl') {
+      history.replaceState(null, '', '#pl');
+    } else {
+      history.replaceState(null, '', location.pathname);
+    }
+
+    // Update page title
+    document.title = lang === 'pl'
+      ? 'Gustaw Beźnicki — Senior Software Engineer & Team Lead'
+      : 'Gustaw Beźnicki — Senior Software Engineer & Team Lead';
+  }
+
+  // Wire up buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => setLang(btn.dataset.lang));
+  });
+
+  // Initial language from URL hash
+  snapshotOriginals();
+  const initialLang = location.hash.replace('#', '') === 'pl' ? 'pl' : 'en';
+  if (initialLang === 'pl') setLang('pl');
+
+  // ═══════════════════════════════════════════════
+  // EXISTING: active section in sidebar + fade-in
+  // ═══════════════════════════════════════════════
+
+  const sections = document.querySelectorAll('.content section');
+  const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        navLinks.forEach(link => {
+          link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+
+  sections.forEach(s => observer.observe(s));
+
+  // Fade in on scroll for items
+  const fadeItems = document.querySelectorAll('.exp-item, .skill-row, .edu-item, .cert-item');
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+        fadeObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  fadeItems.forEach((item, i) => {
+    item.style.opacity = '0';
+    item.style.transform = 'translateY(12px)';
+    item.style.transition = `opacity 0.6s ${i * 0.04}s ease, transform 0.6s ${i * 0.04}s ease`;
+    fadeObserver.observe(item);
+  });
+</script>
+
+</body>
+</html>
