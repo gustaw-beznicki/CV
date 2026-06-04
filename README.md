@@ -4,51 +4,46 @@ Personal CV / résumé for **Gustaw Beźnicki**, Senior Software Engineer & Team
 
 🔗 **Live:** https://gustawbeznicki.dev
 
-A single self-contained static page — all markup, styling, and behaviour live in
-[`public/index.html`](public/index.html). No build step, no dependencies.
+Built with **Astro** + **Tailwind v4**, rendered to static HTML and served by a Cloudflare Worker.
 
 ## Features
 
-- **Bilingual** — English / Polish, toggled client-side (`#pl` URL hash deep-links to Polish).
-- **Print-ready** — a dedicated print stylesheet renders a clean A4 CV via the browser's
-  *Save as PDF*.
-- **Responsive** — single-column on mobile, sidebar layout on desktop.
-- **Self-contained** — one HTML file; the only external resources are Google Fonts.
+- **Bilingual** — English (`/`) and Polish (`/pl`) as separate, fully rendered pages.
+- **Typed content** — all copy lives in `src/content/{en,pl}.ts` behind one shared type; no CMS.
+- **Print-ready** — a dedicated print stylesheet renders a clean A4 CV via the browser's *Save as PDF*.
+- **Self-contained** — fonts are self-hosted (Fontsource); no third-party requests at runtime.
+- **SEO** — per-language meta, canonical + hreflang alternates, Open Graph/Twitter, JSON-LD `Person`, sitemap.
 
 ## Project structure
 
 ```
-public/index.html          The entire site (HTML + CSS + JS)
-src/index.js               Cloudflare Worker: www → apex redirect, then serve assets
-wrangler.jsonc             Cloudflare Workers config
-.github/workflows/deploy.yml   CI/CD — deploys on every push to main
+src/pages/            index.astro (EN) + pl/index.astro (PL)
+src/layouts/Base.astro    head, SEO, fonts, page composition
+src/components/           one component per CV section
+src/content/              types.ts + en.ts + pl.ts (the CV copy)
+src/styles/global.css     Tailwind theme tokens + bespoke design + print sheet
+src/scripts/enhance.ts    nav highlighting, fade-in, print button
+worker/index.js           Cloudflare Worker: www → apex redirect + security headers
+public/                   favicon, og-image, robots.txt
 ```
 
-## Local preview
-
-It's a plain HTML file — open `public/index.html` in a browser, or serve the folder:
+## Develop
 
 ```sh
-npx wrangler dev      # serves via the Worker (matches production)
-# or any static server, e.g.
-python -m http.server --directory public
+npm install
+npm run dev       # http://localhost:4321
+npm run build     # static output → dist/
+npm run check     # type-check (astro check)
+npx wrangler dev  # serve the built dist/ through the worker
 ```
 
-Append `#pl` to the URL to load the Polish version.
+Edit content in `src/content/en.ts` / `pl.ts`. Both implement the `CVContent` type in
+`src/content/types.ts`, so adding a field is type-checked across both languages.
 
 ## Deployment
 
-Hosted on **Cloudflare Workers** and deployed automatically by **GitHub Actions** on every push
-to `main` — there's no manual deploy step.
+Hosted on **Cloudflare Workers**, deployed automatically by **GitHub Actions** on every push to
+`main` (`npm ci` → `astro check` → `astro build` → `wrangler deploy`). The apex serves the CV; `www`
+301-redirects to it. DNS and TLS are provisioned via Wrangler custom-domain routes.
 
-- Apex (`gustawbeznicki.dev`) serves the CV; `www` 301-redirects to the apex.
-- DNS and TLS are provisioned automatically via Wrangler custom-domain routes.
-
-See [`CLAUDE.md`](CLAUDE.md) for deployment internals and content-editing notes.
-
-## Editing content
-
-Content is authored in English in `public/index.html`. The Polish version is generated from the
-`PL` translation object in the page's `<script>`. **When you change CV content, update both the
-English markup and the matching Polish entry** — see `CLAUDE.md` for how the translation mapping
-works.
+See [`CLAUDE.md`](CLAUDE.md) for architecture, styling, and security details.

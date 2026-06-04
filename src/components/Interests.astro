@@ -1,0 +1,16 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+---
+
+<section id="interests">
+  <div class="section-header">
+    <span class="section-num">07</span>
+    <h2 class="section-title">{content.sectionTitles.interests}</h2>
+  </div>
+  <p class="interests-list">{content.interests}</p>
+</section>

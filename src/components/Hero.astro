@@ -1,0 +1,25 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+const { ui, hero, contact } = content;
+---
+
+<header class="hero">
+  <div class="hero-meta">
+    <span>{ui.cvLabel}</span>
+    <span>{ui.year}</span>
+    <span>{ui.locationMeta}</span>
+  </div>
+  <h1>{hero.name} <em>{hero.surname}</em></h1>
+  <p class="hero-role" set:html={hero.roleHtml}></p>
+  <div class="hero-contact">
+    <a href={`mailto:${contact.email}`}>{contact.email}</a>
+    <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer">{contact.linkedinLabel}</a>
+    <span>{hero.locationInline}</span>
+  </div>
+  <div class="hero-scroll">{ui.scroll}</div>
+</header>

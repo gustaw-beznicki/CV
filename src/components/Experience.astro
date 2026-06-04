@@ -1,0 +1,53 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+const { techLabel } = content.ui;
+---
+
+<section id="experience">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2 class="section-title">{content.sectionTitles.experience}</h2>
+  </div>
+
+  {content.experience.map((job) => (
+    <div class:list={["exp-item", job.current && "current"]}>
+      <div class="exp-header">
+        <div class="exp-period">
+          {job.period}{job.pill && <span class="pill">{job.pill}</span>}
+        </div>
+        <h3 class="exp-title">{job.title}</h3>
+        <div class="exp-company" set:html={job.company}></div>
+      </div>
+
+      {job.context && <p class="exp-context">{job.context}</p>}
+
+      {job.groups?.map((group) => (
+        <Fragment>
+          <div class="exp-group-label">{group.label}</div>
+          <ul class="exp-list">
+            {group.items.map((item) => <li>{item}</li>)}
+          </ul>
+        </Fragment>
+      ))}
+
+      {job.bullets && (
+        <ul class="exp-list">
+          {job.bullets.map((item) => <li>{item}</li>)}
+        </ul>
+      )}
+
+      {job.body && <p class="exp-body">{job.body}</p>}
+
+      {job.tech && (
+        <div class="exp-tech">
+          <span class="exp-tech-label">{techLabel}</span> {job.tech}
+        </div>
+      )}
+    </div>
+  ))}
+</section>

@@ -1,0 +1,25 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+---
+
+<section id="certifications">
+  <div class="section-header">
+    <span class="section-num">05</span>
+    <h2 class="section-title">{content.sectionTitles.certifications}</h2>
+  </div>
+
+  <div class="cert-list">
+    {content.certifications.map((cert) => (
+      <div class="cert-item">
+        <div class="cert-year">{cert.year}</div>
+        <div class="cert-name">{cert.name}</div>
+        <div class="cert-issuer">{cert.issuer}</div>
+      </div>
+    ))}
+  </div>
+</section>

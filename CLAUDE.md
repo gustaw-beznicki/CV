@@ -4,71 +4,68 @@ Guidance for working in this repo.
 
 ## What this is
 
-A single-page personal CV for Gustaw Beźnicki, served at **https://gustawbeznicki.dev**.
-It is a self-contained static site — all HTML, CSS, and JS live in `public/index.html`.
-There is **no build step**.
+A personal CV for Gustaw Beźnicki, served at **https://gustawbeznicki.dev**. It's a small
+**Astro** site (Tailwind v4), built to static HTML and served by a Cloudflare Worker. Content is
+typed and lives in the repo; English and Polish are **separate rendered pages** (`/` and `/pl`).
 
 ## Layout
 
-- `public/index.html` — the entire site (markup + embedded `<style>` + embedded `<script>`).
-- `src/index.js` — Cloudflare Worker entry. Redirects any non-apex host (e.g. `www`) to
-  the apex, then serves static assets via the `ASSETS` binding.
-- `wrangler.jsonc` — Cloudflare config.
-- `.github/workflows/deploy.yml` — CD pipeline.
+```
+src/pages/index.astro          English page  (imports content/en.ts)
+src/pages/pl/index.astro       Polish page   (imports content/pl.ts)
+src/layouts/Base.astro         <head>/SEO/JSON-LD/fonts + composes the page
+src/components/*.astro          Hero, Sidebar, Highlights, Skills, Experience,
+                                Education, Certifications, Languages, Interests,
+                                Footer, LanguageSwitcher
+src/content/types.ts            CVContent type (shared shape for both languages)
+src/content/en.ts | pl.ts       the actual CV copy, typed
+src/styles/global.css           @import "tailwindcss" + @theme tokens + bespoke design + print
+src/scripts/enhance.ts          IntersectionObserver nav highlight + fade-in + print button
+worker/index.js                 Cloudflare Worker: www→apex redirect + security headers
+public/                         favicon.png, og-image.png, robots.txt (static passthrough)
+wrangler.jsonc                  main: worker/index.js, assets.directory: ./dist
+.github/workflows/deploy.yml    CI: build then deploy on push to main
+```
 
-## Deployment (Cloudflare Workers + GitHub Actions)
+## Editing content
 
-- **Every push to `main` auto-deploys** via `cloudflare/wrangler-action`. There is no manual
-  deploy step — just commit and push.
-- The action defaults to Wrangler 3, which **cannot** do assets-only deploys. We pin
-  `wranglerVersion: "4"` in the workflow — do not remove this.
-- Secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` are configured as GitHub repo secrets.
-- Domains are bound via `routes` with `"custom_domain": true` (apex + www). This makes Wrangler
-  auto-provision the DNS records **and** TLS certs. Do **not** use plain routes (`pattern/*`) —
-  those require a pre-existing proxied DNS record and silently fail to resolve without one.
-- `"workers_dev": false` keeps the CV off the `*.workers.dev` URL, so it's reachable only via
-  the custom domain.
-- The worker name is `cv`. The live site **is** that worker — never delete it thinking it's a
-  stale test deploy.
-- Static assets must live under `public/` (the `assets.directory`). Do not set the assets
-  directory to repo root — CI installs `node_modules` there and the deploy fails on oversized
-  files.
+- All copy is in `src/content/en.ts` and `src/content/pl.ts`, both implementing the `CVContent`
+  type in `types.ts`. **Edit content there, never in the components.** Add a field to the type and
+  TS will flag both language files until you fill it in — that's the safety net that replaced the
+  old fragile selector→array translation map.
+- Fields whose name ends in `Html` (e.g. `roleHtml`, highlight `html`, `company`, footer `ctaHtml`)
+  are rendered with `set:html` because they contain inline tags (`<strong>`, `<em>`, `<a>`). Plain
+  fields are escaped — use real Unicode (`—`, `’`) in them, not HTML entities.
+- Translate Polish idiomatically (see git history / the existing `pl.ts`), not word-for-word.
 
-To verify a deploy: `gh run watch --repo gustaw-beznicki/CV <run-id>`, then HTTP-check the domain
-(`curl -i`, not `ping` — Cloudflare's proxy doesn't answer ICMP). DNS can be confirmed via
-DoH: `curl -H "accept: application/dns-json" "https://1.1.1.1/dns-query?name=gustawbeznicki.dev&type=A"`.
+## Styling
 
-## Bilingual content (EN / PL)
+- Tailwind v4 via `@tailwindcss/vite`; design tokens are the `@theme` block in `global.css`
+  (colors `--color-*`, fonts `--font-*`). The bespoke visual system and the ~500-line A4 **print
+  sheet** live in `global.css` keyed to semantic class names (`.hero`, `.exp-item`, `.section-title`,
+  …). Those class names are load-bearing for both the print stylesheet and `enhance.ts` — don't
+  rename them without updating both.
+- Fonts are **self-hosted** via Fontsource (imported in `Base.astro`). Fraunces uses `full.css`
+  for the `opsz`/`SOFT` variable axes. Do not re-add Google Fonts — it would force the CSP back open.
+- The print sheet hides the sidebar and footer CTA, so anything that must appear in the PDF has to
+  live in the hero or another print-visible area.
 
-- The page is authored in **English** in the HTML. Polish is applied client-side by the `PL`
-  object inside the `<script>` at the bottom of `public/index.html`.
-- `PL.singles` maps a CSS selector → translated `innerHTML` (first match only).
-- `PL.lists` maps a selector → an **array** of translations applied to matched elements **in DOM
-  order**. The array index must line up with the element order — if you add/remove/reorder a
-  `.exp-item`, `.highlight`, `.skill-tag`, etc., update the corresponding array or translations
-  will shift onto the wrong elements.
-- When editing CV content, update **both** the English HTML and the matching PL entry.
-- Translate Polish **idiomatically**, reading whole sentences — not word-for-word. Avoid
-  needless anglicisms (e.g. prefer *dostępne zasoby* over *kapacyta*, *ustalanie zakresu* over
-  *scoping*, *Ojczysty* over *Natywny*). Keep widely-used industry terms that Polish engineers
-  actually say (backend, frontend, Tech Lead, CQRS, etc.).
+## Deploy & security
 
-## Security
+- **Every push to `main` auto-deploys.** CI (`deploy.yml`) runs `npm ci` → `astro check` →
+  `astro build` → `wrangler deploy`. Wrangler is pinned to v4; actions are pinned to commit SHAs.
+- `worker/index.js` adds the CSP + HSTS/nosniff/frame/referrer/permissions headers. **If you add an
+  external resource** (script, font host, image CDN, API), widen the matching CSP directive there or
+  the browser blocks it. The CSP is now `'self'`-only except `'unsafe-inline'` (inline JSON-LD +
+  inline style attrs) and `data:` images.
+- `main` has lightweight branch protection (force-push + deletion blocked, direct push allowed).
+  Secret scanning + push protection are on.
 
-- `src/index.js` sets security headers (CSP, HSTS, nosniff, frame/referrer/permissions
-  policies) on every response. **If you add an external resource** (a new font host, a script,
-  an image CDN, an API call), you must widen the matching CSP directive in `src/index.js` or the
-  browser will block it. The CSP currently allows Google Fonts (`googleapis`/`gstatic`), inline
-  styles/scripts (`'unsafe-inline'`), and `data:` images.
-- GitHub Actions in `deploy.yml` are **pinned to commit SHAs** with a `# vN` comment. When
-  bumping a version, update the SHA, not just the comment. Dependabot opens these PRs weekly.
-- `main` has lightweight branch protection: force-pushes and deletion are blocked, but direct
-  pushes are allowed (the deploy flow). Secret scanning + push protection are on — a push
-  containing a detected secret will be rejected.
+## Local development
 
-## Print / PDF
-
-- A `@media print` block restyles the page into a classic A4 CV (browser "Save as PDF").
-- The sidebar and the footer CTA are **hidden in print**. Anything that must appear on the PDF
-  (e.g. contact channels) has to live in the hero or another print-visible area, not only the
-  sidebar.
+```sh
+npm install
+npm run dev       # http://localhost:4321  (/ and /pl)
+npm run build     # → dist/
+npx wrangler dev  # serve the built dist/ through the worker (headers + redirect)
+```

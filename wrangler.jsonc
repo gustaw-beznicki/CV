@@ -1,13 +1,13 @@
 {
   "name": "cv",
   "compatibility_date": "2026-06-04",
-  "main": "src/index.js",
+  "main": "worker/index.js",
   "workers_dev": false,
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "./public",
+    "directory": "./dist",
     "binding": "ASSETS",
     "run_worker_first": true
   },

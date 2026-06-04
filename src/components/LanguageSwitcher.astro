@@ -1,0 +1,23 @@
+---
+import type { Locale } from "../content/types";
+
+interface Props {
+  locale: Locale;
+}
+const { locale } = Astro.props;
+---
+
+<div class="lang-switcher" role="group" aria-label="Language">
+  <a
+    class:list={["lang-btn", locale === "en" && "active"]}
+    href="/"
+    hreflang="en"
+    aria-current={locale === "en" ? "true" : undefined}>EN</a
+  >
+  <a
+    class:list={["lang-btn", locale === "pl" && "active"]}
+    href="/pl"
+    hreflang="pl"
+    aria-current={locale === "pl" ? "true" : undefined}>PL</a
+  >
+</div>
