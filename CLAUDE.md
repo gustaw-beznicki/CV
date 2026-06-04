@@ -53,6 +53,19 @@ DoH: `curl -H "accept: application/dns-json" "https://1.1.1.1/dns-query?name=gus
   *scoping*, *Ojczysty* over *Natywny*). Keep widely-used industry terms that Polish engineers
   actually say (backend, frontend, Tech Lead, CQRS, etc.).
 
+## Security
+
+- `src/index.js` sets security headers (CSP, HSTS, nosniff, frame/referrer/permissions
+  policies) on every response. **If you add an external resource** (a new font host, a script,
+  an image CDN, an API call), you must widen the matching CSP directive in `src/index.js` or the
+  browser will block it. The CSP currently allows Google Fonts (`googleapis`/`gstatic`), inline
+  styles/scripts (`'unsafe-inline'`), and `data:` images.
+- GitHub Actions in `deploy.yml` are **pinned to commit SHAs** with a `# vN` comment. When
+  bumping a version, update the SHA, not just the comment. Dependabot opens these PRs weekly.
+- `main` has lightweight branch protection: force-pushes and deletion are blocked, but direct
+  pushes are allowed (the deploy flow). Secret scanning + push protection are on — a push
+  containing a detected secret will be rejected.
+
 ## Print / PDF
 
 - A `@media print` block restyles the page into a classic A4 CV (browser "Save as PDF").
