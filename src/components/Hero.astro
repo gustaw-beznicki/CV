@@ -9,11 +9,13 @@ const { ui, hero, contact } = content;
 ---
 
 <header class="hero">
+  <div class="hero-bg-photo" aria-hidden="true"></div>
   <div class="hero-meta">
     <span>{ui.cvLabel}</span>
     <span>{ui.year}</span>
     <span>{ui.locationMeta}</span>
   </div>
+  <img class="hero-avatar" src="/profile.jpg" alt={`${hero.name} ${hero.surname}`} width="88" height="88" />
   <h1>{hero.name} <em>{hero.surname}</em></h1>
   <p class="hero-role" set:html={hero.roleHtml}></p>
   <div class="hero-contact">

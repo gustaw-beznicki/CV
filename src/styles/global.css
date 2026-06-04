@@ -147,6 +147,36 @@ body::after {
   max-width: var(--max);
   margin: 0 auto;
   z-index: 2;
+  overflow: hidden;
+}
+
+.hero-bg-photo {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 55%;
+  height: 100%;
+  background: url('/scotland.jpg') 28% center / cover no-repeat;
+  opacity: 0.14;
+  -webkit-mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.5) 28%, black 62%);
+  mask-image: linear-gradient(to right, transparent, rgba(0,0,0,0.5) 28%, black 62%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: center 15%;
+  border: 2px solid var(--accent-line);
+  margin-bottom: 2rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.15s ease forwards;
+  position: relative;
+  z-index: 1;
+  display: block;
 }
 
 .hero-meta {
@@ -364,6 +394,10 @@ main {
   line-height: 1.5;
   padding-top: 0.75rem;
   border-top: 1px solid var(--border-soft);
+}
+
+.sidebar-li-badge {
+  overflow: hidden;
 }
 
 .print-link {
@@ -876,6 +910,13 @@ footer {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 860px) {
+  .hero-bg-photo {
+    width: 100%;
+    opacity: 0.08;
+    -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 40%, black 80%);
+    mask-image: linear-gradient(to bottom, transparent, rgba(0,0,0,0.5) 40%, black 80%);
+  }
+
   main {
     grid-template-columns: 1fr;
     gap: 3rem;
@@ -981,6 +1022,8 @@ footer {
     padding-bottom: 0.35cm;
   }
 
+  .hero-bg-photo,
+  .hero-avatar,
   .hero-meta,
   .hero-scroll {
     display: none;
@@ -1517,6 +1560,7 @@ footer {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  .hero-avatar,
   .hero-meta,
   .hero h1,
   .hero-role,

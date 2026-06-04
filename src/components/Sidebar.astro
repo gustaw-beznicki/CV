@@ -5,7 +5,8 @@ interface Props {
   content: CVContent;
 }
 const { content } = Astro.props;
-const { ui, nav, contact } = content;
+const { ui, nav, contact, locale } = content;
+const badgeLocale = locale === "pl" ? "pl_PL" : "en_US";
 ---
 
 <aside class="sidebar">
@@ -34,6 +35,12 @@ const { ui, nav, contact } = content;
     </div>
     <div class="sidebar-text sidebar-note" style="margin-top: 0.85rem;">
       {ui.recruiterNote}
+    </div>
+  </div>
+
+  <div class="sidebar-block sidebar-li-badge">
+    <div class="badge-base LI-profile-badge" data-locale={badgeLocale} data-size="large" data-theme="dark" data-type="VERTICAL" data-vanity="gbeznicki" data-version="v1">
+      <a class="badge-base__link LI-simple-link" href="https://pl.linkedin.com/in/gbeznicki?trk=profile-badge">Gustaw Beźnicki</a>
     </div>
   </div>
 
