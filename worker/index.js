@@ -13,16 +13,17 @@ const CANONICAL_HOST = "gustawbeznicki.dev";
 const CSP = [
   "default-src 'self'",
   "base-uri 'self'",
-  // LinkedIn badge script loaded from platform.linkedin.com
-  "script-src 'self' 'unsafe-inline' https://platform.linkedin.com",
-  // LinkedIn badge injects styles from static.licdn.com
+  // LinkedIn badge script
+  "script-src 'self' 'unsafe-inline' https://platform.linkedin.com https://static.licdn.com",
+  // LinkedIn badge injects its own styles
   "style-src 'self' 'unsafe-inline' https://static.licdn.com",
   "font-src 'self'",
-  // LinkedIn profile images come from media.licdn.com
+  // LinkedIn profile photos and badge assets
   "img-src 'self' data: https://media.licdn.com https://static.licdn.com",
-  "connect-src 'self' https://platform.linkedin.com",
-  // LinkedIn badge renders via an iframe on www.linkedin.com
-  "frame-src 'self' https://www.linkedin.com https://platform.linkedin.com",
+  // Badge script may fetch profile data
+  "connect-src 'self' https://www.linkedin.com https://platform.linkedin.com",
+  // Badge renders inside an iframe on www.linkedin.com
+  "frame-src https://www.linkedin.com",
   "form-action 'none'",
   "frame-ancestors 'none'",
   "object-src 'none'",
