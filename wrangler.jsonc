@@ -1,15 +1,16 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "cv",
   "compatibility_date": "2026-06-04",
   "observability": {
     "enabled": true
   },
   "assets": {
-    "directory": "."
+    "directory": "./public"
   },
   "compatibility_flags": [
     "nodejs_compat"
   ],
-  "custom_domains": ["gustawbeznicki.dev"]
+  "routes": [
+    { "pattern": "gustawbeznicki.dev/*", "zone_name": "gustawbeznicki.dev" }
+  ]
 }
