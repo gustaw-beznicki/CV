@@ -334,6 +334,14 @@
 
   .sidebar-text a:hover { color: var(--accent); }
 
+  .sidebar-note {
+    font-style: italic;
+    color: var(--muted);
+    line-height: 1.5;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--border-soft);
+  }
+
   /* ─── CONTENT ─── */
   .content section {
     margin-bottom: 5rem;
@@ -1399,7 +1407,7 @@
   </p>
   <div class="hero-contact">
     <a href="mailto:gustaw.beznicki@gmail.com">gustaw.beznicki@gmail.com</a>
-    <a href="tel:+48792922105">+48 792 922 105</a>
+    <a href="https://www.linkedin.com/in/gbeznicki/" target="_blank" rel="noopener noreferrer">linkedin.com/in/gbeznicki</a>
     <span>Gdańsk · Poland</span>
   </div>
   <div class="hero-scroll">Scroll</div>
@@ -1430,12 +1438,15 @@
         <a href="mailto:gustaw.beznicki@gmail.com">gustaw.beznicki@gmail.com</a>
       </div>
       <div class="sidebar-text" style="margin-top: 0.75rem;">
-        <strong>Phone</strong>
-        <a href="tel:+48792922105">+48 792 922 105</a>
+        <strong>LinkedIn</strong>
+        <a href="https://www.linkedin.com/in/gbeznicki/" target="_blank" rel="noopener noreferrer">linkedin.com/in/gbeznicki</a>
       </div>
       <div class="sidebar-text" style="margin-top: 0.75rem;">
         <strong>Location</strong>
         <span class="sidebar-loc">Gdańsk / Remote</span>
+      </div>
+      <div class="sidebar-text sidebar-note" style="margin-top: 0.85rem;">
+        Recruiters welcome — feel free to drop me an email or a LinkedIn DM anytime.
       </div>
     </div>
 
@@ -1962,6 +1973,7 @@
 
       // Sidebar location
       '.sidebar-loc': 'Gdańsk / Zdalnie',
+      '.sidebar-note': 'Rekruterzy mile widziani — śmiało napisz do mnie e-mail lub wiadomość na LinkedIn.',
       '.sidebar-block:nth-of-type(3) .sidebar-text a': '→ Drukuj / Zapisz jako PDF',
 
       // Section titles
@@ -1977,7 +1989,7 @@
       '.interests-list': 'Psychologia · Gotowanie · Psi behawioryzm · Bieganie · Siłownia · Książki i audiobooki',
 
       // Footer
-      '.footer-cta': 'Masz coś ciekawego do zbudowania? <br> <a href="mailto:gustaw.beznicki@gmail.com">Pogadajmy →</a>',
+      '.footer-cta': 'Masz ciekawy projekt do zrealizowania? <br> <a href="mailto:gustaw.beznicki@gmail.com">Porozmawiajmy →</a>',
       '.footer-meta': '© 2026 · Gustaw Beźnicki · Stworzone w Gdańsku',
     },
 
@@ -1992,7 +2004,7 @@
       '.sidebar-label': ['Sekcje', 'Kontakt', 'Eksport'],
 
       // Sidebar contact strongs
-      '.sidebar-block:nth-of-type(2) .sidebar-text strong': ['Email', 'Telefon', 'Lokalizacja'],
+      '.sidebar-block:nth-of-type(2) .sidebar-text strong': ['Email', 'LinkedIn', 'Lokalizacja'],
 
       // Highlights tags
       '.highlight-tag': [
@@ -2120,26 +2132,26 @@
       // Experience bullets (15 total, in order)
       '.exp-list li': [
         // KMD current — Engineering (4)
-        'Odpowiada za decyzje architektoniczne w głównych epikach zespołu — ważąc poprawność techniczną z priorytetami biznesowymi',
-        'Wprowadził narzędzia AI do codziennego workflow zespołu: wspólne instrukcje Copilota, agentyczne procesy kodowania oraz wewnętrznego agenta zamieniającego zgrubne notatki w szkice dokumentów High-Level Design',
-        'Pracuje ramię w ramię z Product Ownerem przy scopingu funkcjonalności — przerabia luźne oczekiwania biznesowe w user story gotowe dla zespołu inżynierskiego',
-        'Dalej dostarcza kod: backend na krytycznych ścieżkach platformy, z coraz większym udziałem w mikrofrontendach Angular/TypeScript',
+        'Odpowiada za decyzje architektoniczne w kluczowych epikach zespołu — godząc poprawność techniczną z priorytetami biznesowymi',
+        'Wprowadził narzędzia AI do codziennej pracy zespołu: wspólne instrukcje dla Copilota, procesy kodowania oparte na agentach oraz wewnętrznego agenta zamieniającego luźne notatki w szkice dokumentów High-Level Design',
+        'Ściśle współpracuje z Product Ownerem przy ustalaniu zakresu funkcjonalności — przekłada luźne potrzeby biznesowe na user stories gotowe do realizacji przez zespół',
+        'Wciąż pisze kod: backend na krytycznych ścieżkach platformy, a coraz częściej także mikrofrontendy w Angularze i TypeScripcie',
         // KMD current — People (3)
-        'Coachuje inżynierów poprzez codzienną współpracę, ze skoncentrowanymi spotkaniami 1-na-1 wtedy, gdy ktoś potrzebuje indywidualnego czasu — zarówno w wyzwaniach technicznych, jak i osobistych',
-        'Odpowiada za onboarding nowych członków zespołu — sesje pair programmingu i przeglądy platformy skracające czas do pierwszej kontrybucji',
-        'Pełni rolę głównego punktu kontaktu technicznego zespołu — w pracy międzyzespołowej oraz w rozmowach z delivery managementem o kierunku i kapacycie',
+        'Rozwija inżynierów w codziennej współpracy, a gdy ktoś potrzebuje więcej uwagi — podczas dedykowanych spotkań 1:1, w sprawach zarówno technicznych, jak i osobistych',
+        'Odpowiada za wdrażanie nowych osób w zespole — wspólne programowanie i przeglądy platformy skracają czas potrzebny na pierwszy realny wkład w projekt',
+        'Jest głównym technicznym punktem kontaktowym zespołu — w komunikacji międzyzespołowej oraz w rozmowach z delivery managementem o kierunku prac i dostępnych zasobach',
         // KMD prior (3)
-        'Dostarczanie funkcjonalności backendowych na platformie rozliczeniowo-billingowej',
-        'Udział w zadaniach frontendowych w miarę jak rosły kompetencje frontendowe zespołu',
-        'Bliska współpraca z trzema bratnimi zespołami nad solidną integracją i orkiestracją międzyserwisową',
+        'Rozwijał funkcjonalności backendowe platformy rozliczeniowo-bilingowej',
+        'Brał udział w zadaniach frontendowych, w miarę jak rosły kompetencje frontendowe zespołu',
+        'Blisko współpracował z trzema bratnimi zespołami, dbając o solidną integrację i orkiestrację między serwisami',
         // Sii (2)
-        'Dostarczał nową funkcjonalność na platformie',
+        'Dostarczał nowe funkcjonalności platformy',
         'Utrzymywał i optymalizował usługi legacy',
         // BAKK (2)
-        'Zbudował kluczowe moduły w C#, w tym system automatycznej wypłaty pożyczek (integracja z Santander Bank) oraz Invoice OCR Web API',
-        'Dostarczał funkcjonalności zgodne ze specyfikacjami funkcjonalnymi i technicznymi, rozbudowywał istniejące systemy i utrzymywał aktualną dokumentację',
+        'Zbudował kluczowe moduły w C#, w tym system automatycznej wypłaty pożyczek (integracja z bankiem Santander) oraz Invoice OCR Web API',
+        'Realizował funkcjonalności zgodne ze specyfikacją funkcjonalną i techniczną, rozbudowywał istniejące systemy i dbał o aktualność dokumentacji',
         // Accenture (1)
-        'Dostarczał prace developerskie zgodne z wymaganiami systemowymi, wprowadził narzędzia automatyzacji w PowerShell oraz prowadził testy regresyjne i wydajnościowe',
+        'Realizował prace programistyczne zgodnie z wymaganiami systemu, wprowadził narzędzia automatyzacji w PowerShellu oraz prowadził testy regresyjne i wydajnościowe',
       ],
 
       // Stack labels
@@ -2155,7 +2167,7 @@
         'Ukończone 5 semestrów',
       ],
       '.edu-detail em': [
-        'Stypendium rektora dla najlepszych studentów (od listopada 2018)',
+        'Stypendium rektora dla najlepszych studentów (przyznane w listopadzie 2018)',
       ],
 
       // Certifications + Languages names
@@ -2181,7 +2193,7 @@
         'Microsoft',
         'Inżynieria',
         'Microsoft', 'Microsoft',
-        'Natywny', 'Zaawansowany',
+        'Ojczysty', 'Zaawansowany',
       ],
     },
   };
