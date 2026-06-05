@@ -5,7 +5,7 @@ export const pl: CVContent = {
   meta: {
     title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
     description:
-      "Senior Software Engineer wchodzący w rolę lidera inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel B-B-Digital. Tech Lead w Lavamme.",
+      "Senior Software Engineer wchodzący w rolę lidera inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel B&B Digital. Tech Lead w Lavamme.",
   },
   ui: {
     cvLabel: "Curriculum Vitae",
@@ -45,7 +45,7 @@ export const pl: CVContent = {
     name: "Gustaw",
     surname: "Beźnicki",
     roleHtml:
-      "<strong>Senior Software Engineer w KMD</strong> — buduje chmurową platformę do rozliczeń i bilingu oraz prowadzi sześcioosobowy, polsko-duński zespół. Siedem lat w rozproszonych systemach .NET. Po godzinach rozwija dwa własne przedsięwzięcia: <strong>B-B-Digital</strong> i <strong>Lavamme</strong>.",
+      "<strong>Senior Software Engineer w KMD</strong> — buduje chmurową platformę do rozliczeń i bilingu oraz prowadzi sześcioosobowy, polsko-duński zespół. Siedem lat w rozproszonych systemach .NET. Po godzinach rozwija dwa własne przedsięwzięcia: <strong>B&B Digital</strong> i <strong>Lavamme</strong>.",
     locationInline: "Gdańsk · Polska",
   },
   contact: {
@@ -69,7 +69,7 @@ export const pl: CVContent = {
     },
     {
       tag: "Własne projekty",
-      html: "Po godzinach rozwija dwa własne przedsięwzięcia: <strong>B-B-Digital</strong> (zał. 2026) — produktowe usługi webowe dla polskich MŚP, oraz <strong>Lavamme</strong> (zał. 2024) — modowy e-commerce na Shopify.",
+      html: "Po godzinach rozwija dwa własne przedsięwzięcia: <strong>B&B Digital</strong> (zał. 2026) — produktowe usługi webowe dla polskich MŚP, oraz <strong>Lavamme</strong> (zał. 2024) — modowy e-commerce na Shopify.",
     },
     {
       tag: "Rozwój liderski",
@@ -196,7 +196,7 @@ export const pl: CVContent = {
       period: "2026 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: "<em>B-B-Digital</em>",
+      company: "<em>B&B Digital</em>",
       body: "Współzałożyciel software house’u tworzącego powtarzalne, produktowe strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
     },

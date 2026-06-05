@@ -5,7 +5,7 @@ export const en: CVContent = {
   meta: {
     title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
     description:
-      "Senior Software Engineer transitioning into Engineering Leadership. 7+ years in .NET and distributed cloud systems. Co-founder of B-B-Digital. Tech Lead at Lavamme.",
+      "Senior Software Engineer transitioning into Engineering Leadership. 7+ years in .NET and distributed cloud systems. Co-founder of B&B Digital. Tech Lead at Lavamme.",
   },
   ui: {
     cvLabel: "Curriculum Vitae",
@@ -45,7 +45,7 @@ export const en: CVContent = {
     name: "Gustaw",
     surname: "Beźnicki",
     roleHtml:
-      "<strong>Senior Software Engineer at KMD</strong> — building a cloud settlement &amp; billing platform and leading a six-person Polish-Danish team. Seven years in distributed .NET systems. Two ventures on the side: <strong>B-B-Digital</strong> and <strong>Lavamme</strong>.",
+      "<strong>Senior Software Engineer at KMD</strong> — building a cloud settlement &amp; billing platform and leading a six-person Polish-Danish team. Seven years in distributed .NET systems. Two ventures on the side: <strong>B&B Digital</strong> and <strong>Lavamme</strong>.",
     locationInline: "Gdańsk · Poland",
   },
   contact: {
@@ -69,7 +69,7 @@ export const en: CVContent = {
     },
     {
       tag: "Side Ventures",
-      html: "Two ventures alongside the day job: <strong>B-B-Digital</strong>, a productized web service for Polish SMBs (co-founded 2026), and <strong>Lavamme</strong>, a Shopify-based fashion e-commerce (co-founded 2024).",
+      html: "Two ventures alongside the day job: <strong>B&B Digital</strong>, a productized web service for Polish SMBs (co-founded 2026), and <strong>Lavamme</strong>, a Shopify-based fashion e-commerce (co-founded 2024).",
     },
     {
       tag: "Leadership Growth",
@@ -196,7 +196,7 @@ export const en: CVContent = {
       period: "2026 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: "<em>B-B-Digital</em>",
+      company: "<em>B&B Digital</em>",
       body: "Co-founded a software house building productized websites for Polish independent professionals — lawyers, doctors, architects. Designed the white-label template system (Astro + Sanity CMS) that ships per-client deployments fast. Owns tech direction, delivery framework, and client scoping.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
     },
