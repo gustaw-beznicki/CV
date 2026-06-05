@@ -204,7 +204,7 @@ export const pl: CVContent = {
       period: "03 / 2024 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: `<em>${companies.lavamme}</em>`,
+      company: `<a href="https://lavamme.com" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
       anchor: "exp-lavamme",
       body: "Współzałożyciel modowej marki e-commerce; od zera zbudował całą część technologiczną. Uruchomił sklep na Shopify wraz z integracjami płatności, logistyki i obsługi klienta. Mocno zaangażowany także po stronie biznesowej — produkt, marka, polityka cenowa, ścieżka klienta — rozwijając kompetencje komercyjne równolegle z inżynierskimi.",
     },
