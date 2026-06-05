@@ -1,22 +1,21 @@
-name: Deploy
+name: CI
 
 on:
-  push:
+  pull_request:
     branches: [main]
 
-# Least privilege: this workflow only needs to read the repo to deploy.
 permissions:
   contents: read
 
-# Don't run overlapping deploys for the same ref; cancel the older one.
+# Cancel in-progress runs for the same PR when new commits are pushed.
 concurrency:
-  group: deploy-${{ github.ref }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
-    name: Deploy to Cloudflare Workers
+    name: Type-check and build
     steps:
       # Third-party actions are pinned to a full commit SHA (supply-chain hardening).
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
@@ -28,8 +27,3 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run check
       - run: pnpm run build
-      - uses: cloudflare/wrangler-action@ebbaa1584979971c8614a24965b4405ff95890e0 # v4.0.0
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          wranglerVersion: "4"
