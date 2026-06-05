@@ -25,6 +25,7 @@ src/styles/global.css     Tailwind theme tokens + bespoke design + print sheet
 src/scripts/enhance.ts    nav highlighting, fade-in, print button
 worker/index.js           Cloudflare Worker: www → apex redirect + security headers
 public/                   favicon, og-image, robots.txt
+docs/adr/                 architecture decision records
 ```
 
 ## Develop
