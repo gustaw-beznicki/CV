@@ -33,6 +33,8 @@ export interface Experience {
   title: string;
   /** May contain inline <em> for the company name. */
   company: string;
+  /** Anchor id for in-page links (e.g. from the hero). */
+  anchor?: string;
   context?: string;
   bullets?: string[];
   groups?: ExperienceGroup[];

@@ -15,7 +15,7 @@ const { techLabel } = content.ui;
   </div>
 
   {content.experience.map((job) => (
-    <div class:list={["exp-item", job.current && "current"]}>
+    <div id={job.anchor} class:list={["exp-item", job.current && "current"]}>
       <div class="exp-header">
         <div class="exp-period">
           {job.period}{job.pill && <span class="pill">{job.pill}</span>}

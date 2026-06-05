@@ -1,11 +1,11 @@
 import type { CVContent } from "./types";
+import { companies } from "./companies";
 
 export const pl: CVContent = {
   locale: "pl",
   meta: {
     title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
-    description:
-      "Senior Software Engineer wchodzący w rolę lidera inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel B&B Digital. Tech Lead w Lavamme.",
+    description: `Senior Software Engineer wchodzący w rolę lidera inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel ${companies.bnb}. Tech Lead w ${companies.lavamme}.`,
   },
   ui: {
     cvLabel: "Curriculum Vitae",
@@ -44,8 +44,7 @@ export const pl: CVContent = {
   hero: {
     name: "Gustaw",
     surname: "Beźnicki",
-    roleHtml:
-      "<strong>Senior Software Engineer w KMD</strong> — buduje chmurową platformę do rozliczeń i bilingu oraz prowadzi sześcioosobowy, polsko-duński zespół. Siedem lat w rozproszonych systemach .NET. Po godzinach rozwija dwa własne przedsięwzięcia: <strong>B&B Digital</strong> i <strong>Lavamme</strong>.",
+    roleHtml: `<strong>Senior Software Engineer w ${companies.kmd}</strong> — buduje chmurową platformę do rozliczeń i bilingu oraz prowadzi sześcioosobowy, polsko-duński zespół. Siedem lat w rozproszonych systemach .NET. Po godzinach rozwija dwa własne przedsięwzięcia: <a href="#exp-bnb"><strong>${companies.bnb}</strong></a> i <a href="#exp-lavamme"><strong>${companies.lavamme}</strong></a>.`,
     locationInline: "Gdańsk · Polska",
   },
   contact: {
@@ -69,7 +68,7 @@ export const pl: CVContent = {
     },
     {
       tag: "Własne projekty",
-      html: "Po godzinach rozwija dwa własne przedsięwzięcia: <strong>B&B Digital</strong> (zał. 2026) — produktowe usługi webowe dla polskich MŚP, oraz <strong>Lavamme</strong> (zał. 2024) — modowy e-commerce na Shopify.",
+      html: `Po godzinach rozwija dwa własne przedsięwzięcia: <strong>${companies.bnb}</strong> (zał. 2026) — produktowe usługi webowe dla polskich MŚP, oraz <strong>${companies.lavamme}</strong> (zał. 2024) — modowy e-commerce na Shopify.`,
     },
     {
       tag: "Rozwój liderski",
@@ -156,7 +155,7 @@ export const pl: CVContent = {
       pill: "Teraz",
       current: true,
       title: "Senior Software Engineer & Solution Expert",
-      company: "<em>KMD Poland</em> · Warszawa",
+      company: `<em>${companies.kmdFull}</em> · Warszawa`,
       context:
         "Chmurowa platforma rozliczeniowo-bilingowa automatyzująca złożone procesy obliczeniowe dla klientów korporacyjnych. Sześcioosobowy zespół inżynierski działający w ramach większej, wielozespołowej struktury.",
       groups: [
@@ -183,7 +182,7 @@ export const pl: CVContent = {
     {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
-      company: "<em>KMD Poland</em> · Warszawa",
+      company: `<em>${companies.kmdFull}</em> · Warszawa`,
       context: "Ta sama platforma — rozliczenia i biling. Zespół SCRUM liczący 5–7 osób.",
       bullets: [
         "Rozwijał funkcjonalności backendowe platformy rozliczeniowo-bilingowej",
@@ -196,7 +195,8 @@ export const pl: CVContent = {
       period: "2026 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: "<em>B&B Digital</em>",
+      company: `<em>${companies.bnb}</em>`,
+      anchor: "exp-bnb",
       body: "Współzałożyciel software house’u tworzącego powtarzalne, produktowe strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
     },
@@ -204,20 +204,21 @@ export const pl: CVContent = {
       period: "03 / 2024 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: "<em>Lavamme</em>",
+      company: `<em>${companies.lavamme}</em>`,
+      anchor: "exp-lavamme",
       body: "Współzałożyciel modowej marki e-commerce; od zera zbudował całą część technologiczną. Uruchomił sklep na Shopify wraz z integracjami płatności, logistyki i obsługi klienta. Mocno zaangażowany także po stronie biznesowej — produkt, marka, polityka cenowa, ścieżka klienta — rozwijając kompetencje komercyjne równolegle z inżynierskimi.",
     },
     {
       period: "04 / 2023 — 05 / 2024",
       title: "Trener programowania",
-      company: "<em>ISA</em> · Łódź",
+      company: `<em>${companies.isa}</em> · Łódź`,
       body: "Uczył programowania w .NET w zespole trenerów — kursy, warsztaty i indywidualne konsultacje. Tworzył materiały dydaktyczne i prowadził zajęcia dla kursantów na różnych poziomach zaawansowania.",
       tech: "C# · ASP.NET · .NET Core · Entity Framework · Visual Studio",
     },
     {
       period: "08 / 2021 — 02 / 2023",
       title: "Software Engineer",
-      company: "<em>Sii Poland</em> · Łódź",
+      company: `<em>${companies.sii}</em> · Łódź`,
       context:
         "Silnik e-commerce w modelu SaaS — architektura headless, mikroserwisy. Kierował pracami programistycznymi w 5-osobowym zespole SCRUM.",
       bullets: [
@@ -229,7 +230,7 @@ export const pl: CVContent = {
     {
       period: "04 / 2020 — 07 / 2021",
       title: "Programista .NET",
-      company: "<em>BAKK</em> · Łódź",
+      company: `<em>${companies.bakk}</em> · Łódź`,
       context:
         "Platforma do zarządzania długiem i pożyczkami — aplikacja desktopowa i Web API. Zespoły SCRUM liczące 5–8 osób.",
       bullets: [
@@ -241,14 +242,14 @@ export const pl: CVContent = {
     {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
-      company: "<em>Unit4</em> · Wrocław",
+      company: `<em>${companies.unit4}</em> · Wrocław`,
       context: "Webowy i desktopowy system kadrowy (HR). 4-osobowy zespół SCRUM.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
     },
     {
       period: "03 / 2019 — 12 / 2019",
       title: "Software Engineer",
-      company: "<em>Accenture Technology</em> · Łódź",
+      company: `<em>${companies.accenture}</em> · Łódź`,
       context:
         "Bankowość internetowa i mobilna. 50-osobowy zespół ITIL, podzespoły 3–4-osobowe.",
       bullets: [
@@ -259,7 +260,7 @@ export const pl: CVContent = {
     {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
-      company: "<em>Rossmann SDP</em> · Łódź",
+      company: `<em>${companies.rossmann}</em> · Łódź`,
       body: "Analiza wymagań, projektowanie aplikacji, programowanie w .NET i MS-SQL oraz utrzymanie i wsparcie systemów legacy.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
