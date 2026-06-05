@@ -155,7 +155,7 @@ export const pl: CVContent = {
       pill: "Teraz",
       current: true,
       title: "Senior Software Engineer & Solution Expert",
-      company: `<em>${companies.kmdFull}</em> · Warszawa`,
+      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
       context:
         "Chmurowa platforma rozliczeniowo-bilingowa automatyzująca złożone procesy obliczeniowe dla klientów korporacyjnych. Sześcioosobowy zespół inżynierski działający w ramach większej, wielozespołowej struktury.",
       groups: [
@@ -182,7 +182,7 @@ export const pl: CVContent = {
     {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
-      company: `<em>${companies.kmdFull}</em> · Warszawa`,
+      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
       context: "Ta sama platforma — rozliczenia i biling. Zespół SCRUM liczący 5–7 osób.",
       bullets: [
         "Rozwijał funkcjonalności backendowe platformy rozliczeniowo-bilingowej",
@@ -211,14 +211,14 @@ export const pl: CVContent = {
     {
       period: "04 / 2023 — 05 / 2024",
       title: "Trener programowania",
-      company: `<em>${companies.isa}</em> · Łódź`,
+      company: `<a href="https://infoshareacademy.com/" target="_blank" rel="noopener noreferrer"><em>${companies.isa}</em></a> · Łódź`,
       body: "Uczył programowania w .NET w zespole trenerów — kursy, warsztaty i indywidualne konsultacje. Tworzył materiały dydaktyczne i prowadził zajęcia dla kursantów na różnych poziomach zaawansowania.",
       tech: "C# · ASP.NET · .NET Core · Entity Framework · Visual Studio",
     },
     {
       period: "08 / 2021 — 02 / 2023",
       title: "Software Engineer",
-      company: `<em>${companies.sii}</em> · Łódź`,
+      company: `<a href="https://sii.pl" target="_blank" rel="noopener noreferrer"><em>${companies.sii}</em></a> · Łódź`,
       context:
         "Silnik e-commerce w modelu SaaS — architektura headless, mikroserwisy. Kierował pracami programistycznymi w 5-osobowym zespole SCRUM.",
       bullets: [
@@ -230,7 +230,7 @@ export const pl: CVContent = {
     {
       period: "04 / 2020 — 07 / 2021",
       title: "Programista .NET",
-      company: `<em>${companies.bakk}</em> · Łódź`,
+      company: `<a href="https://bakk.com/kariera/" target="_blank" rel="noopener noreferrer"><em>${companies.bakk}</em></a> · Łódź`,
       context:
         "Platforma do zarządzania długiem i pożyczkami — aplikacja desktopowa i Web API. Zespoły SCRUM liczące 5–8 osób.",
       bullets: [
@@ -242,14 +242,14 @@ export const pl: CVContent = {
     {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
-      company: `<em>${companies.unit4}</em> · Wrocław`,
+      company: `<a href="https://unit4.com" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
       context: "Webowy i desktopowy system kadrowy (HR). 4-osobowy zespół SCRUM.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
     },
     {
       period: "03 / 2019 — 12 / 2019",
       title: "Software Engineer",
-      company: `<em>${companies.accenture}</em> · Łódź`,
+      company: `<a href="https://accenture.com" target="_blank" rel="noopener noreferrer"><em>${companies.accenture}</em></a> · Łódź`,
       context:
         "Bankowość internetowa i mobilna. 50-osobowy zespół ITIL, podzespoły 3–4-osobowe.",
       bullets: [
@@ -260,7 +260,7 @@ export const pl: CVContent = {
     {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
-      company: `<em>${companies.rossmann}</em> · Łódź`,
+      company: `<a href="https://kariera.rossmann.pl/pracuj-w-it" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
       body: "Analiza wymagań, projektowanie aplikacji, programowanie w .NET i MS-SQL oraz utrzymanie i wsparcie systemów legacy.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },

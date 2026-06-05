@@ -155,7 +155,7 @@ export const en: CVContent = {
       pill: "Now",
       current: true,
       title: "Senior Software Engineer & Solution Expert",
-      company: `<em>${companies.kmdFull}</em> · Warsaw`,
+      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
       context:
         "Cloud settlement & billing platform automating complex calculation flows for enterprise clients. Six-person engineering team within a wider multi-team setup.",
       groups: [
@@ -182,7 +182,7 @@ export const en: CVContent = {
     {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
-      company: `<em>${companies.kmdFull}</em> · Warsaw`,
+      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
       context: "Same platform — settlement & billing. 5–7 person SCRUM team.",
       bullets: [
         "Backend feature delivery on the settlement & billing platform",
@@ -211,14 +211,14 @@ export const en: CVContent = {
     {
       period: "04 / 2023 — 05 / 2024",
       title: "Programming Trainer",
-      company: `<em>${companies.isa}</em> · Łódź`,
+      company: `<a href="https://infoshareacademy.com/" target="_blank" rel="noopener noreferrer"><em>${companies.isa}</em></a> · Łódź`,
       body: "Taught .NET development alongside a team of trainers — courses, workshops, and one-to-one guidance. Built curriculum materials and ran sessions for students at varying skill levels.",
       tech: "C# · ASP.NET · .NET Core · Entity Framework · Visual Studio",
     },
     {
       period: "08 / 2021 — 02 / 2023",
       title: "Software Engineer",
-      company: `<em>${companies.sii}</em> · Łódź`,
+      company: `<a href="https://sii.pl" target="_blank" rel="noopener noreferrer"><em>${companies.sii}</em></a> · Łódź`,
       context:
         "E-commerce SaaS engine — headless architecture, microservices. Led development in a 5-person SCRUM team.",
       bullets: [
@@ -230,7 +230,7 @@ export const en: CVContent = {
     {
       period: "04 / 2020 — 07 / 2021",
       title: ".NET Developer",
-      company: `<em>${companies.bakk}</em> · Łódź`,
+      company: `<a href="https://bakk.com/kariera/" target="_blank" rel="noopener noreferrer"><em>${companies.bakk}</em></a> · Łódź`,
       context:
         "Debt and loan management platform — desktop application + Web API. 5–8 person SCRUM teams.",
       bullets: [
@@ -242,14 +242,14 @@ export const en: CVContent = {
     {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
-      company: `<em>${companies.unit4}</em> · Wrocław`,
+      company: `<a href="https://unit4.com" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
       context: "Web and desktop HR system. 4-person SCRUM team.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
     },
     {
       period: "03 / 2019 — 12 / 2019",
       title: "Software Engineer",
-      company: `<em>${companies.accenture}</em> · Łódź`,
+      company: `<a href="https://accenture.com" target="_blank" rel="noopener noreferrer"><em>${companies.accenture}</em></a> · Łódź`,
       context:
         "Internet Banking and Mobile Banking. 50-person ITIL team, 3–4 person subteams.",
       bullets: [
@@ -260,7 +260,7 @@ export const en: CVContent = {
     {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
-      company: `<em>${companies.rossmann}</em> · Łódź`,
+      company: `<a href="https://kariera.rossmann.pl/pracuj-w-it" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
       body: "Requirements analysis, application design, .NET and MS-SQL development, legacy system maintenance and support.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
