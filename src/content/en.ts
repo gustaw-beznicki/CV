@@ -185,7 +185,7 @@ export const en: CVContent = {
       company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
       context: "Same platform — settlement & billing. 5–7 person SCRUM team.",
       bullets: [
-        "Backend feature delivery on the settlement & billing platform",
+        "Delivered backend features on the settlement & billing platform",
         "Contributed to frontend tasks as the team's frontend capabilities grew",
         "Worked closely with three sibling teams to keep cross-service integration and orchestration solid",
       ],
@@ -261,7 +261,7 @@ export const en: CVContent = {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
       company: `<a href="https://kariera.rossmann.pl/pracuj-w-it" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
-      body: "Requirements analysis, application design, .NET and MS-SQL development, legacy system maintenance and support.",
+      body: "Analysed requirements, designed applications, delivered .NET and MS-SQL development, and maintained and supported legacy systems.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
   ],

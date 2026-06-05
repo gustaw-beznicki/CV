@@ -197,7 +197,7 @@ export const pl: CVContent = {
       title: "Współzałożyciel i Tech Lead",
       company: `<em>${companies.bnb}</em>`,
       anchor: "exp-bnb",
-      body: "Współzałożyciel software house’u tworzącego powtarzalne, produktowe strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
+      body: "Współzałożył software house tworzący powtarzalne, produktowe strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
     },
     {
@@ -206,7 +206,7 @@ export const pl: CVContent = {
       title: "Współzałożyciel i Tech Lead",
       company: `<a href="https://lavamme.com" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
       anchor: "exp-lavamme",
-      body: "Współzałożyciel modowej marki e-commerce; od zera zbudował całą część technologiczną. Uruchomił sklep na Shopify wraz z integracjami płatności, logistyki i obsługi klienta. Mocno zaangażowany także po stronie biznesowej — produkt, marka, polityka cenowa, ścieżka klienta — rozwijając kompetencje komercyjne równolegle z inżynierskimi.",
+      body: "Współzałożył modową markę e-commerce; od zera zbudował całą część technologiczną. Uruchomił sklep na Shopify wraz z integracjami płatności, logistyki i obsługi klienta. Pozostał blisko strony biznesowej — produkt, marka, polityka cenowa, ścieżka klienta — rozwijając kompetencje komercyjne równolegle z inżynierskimi.",
     },
     {
       period: "04 / 2023 — 05 / 2024",
@@ -261,7 +261,7 @@ export const pl: CVContent = {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
       company: `<a href="https://kariera.rossmann.pl/pracuj-w-it" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
-      body: "Analiza wymagań, projektowanie aplikacji, programowanie w .NET i MS-SQL oraz utrzymanie i wsparcie systemów legacy.",
+      body: "Analizował wymagania, projektował aplikacje, programował w .NET i MS-SQL oraz utrzymywał i wspierał systemy legacy.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
   ],
