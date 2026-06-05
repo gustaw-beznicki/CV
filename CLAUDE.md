@@ -23,6 +23,7 @@ src/styles/global.css           @import "tailwindcss" + @theme tokens + bespoke 
 src/scripts/enhance.ts          IntersectionObserver nav highlight + fade-in + print button
 worker/index.js                 Cloudflare Worker: www→apex redirect + security headers
 public/                         favicon.png, og-image.png, robots.txt (static passthrough)
+docs/adr/                       architecture decision records (see docs/adr/README.md)
 wrangler.jsonc                  main: worker/index.js, assets.directory: ./dist
 .github/workflows/deploy.yml    CI: build then deploy on push to main
 ```
