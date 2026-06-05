@@ -31,11 +31,11 @@ docs/adr/                 architecture decision records
 ## Develop
 
 ```sh
-npm install
-npm run dev       # http://localhost:4321
-npm run build     # static output → dist/
-npm run check     # type-check (astro check)
-npx wrangler dev  # serve the built dist/ through the worker
+pnpm install
+pnpm run dev      # http://localhost:4321
+pnpm run build    # static output → dist/
+pnpm run check    # type-check (astro check)
+pnpm dlx wrangler dev  # serve the built dist/ through the worker
 ```
 
 Edit content in `src/content/en.ts` / `pl.ts`. Both implement the `CVContent` type in
@@ -45,7 +45,7 @@ brand names live once in `src/content/companies.ts` and are interpolated into bo
 ## Deployment
 
 Hosted on **Cloudflare Workers**, deployed automatically by **GitHub Actions** on every push to
-`main` (`npm ci` → `astro check` → `astro build` → `wrangler deploy`). The apex serves the CV; `www`
+`main` (`pnpm install --frozen-lockfile` → `pnpm run check` → `pnpm run build` → `wrangler deploy`). The apex serves the CV; `www`
 301-redirects to it. DNS and TLS are provisioned via Wrangler custom-domain routes.
 
 See [`CLAUDE.md`](CLAUDE.md) for architecture, styling, and security details.

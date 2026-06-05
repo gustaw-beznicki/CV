@@ -1,77 +1,78 @@
 # CLAUDE.md
 
-Guidance for working in this repo.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## What this is
 
-A personal CV for Gustaw Beźnicki, served at **https://gustawbeznicki.dev**. It's a small
-**Astro** site (Tailwind v4), built to static HTML and served by a Cloudflare Worker. Content is
-typed and lives in the repo; English and Polish are **separate rendered pages** (`/` and `/pl`).
+A personal CV for Gustaw Beźnicki, served at **<https://gustawbeznicki.dev>**. Small **Astro 5** site (Tailwind v4), built to static HTML and served by a Cloudflare Worker. English and Polish are **separate rendered pages** (`/` and `/pl`).
 
-## Layout
+## Commands
 
+```sh
+pnpm install
+pnpm run dev      # http://localhost:4321  (/ and /pl)
+pnpm run check    # astro type-check (runs in CI on every PR)
+pnpm run build    # → dist/
+pnpm dlx wrangler dev  # serve dist/ through the worker locally (headers + redirect)
 ```
-src/pages/index.astro          English page  (imports content/en.ts)
-src/pages/pl/index.astro       Polish page   (imports content/pl.ts)
-src/layouts/Base.astro         <head>/SEO/JSON-LD/fonts + composes the page
-src/components/*.astro          Hero, Sidebar, Highlights, Skills, Experience,
-                                Education, Certifications, Languages, Interests,
-                                Footer, LanguageSwitcher
-src/content/types.ts            CVContent type (shared shape for both languages)
-src/content/en.ts | pl.ts       the actual CV copy, typed
-src/content/companies.ts        single source of truth for company/venture brand names
-src/styles/global.css           @import "tailwindcss" + @theme tokens + bespoke design + print
-src/scripts/enhance.ts          IntersectionObserver nav highlight + fade-in + print button
-worker/index.js                 Cloudflare Worker: www→apex redirect + security headers
-public/                         favicon.png, og-image.png, robots.txt (static passthrough)
-docs/adr/                       architecture decision records (see docs/adr/README.md)
-wrangler.jsonc                  main: worker/index.js, assets.directory: ./dist
-.github/workflows/deploy.yml    CI: build then deploy on push to main
+
+Package manager is **pnpm** (`pnpm@11.2.2`). Never use `npm` or `npx`.
+
+## Architecture
+
+```text
+src/pages/index.astro | pl/index.astro   one page per locale
+src/layouts/Base.astro                   <head>, SEO, JSON-LD, fonts
+src/components/*.astro                   one component per CV section
+src/content/types.ts                     CVContent interface — source of truth for shape
+src/content/en.ts | pl.ts               all copy, fully typed against CVContent
+src/content/companies.ts                 company/brand names (single source, interpolated into both locales)
+src/styles/global.css                    @theme tokens + bespoke design system + ~500-line print sheet
+src/scripts/enhance.ts                   IntersectionObserver nav highlight, fade-in, print button
+worker/index.js                          www→apex redirect + security headers (CSP, HSTS, …)
+wrangler.jsonc                           worker entry + assets dir; run_worker_first: true
+.github/workflows/ci.yml                 type-check + build on PRs to main
+.github/workflows/deploy.yml             type-check + build + wrangler deploy on push to main
 ```
+
+The worker sits in front of every request (`run_worker_first: true`) — it handles the `www` redirect and injects headers, then falls through to static assets.
 
 ## Editing content
 
-- All copy is in `src/content/en.ts` and `src/content/pl.ts`, both implementing the `CVContent`
-  type in `types.ts`. **Edit content there, never in the components.** Add a field to the type and
-  TS will flag both language files until you fill it in — that's the safety net that replaced the
-  old fragile selector→array translation map.
-- Fields whose name ends in `Html` (e.g. `roleHtml`, highlight `html`, `company`, footer `ctaHtml`)
-  are rendered with `set:html` because they contain inline tags (`<strong>`, `<em>`, `<a>`). Plain
-  fields are escaped — use real Unicode (`—`, `’`) in them, not HTML entities.
-- Translate Polish idiomatically (see git history / the existing `pl.ts`), not word-for-word.
-- **Company / venture brand names** are defined once in `src/content/companies.ts` and interpolated
-  into both language files (template literals in `meta`, `hero.roleHtml`, highlights, and each
-  `experience[].company`). Edit a name there, not inline — it updates EN + PL and every usage at
-  once. Locations (`· Warsaw` / `· Warszawa`) stay in the per-language files.
+**Edit only `en.ts` / `pl.ts` / `companies.ts` — never components.**
+
+The `CVContent` type in `types.ts` is the safety net: add a field there and TS flags both language files until both are filled in.
+
+Fields ending in `Html` (`roleHtml`, highlight `html`, `company`, footer `ctaHtml`) are rendered with `set:html` and may contain inline tags (`<strong>`, `<em>`, `<a>`). All other fields are escaped — use real Unicode (`—`, `'`), not HTML entities.
+
+Company/venture brand names live in `companies.ts` and are interpolated into both locale files via template literals. Locations (`· Warsaw` / `· Warszawa`) stay in the per-language files.
+
+### Experience entry shape
+
+Each `Experience` object uses **one** of three description fields:
+
+| Field | When to use |
+| ----- | ----------- |
+| `bullets` | Simple list of past achievements |
+| `groups` | Multiple labelled sections (current/senior roles) |
+| `body` | Narrative prose (side ventures, short roles) |
+
+`context` is a one-liner above any of those (team size, platform summary). `tech` is the stack line.
+
+### Description writing style
+
+Active voice · implied third person (no "I") · verb-first sentences. Present tense for current roles, past tense for past roles. Example: *"Owns architecture decisions…"* (current) / *"Delivered backend features…"* (past). Never use noun phrases without a verb.
 
 ## Styling
 
-- Tailwind v4 via `@tailwindcss/vite`; design tokens are the `@theme` block in `global.css`
-  (colors `--color-*`, fonts `--font-*`). The bespoke visual system and the ~500-line A4 **print
-  sheet** live in `global.css` keyed to semantic class names (`.hero`, `.exp-item`, `.section-title`,
-  …). Those class names are load-bearing for both the print stylesheet and `enhance.ts` — don't
-  rename them without updating both.
-- Fonts are **self-hosted** via Fontsource (imported in `Base.astro`). Fraunces uses `full.css`
-  for the `opsz`/`SOFT` variable axes. Do not re-add Google Fonts — it would force the CSP back open.
-- The print sheet hides the sidebar and footer CTA, so anything that must appear in the PDF has to
-  live in the hero or another print-visible area.
+Tailwind v4 via `@tailwindcss/vite`. Design tokens are the `@theme` block in `global.css` (`--color-*`, `--font-*`). Semantic class names (`.hero`, `.exp-item`, `.section-title`, …) are load-bearing for both the print sheet and `enhance.ts` — don't rename them without updating both.
+
+Fonts are self-hosted via Fontsource (imported in `Base.astro`). Do not add Google Fonts — it would require opening the CSP.
+
+The print sheet hides the sidebar and footer CTA. Anything that must appear in a PDF export must live in the hero or another print-visible area.
 
 ## Deploy & security
 
-- **Every push to `main` auto-deploys.** CI (`deploy.yml`) runs `npm ci` → `astro check` →
-  `astro build` → `wrangler deploy`. Wrangler is pinned to v4; actions are pinned to commit SHAs.
-- `worker/index.js` adds the CSP + HSTS/nosniff/frame/referrer/permissions headers. **If you add an
-  external resource** (script, font host, image CDN, API), widen the matching CSP directive there or
-  the browser blocks it. The CSP is now `'self'`-only except `'unsafe-inline'` (inline JSON-LD +
-  inline style attrs) and `data:` images.
-- `main` has lightweight branch protection (force-push + deletion blocked, direct push allowed).
-  Secret scanning + push protection are on.
+Every push to `main` auto-deploys. CI runs `pnpm install --frozen-lockfile` → `pnpm run check` → `pnpm run build` → `wrangler deploy`. Wrangler is pinned to v4; all third-party actions are pinned to commit SHAs.
 
-## Local development
-
-```sh
-npm install
-npm run dev       # http://localhost:4321  (/ and /pl)
-npm run build     # → dist/
-npx wrangler dev  # serve the built dist/ through the worker (headers + redirect)
-```
+`worker/index.js` sets CSP + HSTS/nosniff/frame/referrer/permissions headers. **If you add any external resource** (script, font, image CDN, API), widen the matching CSP directive in the worker or the browser will block it. The CSP is `'self'`-only except `'unsafe-inline'` (inline JSON-LD + inline style attrs) and `data:` images.
