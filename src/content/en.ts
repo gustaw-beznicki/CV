@@ -204,7 +204,7 @@ export const en: CVContent = {
       period: "03 / 2024 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: `<em>${companies.lavamme}</em>`,
+      company: `<a href="https://lavamme.com" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
       anchor: "exp-lavamme",
       body: "Co-founded a fashion e-commerce brand and built the tech side from scratch. Delivered the Shopify storefront with payments, logistics, and customer-experience integrations. Stayed close to the business too — product, brand, pricing, customer journey — picking up commercial ownership alongside engineering.",
     },

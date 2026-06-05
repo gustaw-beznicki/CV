@@ -236,14 +236,13 @@ body::after {
 }
 
 .hero-role a {
-  color: inherit;
+  color: var(--accent);
   text-decoration: none;
-  border-bottom: 1px solid var(--border-soft);
-  transition: color 0.2s, border-color 0.2s;
+  border-bottom: 1px solid var(--accent-line);
+  transition: border-color 0.2s;
 }
 
 .hero-role a:hover {
-  color: var(--accent);
   border-bottom-color: var(--accent);
 }
 
@@ -676,6 +675,17 @@ main {
 .exp-company em {
   color: var(--accent);
   font-style: normal;
+}
+
+.exp-company a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--border-soft);
+  transition: border-color 0.2s;
+}
+
+.exp-company a:hover {
+  border-bottom-color: var(--accent);
 }
 
 .exp-context {
