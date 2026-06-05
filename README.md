@@ -20,7 +20,7 @@ Built with **Astro** + **Tailwind v4**, rendered to static HTML and served by a 
 src/pages/            index.astro (EN) + pl/index.astro (PL)
 src/layouts/Base.astro    head, SEO, fonts, page composition
 src/components/           one component per CV section
-src/content/              types.ts + en.ts + pl.ts (the CV copy)
+src/content/              types.ts + en.ts + pl.ts (the CV copy) + companies.ts (brand names)
 src/styles/global.css     Tailwind theme tokens + bespoke design + print sheet
 src/scripts/enhance.ts    nav highlighting, fade-in, print button
 worker/index.js           Cloudflare Worker: www → apex redirect + security headers
@@ -38,7 +38,8 @@ npx wrangler dev  # serve the built dist/ through the worker
 ```
 
 Edit content in `src/content/en.ts` / `pl.ts`. Both implement the `CVContent` type in
-`src/content/types.ts`, so adding a field is type-checked across both languages.
+`src/content/types.ts`, so adding a field is type-checked across both languages. Company / venture
+brand names live once in `src/content/companies.ts` and are interpolated into both language files.
 
 ## Deployment
 
