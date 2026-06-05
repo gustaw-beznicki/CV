@@ -1,6 +1,6 @@
 # 0001 — Package manager: npm vs pnpm
 
-- **Status:** Deferred
+- **Status:** Approved
 - **Date:** 2026-06-05
 
 ## Context
