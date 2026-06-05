@@ -19,6 +19,7 @@ src/components/*.astro          Hero, Sidebar, Highlights, Skills, Experience,
                                 Footer, LanguageSwitcher
 src/content/types.ts            CVContent type (shared shape for both languages)
 src/content/en.ts | pl.ts       the actual CV copy, typed
+src/content/companies.ts        single source of truth for company/venture brand names
 src/styles/global.css           @import "tailwindcss" + @theme tokens + bespoke design + print
 src/scripts/enhance.ts          IntersectionObserver nav highlight + fade-in + print button
 worker/index.js                 Cloudflare Worker: www→apex redirect + security headers
@@ -37,6 +38,10 @@ wrangler.jsonc                  main: worker/index.js, assets.directory: ./dist
   are rendered with `set:html` because they contain inline tags (`<strong>`, `<em>`, `<a>`). Plain
   fields are escaped — use real Unicode (`—`, `’`) in them, not HTML entities.
 - Translate Polish idiomatically (see git history / the existing `pl.ts`), not word-for-word.
+- **Company / venture brand names** are defined once in `src/content/companies.ts` and interpolated
+  into both language files (template literals in `meta`, `hero.roleHtml`, highlights, and each
+  `experience[].company`). Edit a name there, not inline — it updates EN + PL and every usage at
+  once. Locations (`· Warsaw` / `· Warszawa`) stay in the per-language files.
 
 ## Styling
 
