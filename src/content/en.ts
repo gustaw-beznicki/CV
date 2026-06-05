@@ -1,11 +1,11 @@
 import type { CVContent } from "./types";
+import { companies } from "./companies";
 
 export const en: CVContent = {
   locale: "en",
   meta: {
     title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
-    description:
-      "Senior Software Engineer transitioning into Engineering Leadership. 7+ years in .NET and distributed cloud systems. Co-founder of B&B Digital. Tech Lead at Lavamme.",
+    description: `Senior Software Engineer transitioning into Engineering Leadership. 7+ years in .NET and distributed cloud systems. Co-founder of ${companies.bnb}. Tech Lead at ${companies.lavamme}.`,
   },
   ui: {
     cvLabel: "Curriculum Vitae",
@@ -44,8 +44,7 @@ export const en: CVContent = {
   hero: {
     name: "Gustaw",
     surname: "Beźnicki",
-    roleHtml:
-      "<strong>Senior Software Engineer at KMD</strong> — building a cloud settlement &amp; billing platform and leading a six-person Polish-Danish team. Seven years in distributed .NET systems. Two ventures on the side: <strong>B&B Digital</strong> and <strong>Lavamme</strong>.",
+    roleHtml: `<strong>Senior Software Engineer at ${companies.kmd}</strong> — building a cloud settlement &amp; billing platform and leading a six-person Polish-Danish team. Seven years in distributed .NET systems. Two ventures on the side: <a href="#exp-bnb"><strong>${companies.bnb}</strong></a> and <a href="#exp-lavamme"><strong>${companies.lavamme}</strong></a>.`,
     locationInline: "Gdańsk · Poland",
   },
   contact: {
@@ -69,7 +68,7 @@ export const en: CVContent = {
     },
     {
       tag: "Side Ventures",
-      html: "Two ventures alongside the day job: <strong>B&B Digital</strong>, a productized web service for Polish SMBs (co-founded 2026), and <strong>Lavamme</strong>, a Shopify-based fashion e-commerce (co-founded 2024).",
+      html: `Two ventures alongside the day job: <strong>${companies.bnb}</strong>, a productized web service for Polish SMBs (co-founded 2026), and <strong>${companies.lavamme}</strong>, a Shopify-based fashion e-commerce (co-founded 2024).`,
     },
     {
       tag: "Leadership Growth",
@@ -156,7 +155,7 @@ export const en: CVContent = {
       pill: "Now",
       current: true,
       title: "Senior Software Engineer & Solution Expert",
-      company: "<em>KMD Poland</em> · Warsaw",
+      company: `<em>${companies.kmdFull}</em> · Warsaw`,
       context:
         "Cloud settlement & billing platform automating complex calculation flows for enterprise clients. Six-person engineering team within a wider multi-team setup.",
       groups: [
@@ -183,7 +182,7 @@ export const en: CVContent = {
     {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
-      company: "<em>KMD Poland</em> · Warsaw",
+      company: `<em>${companies.kmdFull}</em> · Warsaw`,
       context: "Same platform — settlement & billing. 5–7 person SCRUM team.",
       bullets: [
         "Backend feature delivery on the settlement & billing platform",
@@ -196,7 +195,8 @@ export const en: CVContent = {
       period: "2026 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: "<em>B&B Digital</em>",
+      company: `<em>${companies.bnb}</em>`,
+      anchor: "exp-bnb",
       body: "Co-founded a software house building productized websites for Polish independent professionals — lawyers, doctors, architects. Designed the white-label template system (Astro + Sanity CMS) that ships per-client deployments fast. Owns tech direction, delivery framework, and client scoping.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
     },
@@ -204,20 +204,21 @@ export const en: CVContent = {
       period: "03 / 2024 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: "<em>Lavamme</em>",
+      company: `<em>${companies.lavamme}</em>`,
+      anchor: "exp-lavamme",
       body: "Co-founded a fashion e-commerce brand and built the tech side from scratch. Delivered the Shopify storefront with payments, logistics, and customer-experience integrations. Stayed close to the business too — product, brand, pricing, customer journey — picking up commercial ownership alongside engineering.",
     },
     {
       period: "04 / 2023 — 05 / 2024",
       title: "Programming Trainer",
-      company: "<em>ISA</em> · Łódź",
+      company: `<em>${companies.isa}</em> · Łódź`,
       body: "Taught .NET development alongside a team of trainers — courses, workshops, and one-to-one guidance. Built curriculum materials and ran sessions for students at varying skill levels.",
       tech: "C# · ASP.NET · .NET Core · Entity Framework · Visual Studio",
     },
     {
       period: "08 / 2021 — 02 / 2023",
       title: "Software Engineer",
-      company: "<em>Sii Poland</em> · Łódź",
+      company: `<em>${companies.sii}</em> · Łódź`,
       context:
         "E-commerce SaaS engine — headless architecture, microservices. Led development in a 5-person SCRUM team.",
       bullets: [
@@ -229,7 +230,7 @@ export const en: CVContent = {
     {
       period: "04 / 2020 — 07 / 2021",
       title: ".NET Developer",
-      company: "<em>BAKK</em> · Łódź",
+      company: `<em>${companies.bakk}</em> · Łódź`,
       context:
         "Debt and loan management platform — desktop application + Web API. 5–8 person SCRUM teams.",
       bullets: [
@@ -241,14 +242,14 @@ export const en: CVContent = {
     {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
-      company: "<em>Unit4</em> · Wrocław",
+      company: `<em>${companies.unit4}</em> · Wrocław`,
       context: "Web and desktop HR system. 4-person SCRUM team.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
     },
     {
       period: "03 / 2019 — 12 / 2019",
       title: "Software Engineer",
-      company: "<em>Accenture Technology</em> · Łódź",
+      company: `<em>${companies.accenture}</em> · Łódź`,
       context:
         "Internet Banking and Mobile Banking. 50-person ITIL team, 3–4 person subteams.",
       bullets: [
@@ -259,7 +260,7 @@ export const en: CVContent = {
     {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
-      company: "<em>Rossmann SDP</em> · Łódź",
+      company: `<em>${companies.rossmann}</em> · Łódź`,
       body: "Requirements analysis, application design, .NET and MS-SQL development, legacy system maintenance and support.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
