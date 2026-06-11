@@ -195,7 +195,7 @@ export const pl: CVContent = {
       period: "2026 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: `<em>${companies.bnb}</em>`,
+      company: `<a href="https://bbdigital.pl/" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
       anchor: "exp-bnb",
       body: "Współzałożył software house tworzący powtarzalne, produktowe strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",

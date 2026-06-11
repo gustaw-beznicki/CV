@@ -195,7 +195,7 @@ export const en: CVContent = {
       period: "2026 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: `<em>${companies.bnb}</em>`,
+      company: `<a href="https://bbdigital.pl/" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
       anchor: "exp-bnb",
       body: "Co-founded a software house building productized websites for Polish independent professionals — lawyers, doctors, architects. Designed the white-label template system (Astro + Sanity CMS) that ships per-client deployments fast. Owns tech direction, delivery framework, and client scoping.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
