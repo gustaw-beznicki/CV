@@ -48,7 +48,7 @@ export const en: CVContent = {
     locationInline: "Gdańsk · Poland",
   },
   contact: {
-    email: "gustaw.beznicki@gmail.com",
+    email: "contact@gustawbeznicki.dev",
     linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
     linkedinLabel: "linkedin.com/in/gbeznicki",
     location: "Gdańsk / Remote",
