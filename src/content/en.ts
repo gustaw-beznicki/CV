@@ -71,8 +71,8 @@ export const en: CVContent = {
       html: `Two ventures alongside the day job: <strong>${companies.bnb}</strong>, a productized web service for Polish SMBs (co-founded 2026), and <strong>${companies.lavamme}</strong>, a Shopify-based fashion e-commerce (co-founded 2024).`,
     },
     {
-      tag: "Leadership Growth",
-      html: "<strong>Spent 2024 building the leadership toolkit</strong> — certifications in NVC, effective communication, and Polish-Danish team dynamics.",
+      tag: "Continuous Learning",
+      html: "<strong>Consistent track record of deliberate growth</strong> — leadership toolkit in 2024 (NVC, communication, team dynamics), AI tools deep-dive throughout 2025 (Claude, GitHub Copilot, Anthropic Academy), and ongoing self-development via articles and books.",
     },
   ],
   skills: [

@@ -71,8 +71,8 @@ export const pl: CVContent = {
       html: `Po godzinach rozwija dwa własne przedsięwzięcia: <strong>${companies.bnb}</strong> (zał. 2026) — produktowe usługi webowe dla polskich MŚP, oraz <strong>${companies.lavamme}</strong> (zał. 2024) — modowy e-commerce na Shopify.`,
     },
     {
-      tag: "Rozwój liderski",
-      html: "<strong>Rok 2024 poświęcił na rozwój kompetencji liderskich</strong> — certyfikaty z NVC, efektywnej komunikacji i dynamiki zespołów polsko-duńskich.",
+      tag: "Ciągły rozwój",
+      html: "<strong>Konsekwentnie inwestuje w celowy rozwój</strong> — kompetencje liderskie w 2024 (NVC, komunikacja, dynamika zespołów), intensywna eksploracja narzędzi AI przez cały 2025 (Claude, GitHub Copilot, Anthropic Academy), a na bieżąco samorozwój przez artykuły i książki.",
     },
   ],
   skills: [
