@@ -323,19 +323,19 @@ export const en: CVContent = {
   },
   cookieBanner: {
     promptDescription:
-      "This site sets no tracking cookies and uses no analytics. Only a local record of your choice is stored to remember this preference.",
+      "This site sets no cookies. With your consent it loads privacy-friendly, self-hosted analytics (Umami) to count visits — no cookies, no personal data, no cross-site tracking.",
     acceptAll: "Accept all",
     rejectNonEssential: "Reject non-essential",
     preferences: "Preferences",
     prefsTitle: "Privacy preferences",
     prefsDescription:
-      "This site currently stores nothing beyond the consent record below. Optional categories are off by default and load only if you opt in.",
+      "This site uses no cookies. Optional analytics are off by default and load only if you opt in.",
     prefsSave: "Save and close",
     essentialLabel: "Essential",
     essentialDescription:
       "Required for the site to work — stores only your consent choice. Cannot be switched off.",
     analyticsLabel: "Analytics",
     analyticsDescription:
-      "Would help understand how visitors use the site. None is active today; enabling this only takes effect if analytics is added later.",
+      "Self-hosted Umami analytics — counts page views to understand how visitors use the site. Cookieless and anonymous, served first-party from this domain. Off until you enable it.",
   },
 };

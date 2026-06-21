@@ -6,6 +6,13 @@
   "observability": {
     "enabled": true
   },
+  // Upstream for the first-party Umami analytics proxy (/_a/* -> UMAMI_HOST).
+  // Empty here so local/CI builds no-op; set the real Cloudflare Tunnel URL in
+  // production with: wrangler secret put UMAMI_HOST  (or the dashboard).
+  // See docs/umami-deployment.md.
+  "vars": {
+    "UMAMI_HOST": ""
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",

@@ -329,19 +329,19 @@ export const pl: CVContent = {
   },
   cookieBanner: {
     promptDescription:
-      "Ta strona nie stosuje plików cookie śledzących ani analityki. Zapisujemy jedynie lokalnie Twój wybór, aby zapamiętać tę preferencję.",
+      "Ta strona nie stosuje plików cookie. Za Twoją zgodą uruchamia przyjazną prywatności, samodzielnie hostowaną analitykę (Umami) do zliczania odwiedzin — bez cookies, bez danych osobowych, bez śledzenia między witrynami.",
     acceptAll: "Akceptuj wszystkie",
     rejectNonEssential: "Odrzuć nieobowiązkowe",
     preferences: "Preferencje",
     prefsTitle: "Preferencje prywatności",
     prefsDescription:
-      "Obecnie strona nie zapisuje niczego poza poniższym zapisem zgody. Kategorie opcjonalne są domyślnie wyłączone i wczytują się tylko po wyrażeniu zgody.",
+      "Ta strona nie stosuje plików cookie. Opcjonalna analityka jest domyślnie wyłączona i wczytuje się tylko po wyrażeniu zgody.",
     prefsSave: "Zapisz i zamknij",
     essentialLabel: "Niezbędne",
     essentialDescription:
       "Wymagane do działania strony — przechowują wyłącznie Twój wybór dotyczący zgody. Nie można ich wyłączyć.",
     analyticsLabel: "Analityka",
     analyticsDescription:
-      "Pomogłaby zrozumieć, jak odwiedzający korzystają ze strony. Obecnie nieaktywna; włączenie zadziała dopiero, gdy analityka zostanie w przyszłości dodana.",
+      "Samodzielnie hostowana analityka Umami — zlicza odsłony, aby zrozumieć, jak odwiedzający korzystają ze strony. Bezciasteczkowa i anonimowa, serwowana w ramach tej domeny (first-party). Wyłączona, dopóki jej nie włączysz.",
   },
 };

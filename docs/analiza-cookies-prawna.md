@@ -6,7 +6,8 @@
 brak sklepu, brak logowania.
 **Odbiorca dokumentu:** radca prawny / adwokat. Wersja techniczna:
 [cookies-technical.md](./cookies-technical.md).
-**Stan na:** czerwiec 2026 (po usunięciu widżetu LinkedIn).
+**Stan na:** czerwiec 2026 (po usunięciu widżetu LinkedIn i wdrożeniu bezciasteczkowej analityki
+Umami, uruchamianej za zgodą). Szczegóły wdrożenia: [umami-deployment.md](./umami-deployment.md).
 
 > Niniejszy dokument opisuje stan faktyczny i jego ocenę w świetle obowiązujących przepisów.
 > Nie stanowi opinii prawnej — ma posłużyć prawnikowi jako rzetelny opis techniczny do oceny
@@ -15,18 +16,23 @@ brak sklepu, brak logowania.
 ## 1. Podsumowanie (stan po zmianach)
 
 - Serwis **nie zapisuje żadnych plików cookie** (ani własnych, ani podmiotów trzecich).
-- Serwis **nie korzysta z analityki, pikseli śledzących ani profilowania**.
-- Jedyny element przechowywany w przeglądarce to **zapis zgody** wygenerowany przez baner
-  zgód, umieszczany w `localStorage` (nie w cookie) — jest to dana **ściśle niezbędna**,
-  zwolniona z obowiązku uzyskania zgody.
+- Serwis korzysta z **analityki Umami** — bezciasteczkowej, samodzielnie hostowanej (Raspberry Pi
+  za Cloudflare Tunnel), wczytywanej **wyłącznie po wyrażeniu zgody** (opt-in, domyślnie wyłączona)
+  i serwowanej w ramach własnej domeny (first-party). Brak profilowania, pikseli i marketingu.
+- Jedyny element przechowywany w przeglądarce na stałe to **zapis zgody** wygenerowany przez baner,
+  umieszczany w `localStorage` (nie w cookie) — dana **ściśle niezbędna**, zwolniona z obowiązku
+  zgody. Umami **nie zapisuje cookies** ani danych osobowych; korzysta z `localStorage` jedynie dla
+  własnej flagi rezygnacji (`umami.disabled`).
 - Wcześniej obecny **widżet profilowy LinkedIn** (jedyny element mogący zapisywać cookie
   podmiotu trzeciego przed wyrażeniem zgody) został **usunięty**.
 - Czcionki są hostowane lokalnie (brak połączeń z Google Fonts), więc **adres IP użytkownika
   nie jest przekazywany do Google** przy renderowaniu strony.
 
-**Wniosek wstępny:** w obecnym stanie serwis nie ustawia cookies wymagających zgody w rozumieniu
-art. 173 Prawa telekomunikacyjnego, a jedyne przechowywanie danych po stronie klienta mieści się
-w wyjątku „ściśle niezbędnym".
+**Wniosek wstępny:** serwis **nie ustawia plików cookie**. Analityka Umami jest bezciasteczkowa,
+więc art. 173 Prawa telekomunikacyjnego (zgoda na przechowywanie/odczyt informacji w urządzeniu)
+co do zasady jej nie obejmuje — mimo to uruchamiana jest dopiero po zgodzie (rozwiązanie
+ostrożnościowe, „privacy by default"). Pozostaje obowiązek informacyjny RODO co do przetwarzania
+adresu IP (Cloudflare oraz instancja Umami administratora).
 
 ## 2. Podstawy prawne (mające zastosowanie)
 
@@ -44,13 +50,30 @@ w wyjątku „ściśle niezbędnym".
 | Cookies własne | Nie | — | — |
 | Cookies podmiotów trzecich | Nie | — | — |
 | `localStorage` — zapis zgody (baner) | Tak | Ściśle niezbędne | **Nie** (wyjątek) |
-| Inne `localStorage` / `sessionStorage` | Nie | — | — |
-| Analityka / piksele / profilowanie | Nie | — | — |
-| Formularze, przesyłanie danych | Nie | — | — |
+| `localStorage` — flaga `umami.disabled` | Tylko po rezygnacji | Ściśle niezbędne (rezygnacja) | **Nie** |
+| Analityka Umami (bezciasteczkowa) | Tak, **po zgodzie** | Statystyka/analityka | Bezciasteczkowa → poza art. 173; mimo to za zgodą |
+| Piksele / profilowanie / marketing | Nie | — | — |
+| Formularze, przesyłanie danych | Nie (poza wysyłką zdarzeń Umami po zgodzie) | — | — |
 
 Zapis zgody nie zawiera identyfikatora pozwalającego śledzić użytkownika między serwisami;
 przechowuje wyłącznie informację o dokonanym przez użytkownika wyborze i służy temu, by nie
-wyświetlać banera ponownie.
+wyświetlać banera ponownie. Umami nie ustawia cookies i nie zapisuje danych osobowych w urządzeniu.
+
+## 3a. Analityka Umami — charakterystyka
+
+- **Bezciasteczkowa i anonimowa.** Umami nie ustawia plików cookie ani nie tworzy trwałego
+  identyfikatora w urządzeniu; zlicza odsłony i podstawowe metadane (strona, kraj, typ
+  przeglądarki/urządzenia, źródło wejścia).
+- **Samodzielny hosting.** Instancja Umami działa na sprzęcie administratora (Raspberry Pi),
+  udostępniona przez Cloudflare Tunnel — dane analityczne **nie trafiają do zewnętrznego dostawcy
+  analityki** (brak Google Analytics itp.).
+- **First-party.** Skrypt i zbieranie zdarzeń są serwowane z domeny serwisu (proxy `/_a/`), więc
+  z perspektywy przeglądarki nie zachodzi przekazanie do podmiotu trzeciego.
+- **Adres IP.** Umami wykorzystuje IP + User-Agent **wyłącznie przejściowo** do rozpoznania
+  unikalnych odwiedzin (skrót/hash), bez trwałego przechowywania IP — to przetwarzanie danych
+  osobowych objęte obowiązkiem informacyjnym RODO.
+- **Podstawa prawna.** Wczytanie następuje po **zgodzie** (art. 6 ust. 1 lit. a RODO); zgoda jest
+  dobrowolna, odwoływalna w każdej chwili przez baner (kategoria „Analityka").
 
 ## 4. Przetwarzanie po stronie serwera (Cloudflare)
 
@@ -81,7 +104,7 @@ serwisu zewnętrznego, który może stosować własne cookies — ale dopiero **
 strony i wyłącznie na zasadach tego serwisu. Sama nasza strona nie osadza tych treści ani nie
 pobiera z nich danych. Odnośniki nie wymagają zgody cookie po naszej stronie.
 
-## 6. Baner zgód (mechanizm prewencyjny)
+## 6. Baner zgód i sterowanie analityką
 
 Wdrożono otwartoźródłowy (licencja MIT) baner **Silktide Consent Manager**, hostowany lokalnie
 na naszym serwerze (bez CDN podmiotów trzecich). Baner:
@@ -89,40 +112,46 @@ na naszym serwerze (bez CDN podmiotów trzecich). Baner:
 - przechowuje wyłącznie zapis zgody w `localStorage` (brak cookie),
 - nie wykonuje żadnych połączeń sieciowych do podmiotów zewnętrznych,
 - udostępnia kategorie zgód: **Niezbędne** (zawsze aktywne) oraz **Analityka** (domyślnie
-  **wyłączona**, brak aktywnych skryptów).
+  **wyłączona**).
 
-Ponieważ obecnie serwis nie ustawia cookies wymagających zgody, baner pełni rolę **prewencyjną
-i porządkową**: gdyby w przyszłości dodano np. narzędzie analityczne, zostanie ono załadowane
-**dopiero po wyrażeniu zgody** (privacy by design / by default, art. 25 RODO). Konstrukcja
-realizuje model „opt-in": brak działania = brak zgody na kategorie nieobowiązkowe.
+Kategoria **Analityka** steruje wczytaniem Umami: skrypt analityczny jest dodawany do strony
+**dopiero po wyrażeniu zgody** (opt-in), a po jej cofnięciu — usuwany, z ustawieniem flagi
+rezygnacji. Realizuje to model „privacy by default" (art. 25 RODO): brak działania = brak zgody na
+kategorie nieobowiązkowe. Zgodę można w każdej chwili odwołać.
 
 ## 7. Ocena zgodności i rekomendacje
 
-**Ocena:** W obecnym stanie faktycznym serwis nie wymaga zgody na cookies w rozumieniu art. 173
-Prawa telekomunikacyjnego (brak cookies; jedyny zapis w `localStorage` jest ściśle niezbędny).
-Obowiązek informacyjny RODO (art. 13) pozostaje aktualny w zakresie przetwarzania adresu IP przez
-hosting/CDN.
+**Ocena:** Serwis **nie stosuje plików cookie**. Analityka Umami jest bezciasteczkowa (co do zasady
+poza zakresem art. 173 Prawa telekomunikacyjnego), a mimo to uruchamiana wyłącznie po zgodzie —
+rozwiązanie ostrożnościowe, korzystne dla użytkownika. Aktualny pozostaje **obowiązek informacyjny
+RODO (art. 13)** w zakresie przetwarzania adresu IP przez: (a) Cloudflare (hosting/CDN/tunel) oraz
+(b) instancję Umami administratora (Raspberry Pi).
 
 **Rekomendacje:**
 
-1. **Polityka prywatności** — krótki dokument informujący o: administratorze i danych
-   kontaktowych; przetwarzaniu adresu IP przez Cloudflare (hosting/CDN) i celu; lokalnym zapisie
-   zgody w `localStorage`; braku cookies, analityki i profilowania; prawach osób (dostęp,
-   sprostowanie, usunięcie itd.) oraz prawie skargi do UODO; ewentualnym transferze poza EOG.
-2. **Polityka cookies** — może być sekcją powyższego dokumentu; treść: „serwis nie stosuje
-   plików cookie; przechowywany jest wyłącznie lokalny zapis zgody niezbędny do działania
-   banera".
-3. **Aktualizacja przy zmianach** — jeśli kiedykolwiek dodane zostanie narzędzie analityczne lub
-   inny skrypt podmiotu trzeciego, przed wdrożeniem należy: (a) podpiąć je pod kategorię zgody
-   w banerze (ładowanie wyłącznie po opt-in), (b) zaktualizować politykę prywatności/cookies,
-   (c) zweryfikować podstawę prawną i ewentualny transfer danych.
-4. **Umowa powierzenia (DPA)** — potwierdzić obowiązującą umowę powierzenia z Cloudflare.
+1. **Polityka prywatności** — dokument informujący o: administratorze i danych kontaktowych;
+   przetwarzaniu adresu IP przez Cloudflare oraz przez instancję Umami (cel: statystyka odwiedzin,
+   przetwarzanie przejściowe/hash, brak trwałego IP); lokalnym zapisie zgody w `localStorage`;
+   braku cookies i profilowania; podstawie zgody dla analityki i sposobie jej odwołania; prawach
+   osób oraz prawie skargi do UODO; ewentualnym transferze poza EOG.
+2. **Polityka cookies** — sekcja powyższego: „serwis nie stosuje plików cookie; analityka Umami
+   jest bezciasteczkowa i uruchamiana po zgodzie; w `localStorage` przechowywany jest zapis zgody".
+3. **Aktualizacja przy zmianach** — przy dodaniu kolejnego narzędzia/skryptu: (a) podpiąć pod
+   kategorię zgody w banerze (ładowanie wyłącznie po opt-in), (b) zaktualizować politykę, (c)
+   zweryfikować podstawę prawną i ewentualny transfer danych.
+4. **Umowy powierzenia (DPA)** — potwierdzić DPA z Cloudflare; w przypadku Umami administrator
+   przetwarza dane we własnej infrastrukturze (brak procesora zewnętrznego dla samej analityki).
 
 ## 8. Słowniczek
 
 - **Cookie** — niewielki plik zapisywany przez stronę w przeglądarce; może służyć m.in.
   śledzeniu. **W tym serwisie nieużywany.**
-- **`localStorage`** — lokalny magazyn przeglądarki; tutaj przechowuje wyłącznie zapis zgody.
+- **`localStorage`** — lokalny magazyn przeglądarki; tutaj przechowuje zapis zgody oraz (po
+  rezygnacji z analityki) flagę `umami.disabled`.
+- **Umami** — otwartoźródłowa, bezciasteczkowa platforma analityki webowej, hostowana samodzielnie
+  przez administratora; alternatywa dla Google Analytics bez przekazywania danych do osób trzecich.
+- **First-party** — zasób serwowany z domeny samego serwisu (tu: skrypt i zbieranie zdarzeń Umami
+  przez proxy `/_a/`), a nie z domeny podmiotu trzeciego.
 - **Procesor (podmiot przetwarzający)** — podmiot przetwarzający dane na zlecenie administratora;
-  tu: Cloudflare (hosting/CDN).
+  tu: Cloudflare (hosting/CDN/tunel).
 - **Opt-in** — model, w którym kategorie nieobowiązkowe są domyślnie wyłączone do czasu zgody.
