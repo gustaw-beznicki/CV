@@ -21,14 +21,19 @@ if (sections.length && navLinks.length) {
         if (entry.isIntersecting) {
           const id = entry.target.id;
           navLinks.forEach((link) => {
-            link.classList.toggle("active", link.getAttribute("href") === `#${id}`);
+            link.classList.toggle(
+              "active",
+              link.getAttribute("href") === `#${id}`,
+            );
           });
         }
       });
     },
     { rootMargin: "-30% 0px -60% 0px" },
   );
-  sections.forEach((section) => navObserver.observe(section));
+  sections.forEach((section) => {
+    navObserver.observe(section);
+  });
 }
 
 // Staggered fade-in for cards (skipped when reduced motion is requested).
