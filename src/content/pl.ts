@@ -5,7 +5,7 @@ export const pl: CVContent = {
   locale: "pl",
   meta: {
     title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
-    description: `Senior Software Engineer wchodzący w rolę lidera inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel ${companies.bnb}. Tech Lead w ${companies.lavamme}.`,
+    description: `Senior Software Engineer wchodzący w rolę liderską w inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel ${companies.bnb}. Tech Lead w ${companies.lavamme}.`,
   },
   ui: {
     cvLabel: "Curriculum Vitae",
@@ -20,7 +20,7 @@ export const pl: CVContent = {
     linkedinLabel: "LinkedIn",
     locationLabel: "Lokalizacja",
     recruiterNote:
-      "Rekruterzy mile widziani — śmiało napisz do mnie e-mail lub wiadomość na LinkedIn.",
+      "Rekruterzy mile widziani — śmiało wyślij mi e-mail lub wiadomość na LinkedIn.",
     techLabel: "Technologie:",
   },
   nav: [
@@ -60,7 +60,7 @@ export const pl: CVContent = {
     },
     {
       tag: "Obecna rola",
-      html: "Prowadzi <strong>sześcioosobowy, polsko-duński zespół inżynierów</strong> w KMD — odpowiada za architekturę, rozwija ludzi i reprezentuje zespół w rozmowach międzyzespołowych oraz z delivery managementem.",
+      html: "Prowadzi <strong>sześcioosobowy, polsko-duński zespół inżynierów</strong> w KMD — odpowiada za architekturę, wspiera rozwój zespołu i reprezentuje go w rozmowach międzyzespołowych oraz z delivery managementem.",
     },
     {
       tag: "Wdrożenie AI",
@@ -68,11 +68,11 @@ export const pl: CVContent = {
     },
     {
       tag: "Własne projekty",
-      html: `Po godzinach rozwija dwa własne przedsięwzięcia: <strong>${companies.bnb}</strong> (zał. 2026) — produktowe usługi webowe dla polskich MŚP, oraz <strong>${companies.lavamme}</strong> (zał. 2024) — modowy e-commerce na Shopify.`,
+      html: `Po godzinach rozwija dwa własne przedsięwzięcia: <strong>${companies.bnb}</strong> (zał. 2026) — produktyzowane usługi webowe dla polskich MŚP, oraz <strong>${companies.lavamme}</strong> (zał. 2024) — modowy e-commerce na Shopify.`,
     },
     {
       tag: "Ciągły rozwój",
-      html: "<strong>Konsekwentnie inwestuje w celowy rozwój</strong> — kompetencje liderskie w 2024 (NVC, komunikacja, dynamika zespołów), intensywna eksploracja narzędzi AI przez cały 2025 (Claude, GitHub Copilot, Anthropic Academy), a na bieżąco samorozwój przez artykuły i książki.",
+      html: "<strong>Konsekwentnie inwestuje w świadomy rozwój</strong> — kompetencje liderskie w 2024 (NVC, komunikacja, dynamika zespołów), intensywne zgłębianie narzędzi AI przez cały 2025 (Claude, GitHub Copilot, Anthropic Academy), a na bieżąco samokształcenie z artykułów i książek.",
     },
   ],
   skills: [
@@ -171,7 +171,7 @@ export const pl: CVContent = {
         {
           label: "Ludzie i rozwój zespołu",
           items: [
-            "Rozwija inżynierów w codziennej współpracy, a gdy ktoś potrzebuje więcej uwagi — podczas dedykowanych spotkań 1:1, w sprawach zarówno technicznych, jak i osobistych",
+            "Wspiera rozwój inżynierów w codziennej współpracy, a gdy ktoś potrzebuje więcej uwagi — podczas dedykowanych spotkań 1:1, w sprawach zarówno technicznych, jak i osobistych",
             "Odpowiada za wdrażanie nowych osób w zespole — wspólne programowanie i przeglądy platformy skracają czas potrzebny na pierwszy realny wkład w projekt",
             "Jest głównym technicznym punktem kontaktowym zespołu — w komunikacji międzyzespołowej oraz w rozmowach z delivery managementem o kierunku prac i dostępnych zasobach",
           ],
@@ -188,7 +188,7 @@ export const pl: CVContent = {
       bullets: [
         "Rozwijał funkcjonalności backendowe platformy rozliczeniowo-bilingowej",
         "Brał udział w zadaniach frontendowych, w miarę jak rosły kompetencje frontendowe zespołu",
-        "Blisko współpracował z trzema bratnimi zespołami, dbając o solidną integrację i orkiestrację między serwisami",
+        "Blisko współpracował z trzema pokrewnymi zespołami, dbając o solidną integrację i orkiestrację między serwisami",
       ],
       tech: ".NET/C# · Azure · MSSQL · CQRS · DDD · MediatR · Kafka · Entity Framework · MSTest · AutoFixture · Moq",
     },
@@ -198,7 +198,7 @@ export const pl: CVContent = {
       title: "Współzałożyciel i Tech Lead",
       company: `<a href="https://bbdigital.pl/" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
       anchor: "exp-bnb",
-      body: "Współzałożył software house tworzący powtarzalne, produktowe strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
+      body: "Współzałożył software house tworzący powtarzalne, produktyzowane strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
     },
     {
@@ -317,7 +317,7 @@ export const pl: CVContent = {
     { code: "EN", name: "Angielski", level: "Zaawansowany" },
   ],
   interests:
-    "Psychologia · Gotowanie · Psi behawioryzm · Bieganie · Siłownia · Książki i audiobooki",
+    "Psychologia · Gotowanie · Psia behawiorystyka · Bieganie · Siłownia · Książki i audiobooki",
   footer: {
     ctaHtml:
       'Masz ciekawy projekt do zrealizowania? <br> <a href="mailto:gustaw.beznicki@gmail.com">Porozmawiajmy →</a>',

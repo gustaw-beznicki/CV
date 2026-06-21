@@ -270,7 +270,7 @@ export const en: CVContent = {
       year: "2020",
       degree: "Bachelor of Engineering · Computer Systems",
       place: "Technical University of Łódź",
-      note: "President's stipend for outstanding students (awarded November 2018)",
+      note: "Rector's scholarship for outstanding students (awarded November 2018)",
     },
     {
       year: "2016",
