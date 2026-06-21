@@ -1,5 +1,5 @@
-import type { CVContent } from "./types";
 import { companies } from "./companies";
+import type { CVContent } from "./types";
 
 export const en: CVContent = {
   locale: "en",
@@ -282,11 +282,27 @@ export const en: CVContent = {
     { year: "2026", name: "Claude Code 101", issuer: "Anthropic" },
     { year: "2026", name: "Introduction to Subagents", issuer: "Anthropic" },
     { year: "2024", name: "Effective Communication", issuer: "Soft Skills" },
-    { year: "2024", name: "Nonviolent Communication (NVC)", issuer: "Soft Skills" },
-    { year: "2024", name: "Communication in Polish-Danish Teams", issuer: "Soft Skills" },
-    { year: "2022", name: "Domain-Driven Design & Event Storming", issuer: "Engineering" },
+    {
+      year: "2024",
+      name: "Nonviolent Communication (NVC)",
+      issuer: "Soft Skills",
+    },
+    {
+      year: "2024",
+      name: "Communication in Polish-Danish Teams",
+      issuer: "Soft Skills",
+    },
+    {
+      year: "2022",
+      name: "Domain-Driven Design & Event Storming",
+      issuer: "Engineering",
+    },
     { year: "2020", name: "Azure Fundamentals", issuer: "Microsoft" },
-    { year: "2019", name: "Microservices with Spring Cloud and Docker", issuer: "Engineering" },
+    {
+      year: "2019",
+      name: "Microservices with Spring Cloud and Docker",
+      issuer: "Engineering",
+    },
     { year: "2018", name: "Programming in C# / 20483", issuer: "Microsoft" },
     { year: "2018", name: "ITA 105 – OOP", issuer: "Microsoft" },
   ],

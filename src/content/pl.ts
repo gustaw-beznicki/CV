@@ -1,5 +1,5 @@
-import type { CVContent } from "./types";
 import { companies } from "./companies";
+import type { CVContent } from "./types";
 
 export const pl: CVContent = {
   locale: "pl",
@@ -183,7 +183,8 @@ export const pl: CVContent = {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
       company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
-      context: "Ta sama platforma — rozliczenia i biling. Zespół SCRUM liczący 5–7 osób.",
+      context:
+        "Ta sama platforma — rozliczenia i biling. Zespół SCRUM liczący 5–7 osób.",
       bullets: [
         "Rozwijał funkcjonalności backendowe platformy rozliczeniowo-bilingowej",
         "Brał udział w zadaniach frontendowych, w miarę jak rosły kompetencje frontendowe zespołu",
@@ -243,7 +244,8 @@ export const pl: CVContent = {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
       company: `<a href="https://unit4.com" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
-      context: "Webowy i desktopowy system kadrowy (HR). 4-osobowy zespół SCRUM.",
+      context:
+        "Webowy i desktopowy system kadrowy (HR). 4-osobowy zespół SCRUM.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
     },
     {
@@ -281,12 +283,32 @@ export const pl: CVContent = {
   certifications: [
     { year: "2026", name: "Claude Code 101", issuer: "Anthropic" },
     { year: "2026", name: "Introduction to Subagents", issuer: "Anthropic" },
-    { year: "2024", name: "Efektywna komunikacja", issuer: "Umiejętności miękkie" },
-    { year: "2024", name: "Porozumienie bez przemocy (NVC)", issuer: "Umiejętności miękkie" },
-    { year: "2024", name: "Komunikacja w zespołach polsko-duńskich", issuer: "Umiejętności miękkie" },
-    { year: "2022", name: "Domain-Driven Design & Event Storming", issuer: "Inżynieria" },
+    {
+      year: "2024",
+      name: "Efektywna komunikacja",
+      issuer: "Umiejętności miękkie",
+    },
+    {
+      year: "2024",
+      name: "Porozumienie bez przemocy (NVC)",
+      issuer: "Umiejętności miękkie",
+    },
+    {
+      year: "2024",
+      name: "Komunikacja w zespołach polsko-duńskich",
+      issuer: "Umiejętności miękkie",
+    },
+    {
+      year: "2022",
+      name: "Domain-Driven Design & Event Storming",
+      issuer: "Inżynieria",
+    },
     { year: "2020", name: "Azure Fundamentals", issuer: "Microsoft" },
-    { year: "2019", name: "Mikroserwisy w Spring Cloud i Dockerze", issuer: "Inżynieria" },
+    {
+      year: "2019",
+      name: "Mikroserwisy w Spring Cloud i Dockerze",
+      issuer: "Inżynieria",
+    },
     { year: "2018", name: "Programowanie w C# / 20483", issuer: "Microsoft" },
     { year: "2018", name: "ITA 105 – OOP", issuer: "Microsoft" },
   ],

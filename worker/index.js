@@ -59,7 +59,10 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    if (url.hostname !== CANONICAL_HOST && url.hostname.endsWith(CANONICAL_HOST)) {
+    if (
+      url.hostname !== CANONICAL_HOST &&
+      url.hostname.endsWith(CANONICAL_HOST)
+    ) {
       url.hostname = CANONICAL_HOST;
       return withSecurityHeaders(Response.redirect(url.toString(), 301));
     }
