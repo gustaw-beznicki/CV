@@ -323,19 +323,19 @@ export const en: CVContent = {
   },
   cookieBanner: {
     promptDescription:
-      "This site sets no cookies. With your consent it loads privacy-friendly, self-hosted analytics (Umami) to count visits — no cookies, no personal data, no cross-site tracking.",
-    acceptAll: "Accept all",
-    rejectNonEssential: "Reject non-essential",
-    preferences: "Preferences",
-    prefsTitle: "Privacy preferences",
+      "Plot twist: there are no cookies. None. This site doesn't bake any — no tracking, no crumbs, no third parties peeking over your shoulder. The only thing it remembers is which button you press right here. Say yes and it'll quietly count your visit with analytics I host myself; say no and absolutely nothing happens. Either way — thanks for reading. You're rare. 🍪",
+    acceptAll: "Sure, count my visit",
+    rejectNonEssential: "Just the essentials",
+    preferences: "Read the fine print",
+    prefsTitle: "The fine print (with jokes)",
     prefsDescription:
-      "This site uses no cookies. Optional analytics are off by default and load only if you opt in.",
-    prefsSave: "Save and close",
+      "Still here? Respect — most people smash a button and run. So here's the honest version: zero cookies (chocolate-chip or tracking), zero profiling, zero ad networks. The only thing on your device is your answer to this banner, so it never nags you again. Flip the switch below if you'll let me count visits.",
+    prefsSave: "Save & close",
     essentialLabel: "Essential",
     essentialDescription:
-      "Required for the site to work — stores only your consent choice. Cannot be switched off.",
+      "The keep-the-lights-on setting: remembers your choice here and literally nothing else. Can't be switched off, or this banner would forget you and pop up forever.",
     analyticsLabel: "Analytics",
     analyticsDescription:
-      "Self-hosted Umami analytics — counts page views to understand how visitors use the site. Cookieless and anonymous, served first-party from this domain. Off until you enable it.",
+      "Self-hosted Umami, counting page views so I can see which projects people actually open. Cookieless, anonymous, and served from my own domain — the data never leaves a Raspberry Pi humming on my shelf. Off until you flip it. And hey: you read a cookie banner to the end, so you're officially in the top 1% of the internet.",
   },
 };

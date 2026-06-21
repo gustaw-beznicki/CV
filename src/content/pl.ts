@@ -329,19 +329,19 @@ export const pl: CVContent = {
   },
   cookieBanner: {
     promptDescription:
-      "Ta strona nie stosuje plików cookie. Za Twoją zgodą uruchamia przyjazną prywatności, samodzielnie hostowaną analitykę (Umami) do zliczania odwiedzin — bez cookies, bez danych osobowych, bez śledzenia między witrynami.",
-    acceptAll: "Akceptuj wszystkie",
-    rejectNonEssential: "Odrzuć nieobowiązkowe",
-    preferences: "Preferencje",
-    prefsTitle: "Preferencje prywatności",
+      "Niespodzianka: tu nie ma żadnych ciasteczek. Zero. Ta strona ich nie piecze — nie śledzi, nie zostawia okruszków, nikt nie zagląda Ci przez ramię. Zapamiętuje tylko, który przycisk klikniesz tutaj. Zgodzisz się — po cichu policzę Twoją wizytę analityką, którą sam hostuję; odmówisz — nie stanie się kompletnie nic. Tak czy siak: dzięki, że czytasz. Należysz do rzadkich okazów. 🍪",
+    acceptAll: "Jasne, policz wizytę",
+    rejectNonEssential: "Tylko niezbędne",
+    preferences: "Pokaż drobny druk",
+    prefsTitle: "Drobny druk (z puentą)",
     prefsDescription:
-      "Ta strona nie stosuje plików cookie. Opcjonalna analityka jest domyślnie wyłączona i wczytuje się tylko po wyrażeniu zgody.",
+      "Wciąż tu jesteś? Szacun — większość klika pierwszy lepszy przycisk i znika. Więc wersja szczera: zero ciasteczek (tych z czekoladą i tych śledzących), zero profilowania, zero sieci reklamowych. Na Twoim urządzeniu ląduje wyłącznie Twoja odpowiedź z tego banera, żebym nie pytał w kółko. Przesuń przełącznik poniżej, jeśli pozwolisz mi liczyć wizyty.",
     prefsSave: "Zapisz i zamknij",
     essentialLabel: "Niezbędne",
     essentialDescription:
-      "Wymagane do działania strony — przechowują wyłącznie Twój wybór dotyczący zgody. Nie można ich wyłączyć.",
+      "Ustawienie „żeby w ogóle działało”: pamięta tylko Twój wybór z tego banera i nic poza tym. Nie da się wyłączyć — inaczej baner dostałby amnezji i witałby Cię w nieskończoność.",
     analyticsLabel: "Analityka",
     analyticsDescription:
-      "Samodzielnie hostowana analityka Umami — zlicza odsłony, aby zrozumieć, jak odwiedzający korzystają ze strony. Bezciasteczkowa i anonimowa, serwowana w ramach tej domeny (first-party). Wyłączona, dopóki jej nie włączysz.",
+      "Samodzielnie hostowana Umami liczy odsłony, żebym wiedział, które projekty faktycznie otwieracie. Bezciasteczkowa, anonimowa i serwowana z mojej własnej domeny — dane nie opuszczają Raspberry Pi szumiącego na mojej półce. Wyłączona, dopóki jej nie włączysz. I jeszcze jedno: doczytałeś baner cookie do końca, więc oficjalnie jesteś w 1% internetu.",
   },
 };

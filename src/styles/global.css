@@ -1045,16 +1045,28 @@ footer {
 }
 
 /* ─── PRINT — Classic CV ─── */
-/* ─── Consent banner (Silktide) — match the site's dark/gold theme ─── */
-#stcm-wrapper {
+/* ─── Consent banner (Silktide) — themed to the site (dark + gold). ───
+   Scoped under `body` so these beat the vendored stylesheet's own
+   #stcm-wrapper defaults (bright yellow + near-black) regardless of which
+   <link> loads last. */
+body #stcm-wrapper {
   --fontFamily: var(--sans);
-  --primaryColor: var(--accent);
-  --backgroundColor: var(--surface);
+  --primaryColor: #d4a955; /* warm gold — not the bundled #F9D000 yellow */
+  --backgroundColor: var(--surface); /* opaque — used by the preferences modal */
   --textColor: var(--text);
-  --boxShadow: 0 0 0 1px var(--border), 0px 12px 40px rgba(0, 0, 0, 0.45);
+  --boxShadow: 0 0 0 1px var(--accent-line), 0 12px 40px rgba(0, 0, 0, 0.5);
   --backdropBackgroundColor: rgba(0, 0, 0, 0.55);
   --iconColor: var(--bg);
-  --iconBackgroundColor: var(--accent);
+  --iconBackgroundColor: #d4a955;
+}
+
+/* Transparent, glassy prompt. The preferences modal stays opaque (it uses
+   --backgroundColor); only the always-visible prompt goes see-through. */
+body #stcm-wrapper #stcm-banner {
+  background-color: rgba(14, 15, 19, 0.4);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--accent-line);
 }
 
 @media print {

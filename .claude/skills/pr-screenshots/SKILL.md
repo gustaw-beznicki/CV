@@ -56,9 +56,11 @@ present but hard to see; a cropped element screenshot is clearer for overlays.
 ## Attach to the PR
 
 1. `git add .pr-screenshots/<files>` and commit on the PR branch, then push.
-2. Embed in the PR body via the raw URL on the branch:
-   `![EN](https://raw.githubusercontent.com/<owner>/<repo>/<branch>/.pr-screenshots/<file>.png)`
-   (or `gh pr edit --body` / a PR comment with the images).
+2. Embed in the PR body via the raw URL pinned to the **commit SHA**, not the branch:
+   `![EN](https://raw.githubusercontent.com/<owner>/<repo>/<full-sha>/.pr-screenshots/<file>.png)`
+   Use the SHA (`git rev-parse HEAD`), because GitHub's image proxy (Camo) caches by URL — if
+   you re-capture and the branch URL is unchanged, the PR keeps showing the **stale** image. A
+   fresh SHA URL busts the cache and is immutable. Re-pin the URLs each time you push new shots.
 
 ## Notes
 
