@@ -1,0 +1,108 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+const { cookieBanner: t } = content;
+
+// Self-hosted Silktide Consent Manager (MIT). Pinned in public/vendor/silktide/.
+// Bump this when updating: see docs/cookies-technical.md.
+const VERSION = "v2.0.0";
+const base = `/vendor/silktide/${VERSION}`;
+
+// Self-hosted Umami analytics, reverse-proxied first-party under /_a/ by the
+// worker (see worker/index.js + docs/umami-deployment.md). The tracker derives
+// its collect endpoint from its own script path, so /_a/script.js posts to
+// /_a/api/send automatically. The website id is public; set it at build time
+// via PUBLIC_UMAMI_WEBSITE_ID (placeholder ships until then).
+const umami = {
+  scriptPath: "/_a/script.js",
+  basePath: "/_a",
+  websiteId:
+    import.meta.env.PUBLIC_UMAMI_WEBSITE_ID ??
+    "00000000-0000-0000-0000-000000000000",
+};
+
+// Serializable strings/config passed into the inline init via define:vars; the
+// analytics onAccept/onReject (functions) are defined in the inline script.
+const cfg = {
+  scriptUrl: `${base}/silktide-consent-manager.js`,
+  styleUrl: `${base}/silktide-consent-manager.css`,
+  namespace: "gbcv",
+  t,
+  umami,
+};
+---
+
+<link rel="stylesheet" href={cfg.styleUrl} />
+<script is:inline src={cfg.scriptUrl}></script>
+<script is:inline define:vars={{ cfg }}>
+  const { t, umami } = cfg;
+
+  // Inject / remove the first-party Umami tracker on analytics consent.
+  // Umami is cookieless; it only touches localStorage for its own opt-out flag.
+  function loadUmami() {
+    try {
+      localStorage.removeItem("umami.disabled");
+    } catch (e) {}
+    if (!umami.websiteId || document.getElementById("umami-analytics")) return;
+    const s = document.createElement("script");
+    s.id = "umami-analytics";
+    s.defer = true;
+    s.src = umami.scriptPath;
+    s.setAttribute("data-website-id", umami.websiteId);
+    s.setAttribute("data-host-url", location.origin + umami.basePath);
+    document.head.appendChild(s);
+  }
+
+  function unloadUmami() {
+    const el = document.getElementById("umami-analytics");
+    if (el) el.remove();
+    try {
+      // Stops the loaded tracker from sending further events this session.
+      localStorage.setItem("umami.disabled", "1");
+    } catch (e) {}
+  }
+
+  window.silktideConsentManager?.init({
+    autoShow: true,
+    namespace: cfg.namespace,
+    prompt: { position: "bottomLeft" },
+    icon: { position: "bottomLeft" },
+    consentTypes: [
+      {
+        id: "essential",
+        label: t.essentialLabel,
+        description: t.essentialDescription,
+        required: true,
+      },
+      {
+        id: "analytics",
+        label: t.analyticsLabel,
+        description: t.analyticsDescription,
+        defaultValue: false,
+        onAccept: loadUmami,
+        onReject: unloadUmami,
+      },
+    ],
+    text: {
+      prompt: {
+        description: `<p>${t.promptDescription}</p>`,
+        acceptAllButtonText: t.acceptAll,
+        acceptAllButtonAccessibleLabel: t.acceptAll,
+        rejectNonEssentialButtonText: t.rejectNonEssential,
+        rejectNonEssentialButtonAccessibleLabel: t.rejectNonEssential,
+        preferencesButtonText: t.preferences,
+        preferencesButtonAccessibleLabel: t.preferences,
+      },
+      preferences: {
+        title: t.prefsTitle,
+        description: `<p>${t.prefsDescription}</p>`,
+        saveButtonText: t.prefsSave,
+        saveButtonAccessibleLabel: t.prefsSave,
+      },
+    },
+  });
+</script>

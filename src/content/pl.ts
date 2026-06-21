@@ -327,4 +327,21 @@ export const pl: CVContent = {
     linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
     linkedinLabel: "linkedin.com/in/gbeznicki",
   },
+  cookieBanner: {
+    promptDescription:
+      "Ta strona stawia na prostotę i prywatność: nie używa plików cookie, a anonimową analitykę na własnym serwerze uruchamia tylko za Twoją zgodą.<br><small>W ogóle bez ciasteczek? Tak, serio — kliknij „Pokaż drobny druk”, żeby poznać szczegóły.</small>",
+    acceptAll: "Akceptuj wszystkie",
+    rejectNonEssential: "Odrzuć nieobowiązkowe",
+    preferences: "Pokaż drobny druk",
+    prefsTitle: "Drobny druk (z puentą)",
+    prefsDescription:
+      "Niespodzianka: tu naprawdę nie ma żadnych ciasteczek. Zero. Ta strona ich nie piecze — nie śledzi, nie zostawia okruszków i nikt nie zagląda Ci przez ramię. Na Twoim urządzeniu zapisuje się tylko Twoja odpowiedź z tego banera, żeby ten komunikat nie wyskakiwał w kółko. Większość po prostu klika pierwszy lepszy przycisk i znika — więc szacun, że to czytasz. 🍪",
+    prefsSave: "Zapisz i zamknij",
+    essentialLabel: "Niezbędne",
+    essentialDescription:
+      "Ustawienie „żeby w ogóle działało”: pamięta tylko Twój wybór z tego banera i nic więcej. Nie da się go wyłączyć — inaczej baner miałby amnezję i witałby Cię bez końca.",
+    analyticsLabel: "Analityka",
+    analyticsDescription:
+      "Analityka Umami na własnym serwerze — liczy odsłony, żebym wiedział, które projekty faktycznie otwieracie. Bez ciasteczek, anonimowo, prosto z mojej domeny: dane nie opuszczają Raspberry Pi szumiącego na mojej półce. Wyłączona, dopóki jej nie włączysz. A skoro czytasz nawet baner o ciasteczkach — oficjalnie należysz do 1% najbardziej dociekliwych internautów.",
+  },
 };

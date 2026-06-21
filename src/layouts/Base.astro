@@ -6,6 +6,7 @@ import "@fontsource-variable/jetbrains-mono/index.css";
 import "../styles/global.css";
 
 import Certifications from "../components/Certifications.astro";
+import CookieBanner from "../components/CookieBanner.astro";
 import Education from "../components/Education.astro";
 import Experience from "../components/Experience.astro";
 import Footer from "../components/Footer.astro";
@@ -92,6 +93,6 @@ const jsonLd = {
     <script>
       import "../scripts/enhance";
     </script>
-    <script is:inline src="https://platform.linkedin.com/badges/js/profile.js" async defer></script>
+    <CookieBanner content={content} />
   </body>
 </html>

@@ -6,7 +6,13 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!!**/dist", "!!**/.claude", "!!src/styles/global.css"]
+    "includes": [
+      "**",
+      "!!**/dist",
+      "!!**/.claude",
+      "!!src/styles/global.css",
+      "!!public/vendor"
+    ]
   },
   "formatter": {
     "enabled": true,

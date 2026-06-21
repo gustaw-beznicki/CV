@@ -321,4 +321,21 @@ export const en: CVContent = {
     linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
     linkedinLabel: "linkedin.com/in/gbeznicki",
   },
+  cookieBanner: {
+    promptDescription:
+      "This site keeps things simple and private: it sets no cookies, and loads anonymous, self-hosted analytics only if you allow it.<br><small>No cookies at all? Yes, really — open “Read the fine print” for the full story.</small>",
+    acceptAll: "Accept all",
+    rejectNonEssential: "Reject non-essential",
+    preferences: "Read the fine print",
+    prefsTitle: "The fine print (with jokes)",
+    prefsDescription:
+      "Plot twist: there really are no cookies. None. This site doesn't bake any — no tracking, no crumbs, no third parties peeking over your shoulder. The only thing on your device is your answer to this banner, so it never nags you again. Most people just smash a button and run, so — genuine respect for reading this far. 🍪",
+    prefsSave: "Save & close",
+    essentialLabel: "Essential",
+    essentialDescription:
+      "The keep-the-lights-on setting: remembers your choice here and literally nothing else. Can't be switched off, or this banner would forget you and pop up forever.",
+    analyticsLabel: "Analytics",
+    analyticsDescription:
+      "Self-hosted Umami, counting page views so I can see which projects people actually open. Cookieless, anonymous, and served from my own domain — the data never leaves a Raspberry Pi humming on my shelf. Off until you flip it. And hey: you read a cookie banner to the end, so you're officially in the top 1% of the internet.",
+  },
 };
