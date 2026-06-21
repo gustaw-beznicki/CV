@@ -323,13 +323,13 @@ export const en: CVContent = {
   },
   cookieBanner: {
     promptDescription:
-      "Plot twist: there are no cookies. None. This site doesn't bake any — no tracking, no crumbs, no third parties peeking over your shoulder. The only thing it remembers is which button you press right here. Say yes and it'll quietly count your visit with analytics I host myself; say no and absolutely nothing happens. Either way — thanks for reading. You're rare. 🍪",
-    acceptAll: "Sure, count my visit",
-    rejectNonEssential: "Just the essentials",
+      "This site keeps things simple and private: it sets no cookies, and loads anonymous, self-hosted analytics only if you allow it.<br><small>No cookies at all? Yes, really — open “Read the fine print” for the full story.</small>",
+    acceptAll: "Accept all",
+    rejectNonEssential: "Reject non-essential",
     preferences: "Read the fine print",
     prefsTitle: "The fine print (with jokes)",
     prefsDescription:
-      "Still here? Respect — most people smash a button and run. So here's the honest version: zero cookies (chocolate-chip or tracking), zero profiling, zero ad networks. The only thing on your device is your answer to this banner, so it never nags you again. Flip the switch below if you'll let me count visits.",
+      "Plot twist: there really are no cookies. None. This site doesn't bake any — no tracking, no crumbs, no third parties peeking over your shoulder. The only thing on your device is your answer to this banner, so it never nags you again. Most people just smash a button and run, so — genuine respect for reading this far. 🍪",
     prefsSave: "Save & close",
     essentialLabel: "Essential",
     essentialDescription:

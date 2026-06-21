@@ -329,19 +329,19 @@ export const pl: CVContent = {
   },
   cookieBanner: {
     promptDescription:
-      "Niespodzianka: tu nie ma żadnych ciasteczek. Zero. Ta strona ich nie piecze — nie śledzi, nie zostawia okruszków, nikt nie zagląda Ci przez ramię. Zapamiętuje tylko, który przycisk klikniesz tutaj. Zgodzisz się — po cichu policzę Twoją wizytę analityką, którą sam hostuję; odmówisz — nie stanie się kompletnie nic. Tak czy siak: dzięki, że czytasz. Należysz do rzadkich okazów. 🍪",
-    acceptAll: "Jasne, policz wizytę",
-    rejectNonEssential: "Tylko niezbędne",
+      "Ta strona stawia na prostotę i prywatność: nie używa plików cookie, a anonimową analitykę na własnym serwerze uruchamia tylko za Twoją zgodą.<br><small>W ogóle bez ciasteczek? Tak, serio — kliknij „Pokaż drobny druk”, żeby poznać szczegóły.</small>",
+    acceptAll: "Akceptuj wszystkie",
+    rejectNonEssential: "Odrzuć nieobowiązkowe",
     preferences: "Pokaż drobny druk",
     prefsTitle: "Drobny druk (z puentą)",
     prefsDescription:
-      "Wciąż tu jesteś? Szacun — większość klika pierwszy lepszy przycisk i znika. Więc wersja szczera: zero ciasteczek (tych z czekoladą i tych śledzących), zero profilowania, zero sieci reklamowych. Na Twoim urządzeniu ląduje wyłącznie Twoja odpowiedź z tego banera, żebym nie pytał w kółko. Przesuń przełącznik poniżej, jeśli pozwolisz mi liczyć wizyty.",
+      "Niespodzianka: tu naprawdę nie ma żadnych ciasteczek. Zero. Ta strona ich nie piecze — nie śledzi, nie zostawia okruszków i nikt nie zagląda Ci przez ramię. Na Twoim urządzeniu zapisuje się tylko Twoja odpowiedź z tego banera, żeby ten komunikat nie wyskakiwał w kółko. Większość po prostu klika pierwszy lepszy przycisk i znika — więc szacun, że to czytasz. 🍪",
     prefsSave: "Zapisz i zamknij",
     essentialLabel: "Niezbędne",
     essentialDescription:
-      "Ustawienie „żeby w ogóle działało”: pamięta tylko Twój wybór z tego banera i nic poza tym. Nie da się wyłączyć — inaczej baner dostałby amnezji i witałby Cię w nieskończoność.",
+      "Ustawienie „żeby w ogóle działało”: pamięta tylko Twój wybór z tego banera i nic więcej. Nie da się go wyłączyć — inaczej baner miałby amnezję i witałby Cię bez końca.",
     analyticsLabel: "Analityka",
     analyticsDescription:
-      "Samodzielnie hostowana Umami liczy odsłony, żebym wiedział, które projekty faktycznie otwieracie. Bezciasteczkowa, anonimowa i serwowana z mojej własnej domeny — dane nie opuszczają Raspberry Pi szumiącego na mojej półce. Wyłączona, dopóki jej nie włączysz. I jeszcze jedno: doczytałeś baner cookie do końca, więc oficjalnie jesteś w 1% internetu.",
+      "Analityka Umami na własnym serwerze — liczy odsłony, żebym wiedział, które projekty faktycznie otwieracie. Bez ciasteczek, anonimowo, prosto z mojej domeny: dane nie opuszczają Raspberry Pi szumiącego na mojej półce. Wyłączona, dopóki jej nie włączysz. A skoro czytasz nawet baner o ciasteczkach — oficjalnie należysz do 1% najbardziej dociekliwych internautów.",
   },
 };
