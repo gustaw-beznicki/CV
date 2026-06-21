@@ -327,4 +327,21 @@ export const pl: CVContent = {
     linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
     linkedinLabel: "linkedin.com/in/gbeznicki",
   },
+  cookieBanner: {
+    promptDescription:
+      "Ta strona nie stosuje plików cookie śledzących ani analityki. Zapisujemy jedynie lokalnie Twój wybór, aby zapamiętać tę preferencję.",
+    acceptAll: "Akceptuj wszystkie",
+    rejectNonEssential: "Odrzuć nieobowiązkowe",
+    preferences: "Preferencje",
+    prefsTitle: "Preferencje prywatności",
+    prefsDescription:
+      "Obecnie strona nie zapisuje niczego poza poniższym zapisem zgody. Kategorie opcjonalne są domyślnie wyłączone i wczytują się tylko po wyrażeniu zgody.",
+    prefsSave: "Zapisz i zamknij",
+    essentialLabel: "Niezbędne",
+    essentialDescription:
+      "Wymagane do działania strony — przechowują wyłącznie Twój wybór dotyczący zgody. Nie można ich wyłączyć.",
+    analyticsLabel: "Analityka",
+    analyticsDescription:
+      "Pomogłaby zrozumieć, jak odwiedzający korzystają ze strony. Obecnie nieaktywna; włączenie zadziała dopiero, gdy analityka zostanie w przyszłości dodana.",
+  },
 };

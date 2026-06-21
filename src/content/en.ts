@@ -321,4 +321,21 @@ export const en: CVContent = {
     linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
     linkedinLabel: "linkedin.com/in/gbeznicki",
   },
+  cookieBanner: {
+    promptDescription:
+      "This site sets no tracking cookies and uses no analytics. Only a local record of your choice is stored to remember this preference.",
+    acceptAll: "Accept all",
+    rejectNonEssential: "Reject non-essential",
+    preferences: "Preferences",
+    prefsTitle: "Privacy preferences",
+    prefsDescription:
+      "This site currently stores nothing beyond the consent record below. Optional categories are off by default and load only if you opt in.",
+    prefsSave: "Save and close",
+    essentialLabel: "Essential",
+    essentialDescription:
+      "Required for the site to work — stores only your consent choice. Cannot be switched off.",
+    analyticsLabel: "Analytics",
+    analyticsDescription:
+      "Would help understand how visitors use the site. None is active today; enabling this only takes effect if analytics is added later.",
+  },
 };

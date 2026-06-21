@@ -123,4 +123,21 @@ export interface CVContent {
     linkedinUrl: string;
     linkedinLabel: string;
   };
+  /** Copy for the self-hosted Silktide consent banner (CookieBanner.astro). */
+  cookieBanner: {
+    /** Intro prompt shown in the banner. Plain text (rendered inside <p>). */
+    promptDescription: string;
+    acceptAll: string;
+    rejectNonEssential: string;
+    preferences: string;
+    /** Preferences modal. */
+    prefsTitle: string;
+    prefsDescription: string;
+    prefsSave: string;
+    /** Consent categories. */
+    essentialLabel: string;
+    essentialDescription: string;
+    analyticsLabel: string;
+    analyticsDescription: string;
+  };
 }

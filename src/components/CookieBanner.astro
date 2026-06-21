@@ -1,0 +1,63 @@
+---
+import type { CVContent } from "../content/types";
+
+interface Props {
+  content: CVContent;
+}
+const { content } = Astro.props;
+const { cookieBanner: t } = content;
+
+// Self-hosted Silktide Consent Manager (MIT). Pinned in public/vendor/silktide/.
+// Bump this when updating: see docs/cookies-technical.md.
+const VERSION = "v2.0.0";
+const base = `/vendor/silktide/${VERSION}`;
+
+// Localized, fully serializable config (no functions) so it can be passed into
+// the inline init via define:vars.
+//
+// To gate a future script behind consent, add it to the matching category here
+// — Silktide loads it only after opt-in and reloads to remove it on revoke, e.g.:
+//   { id: "analytics", ..., scripts: [{ url: "https://…/analytics.js", load: "async" }] }
+// Then widen script-src / connect-src in worker/index.js accordingly.
+const consentConfig = {
+  autoShow: true,
+  namespace: "gbcv",
+  consentTypes: [
+    {
+      id: "essential",
+      label: t.essentialLabel,
+      description: t.essentialDescription,
+      required: true,
+    },
+    {
+      id: "analytics",
+      label: t.analyticsLabel,
+      description: t.analyticsDescription,
+      defaultValue: false,
+    },
+  ],
+  text: {
+    prompt: {
+      description: `<p>${t.promptDescription}</p>`,
+      acceptAllButtonText: t.acceptAll,
+      acceptAllButtonAccessibleLabel: t.acceptAll,
+      rejectNonEssentialButtonText: t.rejectNonEssential,
+      rejectNonEssentialButtonAccessibleLabel: t.rejectNonEssential,
+      preferencesButtonText: t.preferences,
+      preferencesButtonAccessibleLabel: t.preferences,
+    },
+    preferences: {
+      title: t.prefsTitle,
+      description: `<p>${t.prefsDescription}</p>`,
+      saveButtonText: t.prefsSave,
+      saveButtonAccessibleLabel: t.prefsSave,
+    },
+  },
+};
+---
+
+<link rel="stylesheet" href={`${base}/silktide-consent-manager.css`} />
+<script is:inline src={`${base}/silktide-consent-manager.js`}></script>
+<script is:inline define:vars={{ consentConfig }}>
+  window.silktideConsentManager?.init(consentConfig);
+</script>

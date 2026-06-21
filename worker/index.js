@@ -4,26 +4,26 @@
 const CANONICAL_HOST = "gustawbeznicki.dev";
 
 // Content-Security-Policy notes:
-//  - Fonts are self-hosted (Fontsource) and JS is bundled to external files by
-//    Astro, so no third-party hosts are needed.
+//  - Everything is first-party: fonts are self-hosted (Fontsource), JS is
+//    bundled to external files by Astro, and the cookie-consent banner
+//    (Silktide, MIT) is self-hosted under /vendor/silktide/. No third-party
+//    hosts are needed, so the policy is strict 'self'-only.
 //  - 'unsafe-inline' stays on style-src for inline style="" attributes and any
-//    build-injected styles, and on script-src for the inline JSON-LD block.
-//    There is no user-generated content or third-party JS, so the XSS surface
-//    is minimal. The background noise SVG is a data: image.
+//    build-injected styles, and on script-src for the inline JSON-LD block and
+//    the inline consent-banner init() call. There is no user-generated content
+//    or third-party JS, so the XSS surface is minimal. The background noise SVG
+//    is a data: image.
+//  - If you add any external resource (analytics, font/image CDN, API), widen
+//    the matching directive below — never loosen default-src.
 const CSP = [
   "default-src 'self'",
   "base-uri 'self'",
-  // LinkedIn badge script
-  "script-src 'self' 'unsafe-inline' https://platform.linkedin.com https://static.licdn.com",
-  // LinkedIn badge injects its own styles
-  "style-src 'self' 'unsafe-inline' https://static.licdn.com",
+  "script-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline'",
   "font-src 'self'",
-  // LinkedIn profile photos and badge assets
-  "img-src 'self' data: https://media.licdn.com https://static.licdn.com",
-  // Badge script may fetch profile data
-  "connect-src 'self' https://www.linkedin.com https://platform.linkedin.com",
-  // Badge renders inside an iframe on www.linkedin.com
-  "frame-src https://www.linkedin.com",
+  "img-src 'self' data:",
+  "connect-src 'self'",
+  "frame-src 'none'",
   "form-action 'none'",
   "frame-ancestors 'none'",
   "object-src 'none'",

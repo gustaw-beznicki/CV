@@ -23,13 +23,15 @@ Package manager is **pnpm** (`pnpm@11.2.2`). Never use `npm` or `npx`.
 ```text
 src/pages/index.astro | pl/index.astro   one page per locale
 src/layouts/Base.astro                   <head>, SEO, JSON-LD, fonts
-src/components/*.astro                   one component per CV section
+src/components/*.astro                   one component per CV section (+ CookieBanner.astro)
 src/content/types.ts                     CVContent interface — source of truth for shape
 src/content/en.ts | pl.ts               all copy, fully typed against CVContent
 src/content/companies.ts                 company/brand names (single source, interpolated into both locales)
 src/styles/global.css                    @theme tokens + bespoke design system + ~500-line print sheet
 src/scripts/enhance.ts                   IntersectionObserver nav highlight, fade-in, print button
 worker/index.js                          www→apex redirect + security headers (CSP, HSTS, …)
+public/vendor/silktide/                  self-hosted cookie-consent banner (Silktide, MIT, pinned)
+docs/                                     cookie analysis: cookies-technical.md + analiza-cookies-prawna.md
 wrangler.jsonc                           worker entry + assets dir; run_worker_first: true
 .github/workflows/ci.yml                 type-check + build on PRs to main
 .github/workflows/deploy.yml             type-check + build + wrangler deploy on push to main
@@ -75,4 +77,8 @@ The print sheet hides the sidebar and footer CTA. Anything that must appear in a
 
 Every push to `main` auto-deploys. CI runs `pnpm install --frozen-lockfile` → `pnpm run check` → `pnpm run build` → `wrangler deploy`. Wrangler is pinned to v4; all third-party actions are pinned to commit SHAs.
 
-`worker/index.js` sets CSP + HSTS/nosniff/frame/referrer/permissions headers. **If you add any external resource** (script, font, image CDN, API), widen the matching CSP directive in the worker or the browser will block it. The CSP is `'self'`-only except `'unsafe-inline'` (inline JSON-LD + inline style attrs) and `data:` images.
+`worker/index.js` sets CSP + HSTS/nosniff/frame/referrer/permissions headers. **If you add any external resource** (script, font, image CDN, API), widen the matching CSP directive in the worker or the browser will block it. The CSP is strict `'self'`-only except `'unsafe-inline'` (inline JSON-LD + the consent-banner `init()` + inline style attrs) and `data:` images.
+
+## Cookies & consent
+
+The site sets **no cookies** and uses no analytics. `CookieBanner.astro` mounts the self-hosted [Silktide Consent Manager](https://github.com/silktide/consent-manager) (MIT, pinned in `public/vendor/silktide/<version>/`), which stores only a consent record in `localStorage`. Banner copy is the typed `cookieBanner` block in `en.ts`/`pl.ts`. Categories: `essential` + `analytics` (off, no scripts yet). To add a consent-gated script (e.g. analytics), attach it to its category in `CookieBanner.astro` **and** widen the CSP — don't add tracking scripts directly. Full rationale: [docs/cookies-technical.md](docs/cookies-technical.md) and [docs/analiza-cookies-prawna.md](docs/analiza-cookies-prawna.md).

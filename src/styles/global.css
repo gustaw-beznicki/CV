@@ -436,10 +436,6 @@ main {
   border-top: 1px solid var(--border-soft);
 }
 
-.sidebar-li-badge {
-  overflow: hidden;
-}
-
 .print-link {
   font-family: inherit;
   font-size: 0.85rem;
@@ -1049,6 +1045,18 @@ footer {
 }
 
 /* ─── PRINT — Classic CV ─── */
+/* ─── Consent banner (Silktide) — match the site's dark/gold theme ─── */
+#stcm-wrapper {
+  --fontFamily: var(--sans);
+  --primaryColor: var(--accent);
+  --backgroundColor: var(--surface);
+  --textColor: var(--text);
+  --boxShadow: 0 0 0 1px var(--border), 0px 12px 40px rgba(0, 0, 0, 0.45);
+  --backdropBackgroundColor: rgba(0, 0, 0, 0.55);
+  --iconColor: var(--bg);
+  --iconBackgroundColor: var(--accent);
+}
+
 @media print {
   @page {
     size: A4;
@@ -1077,6 +1085,11 @@ footer {
   body::before,
   body::after {
     display: none;
+  }
+
+  /* Consent banner is screen-only — never in the PDF export. */
+  #stcm-wrapper {
+    display: none !important;
   }
 
   .lang-switcher {
