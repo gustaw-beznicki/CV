@@ -113,3 +113,7 @@ Company and brand names are defined once in `companies.ts` and interpolated via 
 The worker injects a strict Content Security Policy on every response — `'self'`-only, with `'unsafe-inline'` scoped only to inline JSON-LD and the consent-banner initialiser. No external scripts, no CDN fonts, no remote image sources. HSTS is set with a long `max-age`. The Umami analytics script is proxied first-party under `/_a/` so the CSP never needs to be widened for it.
 
 See [`SECURITY.md`](SECURITY.md) for the vulnerability reporting policy.
+
+---
+
+*Built with the assistance of [GitHub Copilot](https://github.com/features/copilot) and [Claude Code](https://claude.ai/code) — AI pair-programming tools used throughout development for code generation, review, and refactoring.*
