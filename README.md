@@ -3,6 +3,9 @@
 > **Gustaw Beźnicki** — Senior Software Engineer & Team Lead  
 > 🔗 **Live site:** https://gustawbeznicki.dev
 
+[![CI](https://github.com/gustaw-beznicki/CV/actions/workflows/ci.yml/badge.svg)](https://github.com/gustaw-beznicki/CV/actions/workflows/ci.yml)
+[![Deploy](https://github.com/gustaw-beznicki/CV/actions/workflows/deploy.yml/badge.svg)](https://github.com/gustaw-beznicki/CV/actions/workflows/deploy.yml)
+
 This repository is the source code for my personal CV website. I built it myself rather than using a template or a CV-builder — both because I enjoy the craft and because the site itself is a small demonstration of how I approach software: typed, tested in CI, deployed automatically, and thoughtfully secured.
 
 ---
