@@ -314,7 +314,7 @@ export const en: CVContent = {
     "Psychology · Cooking · Dog behaviour · Running · Strength training · Books & audiobooks",
   footer: {
     ctaHtml:
-      'Got something interesting to build? <br> <a href="mailto:gustaw.beznicki@gmail.com">Let\'s talk →</a>',
+      'Got something interesting to build? <br> <a href="mailto:contact@gustawbeznicki.dev">Let\'s talk →</a>',
     meta: "© 2026 · Gustaw Beźnicki · Crafted in Gdańsk",
     githubUrl: "https://github.com/gustaw-beznicki",
     githubLabel: "github.com/gustaw-beznicki",

@@ -6,7 +6,7 @@ is no backend and no user data — the site is fully static.
 ## Reporting a vulnerability
 
 If you find a security issue with the site or this repository, please report it
-privately by email to **gustaw.beznicki@gmail.com**. Please do not open a public
+privately by email to **contact@gustawbeznicki.dev**. Please do not open a public
 issue for security-sensitive reports.
 
 I'll aim to acknowledge reports within a few days.

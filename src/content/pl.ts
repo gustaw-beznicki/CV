@@ -320,7 +320,7 @@ export const pl: CVContent = {
     "Psychologia · Gotowanie · Psia behawiorystyka · Bieganie · Siłownia · Książki i audiobooki",
   footer: {
     ctaHtml:
-      'Masz ciekawy projekt do zrealizowania? <br> <a href="mailto:gustaw.beznicki@gmail.com">Porozmawiajmy →</a>',
+      'Masz ciekawy projekt do zrealizowania? <br> <a href="mailto:contact@gustawbeznicki.dev">Porozmawiajmy →</a>',
     meta: "© 2026 · Gustaw Beźnicki · Stworzone w Gdańsku",
     githubUrl: "https://github.com/gustaw-beznicki",
     githubLabel: "github.com/gustaw-beznicki",
