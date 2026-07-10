@@ -49,8 +49,8 @@ export const en: CVContent = {
   },
   contact: {
     email: "contact@gustawbeznicki.dev",
-    linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
-    linkedinLabel: "linkedin.com/in/gbeznicki",
+    linkedinUrl: "https://www.linkedin.com/in/gustawbeznicki/",
+    linkedinLabel: "linkedin.com/in/gustawbeznicki",
     location: "Gdańsk / Remote",
   },
   highlights: [
@@ -64,7 +64,7 @@ export const en: CVContent = {
     },
     {
       tag: "AI Adoption",
-      html: "<strong>Brought AI into the team's daily workflow</strong> — shared Copilot instructions, agentic coding workflows, and an in-house agent that drafts High-Level Design documents from rough notes.",
+      html: "<strong>Brought AI into the team's daily workflow</strong> — shared Copilot instructions, agentic coding workflows, and an in-house agent that drafts High-Level Design documents from rough notes. After hours, runs a <strong>self-hosted AI assistant</strong> as a private project — an always-on agent with tool use, semantic long-term memory, and tiered models under a hard cost cap.",
     },
     {
       tag: "Side Ventures",
@@ -318,8 +318,8 @@ export const en: CVContent = {
     meta: "© 2026 · Gustaw Beźnicki · Crafted in Gdańsk",
     githubUrl: "https://github.com/gustaw-beznicki",
     githubLabel: "github.com/gustaw-beznicki",
-    linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
-    linkedinLabel: "linkedin.com/in/gbeznicki",
+    linkedinUrl: "https://www.linkedin.com/in/gustawbeznicki/",
+    linkedinLabel: "linkedin.com/in/gustawbeznicki",
   },
   cookieBanner: {
     promptDescription:

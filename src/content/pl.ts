@@ -49,8 +49,8 @@ export const pl: CVContent = {
   },
   contact: {
     email: "contact@gustawbeznicki.dev",
-    linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
-    linkedinLabel: "linkedin.com/in/gbeznicki",
+    linkedinUrl: "https://www.linkedin.com/in/gustawbeznicki/",
+    linkedinLabel: "linkedin.com/in/gustawbeznicki",
     location: "Gdańsk / Zdalnie",
   },
   highlights: [
@@ -64,7 +64,7 @@ export const pl: CVContent = {
     },
     {
       tag: "Wdrożenie AI",
-      html: "<strong>Wprowadził AI do codziennej pracy zespołu</strong> — wspólne instrukcje dla Copilota, procesy kodowania oparte na agentach oraz wewnętrznego agenta tworzącego szkice dokumentów High-Level Design z luźnych notatek.",
+      html: "<strong>Wprowadził AI do codziennej pracy zespołu</strong> — wspólne instrukcje dla Copilota, procesy kodowania oparte na agentach oraz wewnętrznego agenta tworzącego szkice dokumentów High-Level Design z luźnych notatek. Po godzinach prowadzi prywatny projekt: <strong>samohostowanego asystenta AI</strong> — działającego non stop agenta z narzędziami, semantyczną pamięcią długoterminową i warstwowanym doborem modeli pod twardym limitem kosztów.",
     },
     {
       tag: "Własne projekty",
@@ -324,8 +324,8 @@ export const pl: CVContent = {
     meta: "© 2026 · Gustaw Beźnicki · Stworzone w Gdańsku",
     githubUrl: "https://github.com/gustaw-beznicki",
     githubLabel: "github.com/gustaw-beznicki",
-    linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
-    linkedinLabel: "linkedin.com/in/gbeznicki",
+    linkedinUrl: "https://www.linkedin.com/in/gustawbeznicki/",
+    linkedinLabel: "linkedin.com/in/gustawbeznicki",
   },
   cookieBanner: {
     promptDescription:
