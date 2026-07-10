@@ -3,7 +3,7 @@
 <img src="https://github.com/user-attachments/assets/ae7de54c-4333-4cd5-81ab-cbd1f076d293" alt="Gustaw Beznicki" width="120" align="right" style="border-radius:8px; margin-left:16px;" />
 
 **Gustaw Beznicki** — Senior Software Engineer & Team Lead  
-📍 Gdansk, Poland &nbsp;·&nbsp; 🌐 [gustawbeznicki.dev](https://gustawbeznicki.dev) &nbsp;·&nbsp; 💼 [LinkedIn](https://www.linkedin.com/in/gbeznicki/)
+📍 Gdansk, Poland &nbsp;·&nbsp; 🌐 [gustawbeznicki.dev](https://gustawbeznicki.dev) &nbsp;·&nbsp; 💼 [LinkedIn](https://www.linkedin.com/in/gustawbeznicki/)
 
 [![CI](https://github.com/gustaw-beznicki/CV/actions/workflows/ci.yml/badge.svg)](https://github.com/gustaw-beznicki/CV/actions/workflows/ci.yml)
 [![Deploy](https://github.com/gustaw-beznicki/CV/actions/workflows/deploy.yml/badge.svg)](https://github.com/gustaw-beznicki/CV/actions/workflows/deploy.yml)

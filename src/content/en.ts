@@ -1,4 +1,5 @@
 import { companies } from "./companies";
+import { links } from "./links";
 import type { CVContent } from "./types";
 
 export const en: CVContent = {
@@ -48,9 +49,9 @@ export const en: CVContent = {
     locationInline: "Gdańsk · Poland",
   },
   contact: {
-    email: "contact@gustawbeznicki.dev",
-    linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
-    linkedinLabel: "linkedin.com/in/gbeznicki",
+    email: links.email,
+    linkedinUrl: links.linkedin.url,
+    linkedinLabel: links.linkedin.label,
     location: "Gdańsk / Remote",
   },
   highlights: [
@@ -64,7 +65,7 @@ export const en: CVContent = {
     },
     {
       tag: "AI Adoption",
-      html: "<strong>Brought AI into the team's daily workflow</strong> — shared Copilot instructions, agentic coding workflows, and an in-house agent that drafts High-Level Design documents from rough notes.",
+      html: "<strong>Brought AI into the team's daily workflow</strong> — shared Copilot instructions, agentic coding workflows, and an in-house agent that drafts High-Level Design documents from rough notes. After hours, runs a <strong>self-hosted AI assistant</strong> as a private project — an always-on agent with tool use, semantic long-term memory, and tiered models under a hard cost cap.",
     },
     {
       tag: "Side Ventures",
@@ -155,7 +156,7 @@ export const en: CVContent = {
       pill: "Now",
       current: true,
       title: "Senior Software Engineer & Solution Expert",
-      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
+      company: `<a href="${links.companies.kmd}" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
       context:
         "Cloud settlement & billing platform automating complex calculation flows for enterprise clients. Six-person engineering team within a wider multi-team setup.",
       groups: [
@@ -182,7 +183,7 @@ export const en: CVContent = {
     {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
-      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
+      company: `<a href="${links.companies.kmd}" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warsaw`,
       context: "Same platform — settlement & billing. 5–7 person SCRUM team.",
       bullets: [
         "Delivered backend features on the settlement & billing platform",
@@ -195,7 +196,7 @@ export const en: CVContent = {
       period: "2026 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: `<a href="https://bbdigital.pl/" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
+      company: `<a href="${links.companies.bnb}" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
       anchor: "exp-bnb",
       body: "Co-founded a software house building productized websites for Polish independent professionals — lawyers, doctors, architects. Designed the white-label template system (Astro + Sanity CMS) that ships per-client deployments fast. Owns tech direction, delivery framework, and client scoping.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
@@ -204,21 +205,21 @@ export const en: CVContent = {
       period: "03 / 2024 — Present · Remote",
       current: true,
       title: "Co-founder & Tech Lead",
-      company: `<a href="https://lavamme.com" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
+      company: `<a href="${links.companies.lavamme}" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
       anchor: "exp-lavamme",
       body: "Co-founded a fashion e-commerce brand and built the tech side from scratch. Delivered the Shopify storefront with payments, logistics, and customer-experience integrations. Stayed close to the business too — product, brand, pricing, customer journey — picking up commercial ownership alongside engineering.",
     },
     {
       period: "04 / 2023 — 05 / 2024",
       title: "Programming Trainer",
-      company: `<a href="https://infoshareacademy.com/" target="_blank" rel="noopener noreferrer"><em>${companies.isa}</em></a> · Łódź`,
+      company: `<a href="${links.companies.isa}" target="_blank" rel="noopener noreferrer"><em>${companies.isa}</em></a> · Łódź`,
       body: "Taught .NET development alongside a team of trainers — courses, workshops, and one-to-one guidance. Built curriculum materials and ran sessions for students at varying skill levels.",
       tech: "C# · ASP.NET · .NET Core · Entity Framework · Visual Studio",
     },
     {
       period: "08 / 2021 — 02 / 2023",
       title: "Software Engineer",
-      company: `<a href="https://sii.pl" target="_blank" rel="noopener noreferrer"><em>${companies.sii}</em></a> · Łódź`,
+      company: `<a href="${links.companies.sii}" target="_blank" rel="noopener noreferrer"><em>${companies.sii}</em></a> · Łódź`,
       context:
         "E-commerce SaaS engine — headless architecture, microservices. Led development in a 5-person SCRUM team.",
       bullets: [
@@ -230,7 +231,7 @@ export const en: CVContent = {
     {
       period: "04 / 2020 — 07 / 2021",
       title: ".NET Developer",
-      company: `<a href="https://bakk.com/kariera/" target="_blank" rel="noopener noreferrer"><em>${companies.bakk}</em></a> · Łódź`,
+      company: `<a href="${links.companies.bakk}" target="_blank" rel="noopener noreferrer"><em>${companies.bakk}</em></a> · Łódź`,
       context:
         "Debt and loan management platform — desktop application + Web API. 5–8 person SCRUM teams.",
       bullets: [
@@ -242,14 +243,14 @@ export const en: CVContent = {
     {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
-      company: `<a href="https://unit4.com" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
+      company: `<a href="${links.companies.unit4}" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
       context: "Web and desktop HR system. 4-person SCRUM team.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
     },
     {
       period: "03 / 2019 — 12 / 2019",
       title: "Software Engineer",
-      company: `<a href="https://accenture.com" target="_blank" rel="noopener noreferrer"><em>${companies.accenture}</em></a> · Łódź`,
+      company: `<a href="${links.companies.accenture}" target="_blank" rel="noopener noreferrer"><em>${companies.accenture}</em></a> · Łódź`,
       context:
         "Internet Banking and Mobile Banking. 50-person ITIL team, 3–4 person subteams.",
       bullets: [
@@ -260,7 +261,7 @@ export const en: CVContent = {
     {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
-      company: `<a href="https://kariera.rossmann.pl/pracuj-w-it" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
+      company: `<a href="${links.companies.rossmann}" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
       body: "Analysed requirements, designed applications, delivered .NET and MS-SQL development, and maintained and supported legacy systems.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
@@ -313,13 +314,12 @@ export const en: CVContent = {
   interests:
     "Psychology · Cooking · Dog behaviour · Running · Strength training · Books & audiobooks",
   footer: {
-    ctaHtml:
-      'Got something interesting to build? <br> <a href="mailto:contact@gustawbeznicki.dev">Let\'s talk →</a>',
+    ctaHtml: `Got something interesting to build? <br> <a href="mailto:${links.email}">Let's talk →</a>`,
     meta: "© 2026 · Gustaw Beźnicki · Crafted in Gdańsk",
-    githubUrl: "https://github.com/gustaw-beznicki",
-    githubLabel: "github.com/gustaw-beznicki",
-    linkedinUrl: "https://www.linkedin.com/in/gbeznicki/",
-    linkedinLabel: "linkedin.com/in/gbeznicki",
+    githubUrl: links.github.url,
+    githubLabel: links.github.label,
+    linkedinUrl: links.linkedin.url,
+    linkedinLabel: links.linkedin.label,
   },
   cookieBanner: {
     promptDescription:

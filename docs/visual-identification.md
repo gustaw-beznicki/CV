@@ -179,7 +179,7 @@ When the browser prints (or the user clicks the print button), the stylesheet sw
 |---|---|
 | `/public/favicon.png` | Browser tab icon + Apple touch icon |
 | `/public/og-image.png` | Open Graph / Twitter card preview (1200×630) |
-| `/public/profile.jpg` | Avatar in hero (88×88 px circle, `object-position: center 15%`) |
+| `/public/profile.png` | Avatar in hero (88×88 px circle, `object-position: center 15%`) |
 | `/public/scotland.jpg` | Hero background photo (right-side fade) |
 
 ---
