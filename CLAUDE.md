@@ -27,6 +27,7 @@ src/components/*.astro                   one component per CV section (+ CookieB
 src/content/types.ts                     CVContent interface — source of truth for shape
 src/content/en.ts | pl.ts               all copy, fully typed against CVContent
 src/content/companies.ts                 company/brand names (single source, interpolated into both locales)
+src/content/links.ts                     URLs + contact constants (email, socials, company links — single source)
 src/styles/global.css                    @theme tokens + bespoke design system + ~500-line print sheet
 src/scripts/enhance.ts                   IntersectionObserver nav highlight, fade-in, print button
 worker/index.js                          www→apex redirect + /_a Umami proxy + security headers (CSP, HSTS, …)
@@ -41,13 +42,13 @@ The worker sits in front of every request (`run_worker_first: true`) — it hand
 
 ## Editing content
 
-**Edit only `en.ts` / `pl.ts` / `companies.ts` — never components.**
+**Edit only `en.ts` / `pl.ts` / `companies.ts` / `links.ts` — never components.**
 
 The `CVContent` type in `types.ts` is the safety net: add a field there and TS flags both language files until both are filled in.
 
 Fields ending in `Html` (`roleHtml`, highlight `html`, `company`, footer `ctaHtml`) are rendered with `set:html` and may contain inline tags (`<strong>`, `<em>`, `<a>`). All other fields are escaped — use real Unicode (`—`, `'`), not HTML entities.
 
-Company/venture brand names live in `companies.ts` and are interpolated into both locale files via template literals. Locations (`· Warsaw` / `· Warszawa`) stay in the per-language files.
+Company/venture brand names live in `companies.ts`; URLs and contact constants (email, LinkedIn/GitHub, company links) live in `links.ts`. Both are interpolated into both locale files via template literals. Locations (`· Warsaw` / `· Warszawa`) stay in the per-language files.
 
 ### Experience entry shape
 

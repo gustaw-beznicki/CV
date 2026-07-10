@@ -1,4 +1,5 @@
 import { companies } from "./companies";
+import { links } from "./links";
 import type { CVContent } from "./types";
 
 export const pl: CVContent = {
@@ -48,9 +49,9 @@ export const pl: CVContent = {
     locationInline: "Gdańsk · Polska",
   },
   contact: {
-    email: "contact@gustawbeznicki.dev",
-    linkedinUrl: "https://www.linkedin.com/in/gustawbeznicki/",
-    linkedinLabel: "linkedin.com/in/gustawbeznicki",
+    email: links.email,
+    linkedinUrl: links.linkedin.url,
+    linkedinLabel: links.linkedin.label,
     location: "Gdańsk / Zdalnie",
   },
   highlights: [
@@ -155,7 +156,7 @@ export const pl: CVContent = {
       pill: "Teraz",
       current: true,
       title: "Senior Software Engineer & Solution Expert",
-      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
+      company: `<a href="${links.companies.kmd}" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
       context:
         "Chmurowa platforma rozliczeniowo-bilingowa automatyzująca złożone procesy obliczeniowe dla klientów korporacyjnych. Sześcioosobowy zespół inżynierski działający w ramach większej, wielozespołowej struktury.",
       groups: [
@@ -182,7 +183,7 @@ export const pl: CVContent = {
     {
       period: "02 / 2023 — 06 / 2025",
       title: "Software Engineer",
-      company: `<a href="https://www.kmd.net/career/locations-poland" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
+      company: `<a href="${links.companies.kmd}" target="_blank" rel="noopener noreferrer"><em>${companies.kmdFull}</em></a> · Warszawa`,
       context:
         "Ta sama platforma — rozliczenia i biling. Zespół SCRUM liczący 5–7 osób.",
       bullets: [
@@ -196,7 +197,7 @@ export const pl: CVContent = {
       period: "2026 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: `<a href="https://bbdigital.pl/" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
+      company: `<a href="${links.companies.bnb}" target="_blank" rel="noopener noreferrer"><em>${companies.bnb}</em></a>`,
       anchor: "exp-bnb",
       body: "Współzałożył software house tworzący powtarzalne, produktyzowane strony internetowe dla przedstawicieli wolnych zawodów — prawników, lekarzy, architektów. Zaprojektował system szablonów white-label (Astro + Sanity CMS), który pozwala błyskawicznie wdrażać kolejnych klientów. Odpowiada za kierunek technologiczny, proces dostarczania i ustalanie zakresu współpracy z klientami.",
       tech: "Astro · Sanity CMS · TypeScript · Tailwind CSS · Cloudflare Pages",
@@ -205,21 +206,21 @@ export const pl: CVContent = {
       period: "03 / 2024 — obecnie · Zdalnie",
       current: true,
       title: "Współzałożyciel i Tech Lead",
-      company: `<a href="https://lavamme.com" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
+      company: `<a href="${links.companies.lavamme}" target="_blank" rel="noopener noreferrer"><em>${companies.lavamme}</em></a>`,
       anchor: "exp-lavamme",
       body: "Współzałożył modową markę e-commerce; od zera zbudował całą część technologiczną. Uruchomił sklep na Shopify wraz z integracjami płatności, logistyki i obsługi klienta. Pozostał blisko strony biznesowej — produkt, marka, polityka cenowa, ścieżka klienta — rozwijając kompetencje komercyjne równolegle z inżynierskimi.",
     },
     {
       period: "04 / 2023 — 05 / 2024",
       title: "Trener programowania",
-      company: `<a href="https://infoshareacademy.com/" target="_blank" rel="noopener noreferrer"><em>${companies.isa}</em></a> · Łódź`,
+      company: `<a href="${links.companies.isa}" target="_blank" rel="noopener noreferrer"><em>${companies.isa}</em></a> · Łódź`,
       body: "Uczył programowania w .NET w zespole trenerów — kursy, warsztaty i indywidualne konsultacje. Tworzył materiały dydaktyczne i prowadził zajęcia dla kursantów na różnych poziomach zaawansowania.",
       tech: "C# · ASP.NET · .NET Core · Entity Framework · Visual Studio",
     },
     {
       period: "08 / 2021 — 02 / 2023",
       title: "Software Engineer",
-      company: `<a href="https://sii.pl" target="_blank" rel="noopener noreferrer"><em>${companies.sii}</em></a> · Łódź`,
+      company: `<a href="${links.companies.sii}" target="_blank" rel="noopener noreferrer"><em>${companies.sii}</em></a> · Łódź`,
       context:
         "Silnik e-commerce w modelu SaaS — architektura headless, mikroserwisy. Kierował pracami programistycznymi w 5-osobowym zespole SCRUM.",
       bullets: [
@@ -231,7 +232,7 @@ export const pl: CVContent = {
     {
       period: "04 / 2020 — 07 / 2021",
       title: "Programista .NET",
-      company: `<a href="https://bakk.com/kariera/" target="_blank" rel="noopener noreferrer"><em>${companies.bakk}</em></a> · Łódź`,
+      company: `<a href="${links.companies.bakk}" target="_blank" rel="noopener noreferrer"><em>${companies.bakk}</em></a> · Łódź`,
       context:
         "Platforma do zarządzania długiem i pożyczkami — aplikacja desktopowa i Web API. Zespoły SCRUM liczące 5–8 osób.",
       bullets: [
@@ -243,7 +244,7 @@ export const pl: CVContent = {
     {
       period: "01 / 2020 — 03 / 2020",
       title: "Software Engineer",
-      company: `<a href="https://unit4.com" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
+      company: `<a href="${links.companies.unit4}" target="_blank" rel="noopener noreferrer"><em>${companies.unit4}</em></a> · Wrocław`,
       context:
         "Webowy i desktopowy system kadrowy (HR). 4-osobowy zespół SCRUM.",
       tech: "ASP.NET WebApi · .NET Core · .NET 4.5–4.7 · T-SQL · Entity Framework 6/Core · MS-Test",
@@ -251,7 +252,7 @@ export const pl: CVContent = {
     {
       period: "03 / 2019 — 12 / 2019",
       title: "Software Engineer",
-      company: `<a href="https://accenture.com" target="_blank" rel="noopener noreferrer"><em>${companies.accenture}</em></a> · Łódź`,
+      company: `<a href="${links.companies.accenture}" target="_blank" rel="noopener noreferrer"><em>${companies.accenture}</em></a> · Łódź`,
       context:
         "Bankowość internetowa i mobilna. 50-osobowy zespół ITIL, podzespoły 3–4-osobowe.",
       bullets: [
@@ -262,7 +263,7 @@ export const pl: CVContent = {
     {
       period: "08 / 2018 — 02 / 2019",
       title: "Software Engineer",
-      company: `<a href="https://kariera.rossmann.pl/pracuj-w-it" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
+      company: `<a href="${links.companies.rossmann}" target="_blank" rel="noopener noreferrer"><em>${companies.rossmann}</em></a> · Łódź`,
       body: "Analizował wymagania, projektował aplikacje, programował w .NET i MS-SQL oraz utrzymywał i wspierał systemy legacy.",
       tech: ".NET 4.5–4.7 · C# · Visual Basic · T-SQL · DevExpress",
     },
@@ -319,13 +320,12 @@ export const pl: CVContent = {
   interests:
     "Psychologia · Gotowanie · Psia behawiorystyka · Bieganie · Siłownia · Książki i audiobooki",
   footer: {
-    ctaHtml:
-      'Masz ciekawy projekt do zrealizowania? <br> <a href="mailto:contact@gustawbeznicki.dev">Porozmawiajmy →</a>',
+    ctaHtml: `Masz ciekawy projekt do zrealizowania? <br> <a href="mailto:${links.email}">Porozmawiajmy →</a>`,
     meta: "© 2026 · Gustaw Beźnicki · Stworzone w Gdańsku",
-    githubUrl: "https://github.com/gustaw-beznicki",
-    githubLabel: "github.com/gustaw-beznicki",
-    linkedinUrl: "https://www.linkedin.com/in/gustawbeznicki/",
-    linkedinLabel: "linkedin.com/in/gustawbeznicki",
+    githubUrl: links.github.url,
+    githubLabel: links.github.label,
+    linkedinUrl: links.linkedin.url,
+    linkedinLabel: links.linkedin.label,
   },
   cookieBanner: {
     promptDescription:
