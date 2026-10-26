@@ -63,7 +63,7 @@ export const pl: CVContent = {
       { label: "Projekty własne", value: `${companies.bnb} · ${companies.lavamme}` },
       { label: "Języki", value: "PL ojczysty · EN zaawansowany" },
     ],
-    figCaption: "Rys. 1 — GB-01, widok z góry",
+    figCaption: "Rys. 1 — GB-01, rzut z przodu",
     pinLabel: "Pin 1",
     sheetLabel: "Arkusz 1 / 1",
   },

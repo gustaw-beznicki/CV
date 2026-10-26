@@ -63,7 +63,7 @@ export const en: CVContent = {
       { label: "Ventures", value: `${companies.bnb} · ${companies.lavamme}` },
       { label: "Languages", value: "PL native · EN advanced" },
     ],
-    figCaption: "Fig. 1 — GB-01, top view",
+    figCaption: "Fig. 1 — GB-01, front elevation",
     pinLabel: "Pin 1",
     sheetLabel: "Sheet 1 / 1",
   },

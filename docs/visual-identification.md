@@ -24,9 +24,7 @@ Direction: **engineering datasheet**. The page reads like a component data sheet
 | `--color-accent-soft` | `rgba(23,115,93,0.10)` | Accent tint for hover fills |
 | `--color-accent-line` | `rgba(23,115,93,0.35)` | Accent tint for borders |
 | `--color-pcb` | `#1b7d66` | Section numbers, LEDs, skill-tag hover |
-| `--color-pcb-deep` | `#17604f` | Chip substrate base |
 | `--color-pcb-soft` / `-line` | `rgba(27,125,102,0.12 / 0.35)` | PCB tints |
-| `--color-gold` | `#c99a5b` | Only the chip's pins and traces |
 
 ### Dark theme
 
@@ -52,7 +50,7 @@ The same datasheet at night: graphite paper, light ink, glowing PCB green.
 | `--color-accent` | `#4cc3a0` (CTA uses dark text on it) |
 | `--color-pcb` | `#3fae8e` |
 
-The chip is identical in both themes; the small deer marks switch to a brighter steel on graphite.
+The blueprint follows the tokens; the small deer marks switch to a brighter steel on graphite.
 
 ### Text-selection colour
 
@@ -121,7 +119,7 @@ The hero is a framed sheet (`.ds`, 1 px ink border, registration ticks on two co
   - mono kicker (`hero.docTitle`) and `.hero-role`,
   - green `Download CV (PDF)` CTA, mono contact links,
   - **key parameters** table (`hero.specs`, dotted leaders).
-- **Right column** (`.ds-figure`): FIG. 1, the 3D chip, with technical-drawing dimension lines (`32.0 mm`) and a caption.
+- **Right column** (`.ds-figure`): FIG. 1, the plotted blueprint of the deer, with a caption.
 - **Footer strip** (`.ds-foot`): `● Pin 1 · Sheet 1/1 · domain · Scroll ↓`.
 - **Below 860 px:** one column; `.ds-main` uses `display: contents`, so FIG. 1 sits between the CTA and the parameters table.
 
@@ -145,26 +143,28 @@ Two-column grid (`160px 1fr`). Hover: cursor-following green spotlight (`radial-
 
 ### Logo (deer)
 
-`src/components/Logo.astro` — a low-poly deer hand-traced from the brand artwork (`viewBox 0 0 100 100`). Large shards are split at build time (~53 shards in total). Every shard is a **milled pocket**: a flat floor plus chamfered walls. Each face carries its 3D normal as `--nx/--ny/--nz`, and `global.css` shades it with Lambert lighting plus a specular kick against the light vector `--lx/--ly/--lz`. Floors get a slight random tilt, so neighbouring shards catch the light differently.
+`src/components/deer-geometry.ts` holds the hand-traced low-poly deer: a 0–100 coordinate space, big shards split at build time into ~53 facets. It is shared by:
 
-- `chip`: engraved into the silver die (satin-dark floors, bright chamfers).
-- `mark`: the same geometry raised, in graphite steel (floating back-to-top badge and footer).
+- **`Logo.astro`** — the small marks (floating back-to-top badge, footer). Each shard is a raised plateau with chamfered walls; every face carries its 3D normal (`--nx/--ny/--nz`) and is shaded against a top-left light. Graphite steel on paper, brighter steel in the dark theme; hovering scatters the shards slightly.
+- **`Blueprint.astro`** — FIG. 1 in the hero (below).
 
-Hovering a mark scatters the shards slightly.
+### FIG. 1 — blueprint (`Blueprint.astro`)
 
-### Hero chip
+The deer as a technical drawing, plotted like a pen plotter:
 
-`src/components/Chip.astro` — a CPU package:
+1. Construction lines fade in: dash-dot centre lines, the dashed envelope, and the antler-spread lines.
+2. The 131 unique mesh edges are drawn one by one (`stroke-dashoffset`). The order comes from a greedy nearest-neighbour walk starting at the muzzle, and every edge's `--at` / `--dur` is computed at build time and rescaled so the whole plot takes 3.2 s. Silhouette edges (used by a single facet) are heavier.
+3. 88 nodes pop in as the pen reaches them.
+4. Facets fill with one of three hatch patterns, as a depth cue.
+5. Annotations appear: width/height dimensions with architect ticks, the antler-spread angle, numbered balloons, and the `SCALE 1:1 · UNITS mm` note.
 
-- **Substrate:** PCB green, with the laminate edge thickness built from stacked shadows.
-- **Board details (inline SVG):** 4 × 14 metallic pins, fan-in gold traces with vias, SMD capacitors, fiducials.
-- **Die:** raised silver (`translateZ(14px)`, so it parallaxes against the board on tilt), with chamfered rim, brushed and conic sheen, a milled pin-1 dot and a `GB-01 · 2026` marking.
+Interaction (`enhance.ts`):
 
-Interaction and layout:
+- **Pen head:** a crosshair follows the edge being drawn. It uses the last edge's CSS animation as its clock, so the two never drift.
+- **CAD cursor:** snaps to the nearest node and shows `Nxx · X · Y` with guide lines.
+- **Replot:** clicking restarts the drawing. Animations are toggled off for one style flush via `.bp.is-reset`.
 
-- The package tilts towards the cursor (`--tilt-x/--tilt-y`) and shifts on scroll (`--chip-shift`).
-- The light vector on `.chip` follows the cursor like a lamp held above the die, eased in rAF. It drives both the deer facets and a specular glint on the die.
-- It sits in the datasheet's FIG. 1 area (see Hero datasheet).
+Under reduced motion or without JS, the drawing is shown complete. All colours come from tokens, so both themes work.
 
 ### Hero CTA
 
@@ -203,10 +203,7 @@ Fixed top-right pill group. Active locale: `--accent` fill, `--bg` text. Inactiv
 | `.hero-role` | `fadeUp` | 1.0s / 0.50s |
 | `.hero-contact` | `fadeUp` | 1.0s / 0.70s |
 | `.hero-meta .typed` | typewriter (`steps()` on width, one mono cell per char) + blinking caret | 45ms/char from 0.5s |
-| `.hero-chip` | `chipIn` (rise + scale) | 1.2s / 0.2s |
-| `.deer-shard` (chip) | `shardIn` — shards fly in and assemble | 1.1s / 0.5s + 32ms stagger |
-| `.deer-trace` | green outline drawn along the shards, then fades | 2.4s / 1.7s |
-| `.chip-sheen` | light sweep across the die | 7s loop / 3s |
+| `.bp-edge` / `.bp-node` / `.bp-fills` | plotter: edges draw in plot order, nodes pop, hatching fills | 3.2s from 0.9s |
 | `.hero-actions` | `fadeUp` | 1.0s / 0.85s |
 | `.hero-scroll` | `fadeUp` + `float` loop | 1.0s / 1.0s + 2.5s loop |
 | Section header | divider trace draws from the left + LED flicker (on scroll) | 1.4s / 1.2s |
@@ -239,7 +236,7 @@ When the browser prints (or the user clicks the print button), the stylesheet sw
 
 | File | Purpose |
 |---|---|
-| `/public/favicon.png` | Browser tab icon + Apple touch icon (deer on a chip) |
+| `/public/favicon.png` | Browser tab icon + Apple touch icon (original deer-on-a-chip artwork) |
 | `/public/og-image.png` | Open Graph / Twitter card preview (1200×630) |
 | `/public/profile.png` | Round portrait in the hero (92 px, ink ring) |
 
@@ -254,8 +251,8 @@ The self-hosted Silktide banner follows the palette: `--primaryColor: var(--acce
 ## Design Principles
 
 1. **Datasheet, not template.** Paper, ink, frame lines, mono labels and real parameters instead of glows, gradients and serif italics.
-2. **One accent.** PCB green carries every interactive and decorative emphasis. Gold appears only on the chip's metal.
-3. **The logo is the illustration.** The engraved chip is FIG. 1 of the sheet: technical, tactile, lit by the cursor.
+2. **One accent.** PCB green carries every interactive and decorative emphasis.
+3. **The logo is the illustration.** FIG. 1 of the sheet is a technical drawing of the deer, plotted live and inspectable with a CAD cursor.
 4. **Motion as instrumentation.** Typing header, drawing dividers, LEDs, a timeline current and signal pulses read like a device booting, not like decoration. All of it respects reduced motion.
 5. **Self-hosted everything.** Fonts, vendor scripts and the analytics proxy stay on-domain to keep a `'self'` CSP.
 6. **Print degrades gracefully.** The print sheet is a separate design: clean A4, system fonts, black on white.

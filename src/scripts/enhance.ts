@@ -1,5 +1,5 @@
 // Progressive enhancement: active-section nav highlight, scroll fade-in, the
-// print button, and the "circuit" motion layer (PCB canvas, chip parallax,
+// print button, and the "circuit" motion layer (PCB canvas, FIG. 1 plotter,
 // scroll progress, spotlights, timeline). All optional — the page is fully
 // usable without JS.
 
@@ -192,7 +192,6 @@ if (finePointer) {
 
 // ─── Scroll-linked effects (one rAF-throttled handler) ───
 const hero = document.querySelector<HTMLElement>(".hero");
-const chip = document.querySelector<HTMLElement>(".chip");
 const brandMark = document.querySelector<HTMLElement>(".brand-mark");
 const progressBar = document.querySelector<HTMLElement>(".scroll-progress");
 const canvas = document.querySelector<HTMLCanvasElement>(".circuit-bg");
@@ -221,10 +220,6 @@ const onScroll = () => {
   }
 
   if (!prefersReducedMotion) {
-    if (chip && y < heroH) {
-      chip.style.setProperty("--chip-shift", `${(y * 0.18).toFixed(1)}px`);
-    }
-
     // Timeline: fill each rail segment as the reading line (40% down) passes.
     const line = vh * 0.4;
     for (const item of expItems) {
@@ -248,64 +243,134 @@ window.addEventListener(
 );
 onScroll();
 
-// Chip tilts towards the cursor while it's over the hero, and the light on
-// the engraved deer + die follows it like a lamp held above the chip (eased
-// in rAF; the vars live on .chip so the deer and the die glint share them).
-if (hero && chip && finePointer && !prefersReducedMotion) {
-  const LIGHT_HEIGHT = 380; // lamp height above the die, px
-  const rest = { x: -0.48, y: -0.56, z: 0.67 };
-  const light = { ...rest };
-  let target = { ...rest };
-  let lightRaf = 0;
+// ─── FIG. 1 blueprint: plotter pen head, CAD cursor, click to replot ───
+const blueprint = document.querySelector<SVGSVGElement>(".bp");
+if (blueprint) initBlueprint(blueprint);
 
-  const stepLight = () => {
-    light.x += (target.x - light.x) * 0.15;
-    light.y += (target.y - light.y) * 0.15;
-    light.z += (target.z - light.z) * 0.15;
-    chip.style.setProperty("--lx", light.x.toFixed(3));
-    chip.style.setProperty("--ly", light.y.toFixed(3));
-    chip.style.setProperty("--lz", light.z.toFixed(3));
-    const done =
-      Math.abs(target.x - light.x) +
-        Math.abs(target.y - light.y) +
-        Math.abs(target.z - light.z) <
-      0.002;
-    lightRaf = done ? 0 : requestAnimationFrame(stepLight);
+function initBlueprint(svg: SVGSVGElement) {
+  const edges = Array.from(svg.querySelectorAll<SVGPathElement>(".bp-edge"));
+  const nodes = Array.from(
+    svg.querySelectorAll<SVGCircleElement>(".bp-node"),
+  ).map((c) => ({
+    x: Number(c.getAttribute("cx")),
+    y: Number(c.getAttribute("cy")),
+    n: c.dataset.n ?? "",
+  }));
+
+  // Edge geometry + timing, exactly as baked into the markup at build time.
+  const segs = edges.map((e) => {
+    const m = /M([\d.-]+) ([\d.-]+)L([\d.-]+) ([\d.-]+)/.exec(
+      e.getAttribute("d") ?? "",
+    );
+    return {
+      x1: Number(m?.[1]),
+      y1: Number(m?.[2]),
+      x2: Number(m?.[3]),
+      y2: Number(m?.[4]),
+      at: Number.parseFloat(e.style.getPropertyValue("--at")),
+      dur: Number.parseFloat(e.style.getPropertyValue("--dur")),
+    };
+  });
+
+  // Pen head: follows the edge being drawn (and travels between edges),
+  // timed off the CSS animations' own clock so the two never drift.
+  const pen = svg.querySelector<SVGGElement>(".bp-pen");
+  let penRaf = 0;
+  const penAt = (t: number): [number, number] | null => {
+    if (!segs.length || t < segs[0].at) return null;
+    for (let i = 0; i < segs.length; i++) {
+      const s = segs[i];
+      if (t < s.at) {
+        const p = segs[i - 1];
+        const from = p.at + p.dur;
+        const k = Math.min(Math.max((t - from) / (s.at - from || 1), 0), 1);
+        return [p.x2 + (s.x1 - p.x2) * k, p.y2 + (s.y1 - p.y2) * k];
+      }
+      if (t <= s.at + s.dur) {
+        const k = (t - s.at) / (s.dur || 1);
+        return [s.x1 + (s.x2 - s.x1) * k, s.y1 + (s.y2 - s.y1) * k];
+      }
+    }
+    return null;
   };
-  const aimLight = (next: typeof rest) => {
-    target = next;
-    if (!lightRaf) lightRaf = requestAnimationFrame(stepLight);
+  const runPen = () => {
+    cancelAnimationFrame(penRaf);
+    // The last edge's animation spans the whole plot (its delay starts at 0
+    // and it ends last), so its currentTime is the plot clock.
+    const clock = edges[edges.length - 1]?.getAnimations()[0];
+    if (!pen || !clock) return;
+    const tick = () => {
+      const t = Number(clock.currentTime ?? 0) / 1000;
+      const p = clock.playState === "finished" ? null : penAt(t);
+      if (p) {
+        pen.setAttribute("transform", `translate(${p[0]} ${p[1]})`);
+        pen.style.opacity = "1";
+      } else {
+        pen.style.opacity = "0";
+      }
+      if (clock.playState !== "finished") penRaf = requestAnimationFrame(tick);
+    };
+    penRaf = requestAnimationFrame(tick);
   };
 
-  const reset = () => {
-    chip.style.removeProperty("--tilt-x");
-    chip.style.removeProperty("--tilt-y");
-    aimLight({ ...rest });
-  };
+  if (!prefersReducedMotion) {
+    runPen();
+    // Click = replot. Finished CSS animations aren't returned by
+    // getAnimations(), so restart them by toggling them off for one style
+    // flush (see `.bp.is-reset` in global.css).
+    svg.addEventListener("click", () => {
+      svg.classList.add("is-reset");
+      void svg.getBoundingClientRect();
+      svg.classList.remove("is-reset");
+      void getComputedStyle(svg).opacity;
+      runPen();
+    });
+  }
 
-  // Listen on window: the hero is a centred 1180px column, but the effect
-  // should follow the cursor across the whole first screen.
-  window.addEventListener("pointermove", (e) => {
-    if (e.clientY > hero.getBoundingClientRect().bottom) {
-      reset();
+  // CAD cursor: snap to the nearest node, show its number and coordinates.
+  const cursor = svg.querySelector<SVGGElement>(".bp-cursor");
+  const ring = cursor?.querySelector<SVGCircleElement>(".bp-ring");
+  const guide = cursor?.querySelector<SVGPathElement>(".bp-guide");
+  const tag = cursor?.querySelector<SVGRectElement>(".bp-tag");
+  const readout = cursor?.querySelector<SVGTextElement>(".bp-readout");
+  if (!cursor || !ring || !guide || !tag || !readout || !nodes.length) return;
+
+  const hide = () => cursor.classList.remove("is-on");
+  svg.addEventListener("pointermove", (e) => {
+    const ctm = svg.getScreenCTM();
+    if (!ctm) return;
+    const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(
+      ctm.inverse(),
+    );
+    let best = nodes[0];
+    let bestD = Number.POSITIVE_INFINITY;
+    for (const n of nodes) {
+      const d = Math.hypot(n.x - pt.x, n.y - pt.y);
+      if (d < bestD) {
+        bestD = d;
+        best = n;
+      }
+    }
+    if (bestD > 9) {
+      hide();
       return;
     }
-    const r = chip.getBoundingClientRect();
-    const cx = r.left + r.width / 2;
-    const cy = r.top + r.height / 2;
-    const nx = (e.clientX - cx) / window.innerWidth;
-    const ny = (e.clientY - cy) / window.innerHeight;
-    chip.style.setProperty("--tilt-y", `${(-10 + nx * 26).toFixed(2)}deg`);
-    chip.style.setProperty("--tilt-x", `${(6 - ny * 20).toFixed(2)}deg`);
-
-    const lx = e.clientX - cx;
-    const ly = e.clientY - cy;
-    const len = Math.hypot(lx, ly, LIGHT_HEIGHT);
-    aimLight({ x: lx / len, y: ly / len, z: LIGHT_HEIGHT / len });
+    ring.setAttribute("cx", String(best.x));
+    ring.setAttribute("cy", String(best.y));
+    guide.setAttribute("d", `M${best.x} ${best.y}H-2M${best.x} ${best.y}V104`);
+    readout.textContent = `N${best.n.padStart(2, "0")} · X ${best.x.toFixed(1)} · Y ${best.y.toFixed(1)}`;
+    const right = best.x > 62;
+    readout.setAttribute("text-anchor", right ? "end" : "start");
+    readout.setAttribute("x", String(best.x + (right ? -3.4 : 3.4)));
+    readout.setAttribute("y", String(best.y - 2.6));
+    const bb = readout.getBBox();
+    tag.setAttribute("x", String(bb.x - 0.9));
+    tag.setAttribute("y", String(bb.y - 0.6));
+    tag.setAttribute("width", String(bb.width + 1.8));
+    tag.setAttribute("height", String(bb.height + 1.2));
+    cursor.classList.add("is-on");
   });
-  document.addEventListener("pointerout", (e) => {
-    if (!e.relatedTarget) reset();
-  });
+  svg.addEventListener("pointerleave", hide);
 }
 
 // ─── PCB circuit background ───

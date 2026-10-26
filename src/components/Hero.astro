@@ -1,6 +1,6 @@
 ---
 import type { CVContent } from "../content/types";
-import Chip from "./Chip.astro";
+import Blueprint from "./Blueprint.astro";
 
 interface Props {
   content: CVContent;
@@ -75,9 +75,7 @@ const headRight = [typed(hero.revision), typed(ui.locationMeta)];
 
       <figure class="ds-figure">
         <div class="ds-drawing">
-          <div class="ds-dim ds-dim--x" aria-hidden="true"><span>32.0 mm</span></div>
-          <div class="ds-dim ds-dim--y" aria-hidden="true"><span>32.0 mm</span></div>
-          <Chip />
+          <Blueprint />
         </div>
         <figcaption>{hero.figCaption}</figcaption>
       </figure>
