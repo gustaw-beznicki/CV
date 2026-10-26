@@ -69,8 +69,9 @@ const cfg = {
   window.silktideConsentManager?.init({
     autoShow: true,
     namespace: cfg.namespace,
-    prompt: { position: "bottomLeft" },
-    icon: { position: "bottomLeft" },
+    // Right side: the hero's "Download CV (PDF)" button lives bottom-left.
+    prompt: { position: "bottomRight" },
+    icon: { position: "bottomRight" },
     consentTypes: [
       {
         id: "essential",
