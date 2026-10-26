@@ -16,6 +16,7 @@ import Languages from "../components/Languages.astro";
 import Logo from "../components/Logo.astro";
 import Sidebar from "../components/Sidebar.astro";
 import Skills from "../components/Skills.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 import type { CVContent } from "../content/types";
 
 interface Props {
@@ -34,7 +35,7 @@ const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Gustaw Beźnicki",
-  jobTitle: "Senior Software Engineer & Team Lead",
+  jobTitle: "Senior Software Engineer",
   url: enHref,
   email: `mailto:${content.contact.email}`,
   address: {
@@ -51,6 +52,22 @@ const jsonLd = {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ecebe6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111413" media="(prefers-color-scheme: dark)" />
+    <!-- Theme before first paint (no flash): saved choice, else the OS setting. -->
+    <script is:inline>
+      (() => {
+        let theme = null;
+        try {
+          theme = localStorage.getItem("theme");
+        } catch (e) {}
+        if (theme !== "light" && theme !== "dark") {
+          theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        }
+        document.documentElement.dataset.theme = theme;
+      })();
+    </script>
     <title>{content.meta.title}</title>
     <meta name="description" content={content.meta.description} />
     <link rel="canonical" href={canonical} />
@@ -78,7 +95,10 @@ const jsonLd = {
     <a class="brand-mark" href="#top" aria-label={content.ui.backToTop}>
       <Logo variant="mark" />
     </a>
-    <LanguageSwitcher locale={content.locale} />
+    <div class="top-controls">
+      <ThemeToggle content={content} />
+      <LanguageSwitcher locale={content.locale} />
+    </div>
     <Hero content={content} />
     <main>
       <Sidebar content={content} />

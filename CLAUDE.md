@@ -23,7 +23,7 @@ Package manager is **pnpm** (`pnpm@11.2.2`). Never use `npm` or `npx`.
 ```text
 src/pages/index.astro | pl/index.astro   one page per locale
 src/layouts/Base.astro                   <head>, SEO, JSON-LD, fonts
-src/components/*.astro                   one component per CV section (+ CookieBanner.astro, Logo.astro = deer SVG, Chip.astro = hero logo chip)
+src/components/*.astro                   one component per CV section (+ CookieBanner.astro, Logo.astro = deer SVG, Chip.astro = hero logo chip, ThemeToggle.astro)
 src/content/types.ts                     CVContent interface — source of truth for shape
 src/content/en.ts | pl.ts               all copy, fully typed against CVContent
 src/content/companies.ts                 company/brand names (single source, interpolated into both locales)
@@ -71,6 +71,8 @@ Active voice · implied third person (no "I") · verb-first sentences. Present t
 Tailwind v4 via `@tailwindcss/vite`. Design tokens are the `@theme` block in `global.css` (`--color-*`, `--font-*`). Semantic class names (`.hero`, `.exp-item`, `.section-title`, …) are load-bearing for both the print sheet and `enhance.ts` — don't rename them without updating both.
 
 Fonts are self-hosted via Fontsource (imported in `Base.astro`). Do not add Google Fonts — it would require opening the CSP.
+
+Light + dark themes: dark overrides live in `@media screen { :root[data-theme="dark"] }` in `global.css` (set by the inline script in `Base.astro` + `ThemeToggle`); use tokens, never hard-coded colours, so both themes stay in sync.
 
 The print sheet hides the sidebar and footer CTA. Anything that must appear in a PDF export must live in the hero or another print-visible area.
 

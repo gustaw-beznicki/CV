@@ -5,7 +5,7 @@ import type { CVContent } from "./types";
 export const pl: CVContent = {
   locale: "pl",
   meta: {
-    title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
+    title: "Gustaw Beźnicki — Senior Software Engineer",
     description: `Senior Software Engineer wchodzący w rolę liderską w inżynierii. 7+ lat w .NET i rozproszonych systemach chmurowych. Współzałożyciel ${companies.bnb}. Tech Lead w ${companies.lavamme}.`,
   },
   ui: {
@@ -19,6 +19,8 @@ export const pl: CVContent = {
     downloadCta: "Pobierz CV (PDF)",
     logoLabel: "Gustaw Beźnicki — logo z jeleniem",
     backToTop: "Wróć na górę",
+    themeToDark: "Włącz ciemny motyw",
+    themeToLight: "Włącz jasny motyw",
     emailLabel: "Email",
     linkedinLabel: "LinkedIn",
     locationLabel: "Lokalizacja",
@@ -51,7 +53,7 @@ export const pl: CVContent = {
     locationInline: "Gdańsk · Polska",
     partNumber: "GB-01",
     revision: "Rew. 2026",
-    docTitle: "Senior Software Engineer i Team Lead",
+    docTitle: "Senior Software Engineer",
     specsHead: ["Parametr", "Wartość"],
     specs: [
       { label: "Doświadczenie", value: "7 lat · rozproszony .NET" },

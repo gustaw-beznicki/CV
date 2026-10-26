@@ -5,7 +5,7 @@ import type { CVContent } from "./types";
 export const en: CVContent = {
   locale: "en",
   meta: {
-    title: "Gustaw Beźnicki — Senior Software Engineer & Team Lead",
+    title: "Gustaw Beźnicki — Senior Software Engineer",
     description: `Senior Software Engineer transitioning into Engineering Leadership. 7+ years in .NET and distributed cloud systems. Co-founder of ${companies.bnb}. Tech Lead at ${companies.lavamme}.`,
   },
   ui: {
@@ -19,6 +19,8 @@ export const en: CVContent = {
     downloadCta: "Download CV (PDF)",
     logoLabel: "Gustaw Beźnicki — deer logo",
     backToTop: "Back to top",
+    themeToDark: "Switch to dark theme",
+    themeToLight: "Switch to light theme",
     emailLabel: "Email",
     linkedinLabel: "LinkedIn",
     locationLabel: "Location",
@@ -51,7 +53,7 @@ export const en: CVContent = {
     locationInline: "Gdańsk · Poland",
     partNumber: "GB-01",
     revision: "Rev. 2026",
-    docTitle: "Senior Software Engineer & Team Lead",
+    docTitle: "Senior Software Engineer",
     specsHead: ["Parameter", "Value"],
     specs: [
       { label: "Experience", value: "7 yrs · distributed .NET" },

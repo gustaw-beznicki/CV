@@ -82,6 +82,9 @@ export interface CVContent {
     logoLabel: string;
     /** Label for the floating logo link that scrolls back to the top. */
     backToTop: string;
+    /** Theme toggle labels (accessible name = the action). */
+    themeToDark: string;
+    themeToLight: string;
     emailLabel: string;
     linkedinLabel: string;
     locationLabel: string;

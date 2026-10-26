@@ -17,6 +17,65 @@ document.querySelectorAll<HTMLButtonElement>("[data-print]").forEach((btn) => {
   btn.addEventListener("click", () => window.print());
 });
 
+// ─── Theme toggle ───
+// The inline script in Base.astro already set data-theme before first paint;
+// here we wire the button, persist the choice, and follow OS changes while
+// the visitor hasn't picked one.
+const root = document.documentElement;
+const themeToggle = document.querySelector<HTMLButtonElement>(
+  "[data-theme-toggle]",
+);
+const systemDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+const applyTheme = (theme: "light" | "dark") => {
+  root.dataset.theme = theme;
+  if (themeToggle) {
+    const label =
+      theme === "dark"
+        ? themeToggle.dataset.labelLight
+        : themeToggle.dataset.labelDark;
+    themeToggle.setAttribute("aria-pressed", String(theme === "dark"));
+    if (label) {
+      themeToggle.setAttribute("aria-label", label);
+      themeToggle.title = label;
+    }
+  }
+  const bg = getComputedStyle(root).getPropertyValue("--color-bg").trim();
+  document
+    .querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]')
+    .forEach((m) => {
+      m.content = bg;
+    });
+  window.dispatchEvent(new Event("themechange"));
+};
+
+const savedTheme = () => {
+  try {
+    return localStorage.getItem("theme");
+  } catch {
+    return null;
+  }
+};
+
+applyTheme(root.dataset.theme === "dark" ? "dark" : "light");
+
+if (themeToggle) {
+  themeToggle.hidden = false;
+  themeToggle.addEventListener("click", () => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    try {
+      localStorage.setItem("theme", next);
+    } catch {
+      // Storage blocked: the choice just won't persist.
+    }
+    applyTheme(next);
+  });
+}
+
+systemDark.addEventListener("change", (e) => {
+  if (!savedTheme()) applyTheme(e.matches ? "dark" : "light");
+});
+
 // Highlight the sidebar link for the section currently in view.
 const sections = document.querySelectorAll<HTMLElement>(".content section");
 const navLinks = document.querySelectorAll<HTMLAnchorElement>(".sidebar-nav a");
@@ -264,8 +323,14 @@ if (canvas) {
 function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   const GRID = 24; // matches the graph-paper grid in global.css
   const GLOW = 170; // cursor highlight radius (CSS px)
-  const PCB = "23, 115, 93";
-  const INK = "15, 15, 15";
+  // Trace/pulse colours come from the theme (--trace-rgb / --pulse-rgb).
+  let INK = "";
+  let PCB = "";
+  const readColors = () => {
+    const cs = getComputedStyle(document.documentElement);
+    INK = cs.getPropertyValue("--trace-rgb").trim() || "15, 15, 15";
+    PCB = cs.getPropertyValue("--pulse-rgb").trim() || "23, 115, 93";
+  };
   const DIRS: Pt[] = [
     { x: 1, y: 0 },
     { x: 1, y: 1 },
@@ -371,9 +436,14 @@ function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
       traces.push({ pts, len, seg });
     }
 
+    paintLayers();
+    pulses = [];
+  };
+
+  const paintLayers = () => {
+    readColors();
     paint(dim, `rgba(${INK}, 0.075)`, `rgba(${INK}, 0.14)`);
     paint(bright, `rgba(${PCB}, 0.6)`, `rgba(${PCB}, 0.85)`);
-    pulses = [];
   };
 
   const paint = (layer: HTMLCanvasElement, line: string, pad: string) => {
@@ -423,6 +493,12 @@ function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
 
   build();
   drawStatic();
+
+  // Re-colour the same traces when the theme flips (no reshuffle).
+  window.addEventListener("themechange", () => {
+    paintLayers();
+    drawStatic();
+  });
 
   if (prefersReducedMotion) {
     // Static circuit only — no pulses, no cursor glow.

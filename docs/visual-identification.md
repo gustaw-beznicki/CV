@@ -28,6 +28,32 @@ Direction: **engineering datasheet**. The page reads like a component data sheet
 | `--color-pcb-soft` / `-line` | `rgba(27,125,102,0.12 / 0.35)` | PCB tints |
 | `--color-gold` | `#c99a5b` | Only the chip's pins and traces |
 
+### Dark theme
+
+The same datasheet at night: graphite paper, light ink, glowing PCB green.
+
+- **Selection:** follows the OS (`prefers-color-scheme`) by default. The top-right toggle (`ThemeToggle.astro`, next to EN/PL) overrides it and saves the choice in `localStorage` (`theme`).
+- **No flash:** an inline script in `Base.astro`'s `<head>` sets `data-theme` on `<html>` before first paint.
+- **No JS:** the page stays light and the toggle stays hidden.
+- **Where the tokens live:** the dark tokens override the `--color-*` palette under `@media screen { :root[data-theme="dark"] }`. Print therefore always stays black on white.
+- **Non-palette values** are tokens too, so both themes stay in sync:
+  - `--grid-*`, `--grain-*` (background),
+  - `--sheet`, `--glass` (frames and floating UI),
+  - `--hover-tint`, `--accent-rgb` (tints and spotlights),
+  - `--cta-text/--cta-hover` (the PDF button),
+  - `--shadow-rgb`,
+  - `--trace-rgb/--pulse-rgb` (canvas; `enhance.ts` re-paints the same traces on a `themechange` event).
+
+| Token | Dark value |
+|---|---|
+| `--color-bg` / `-bg-alt` / `-surface` | `#111413` / `#161a19` / `#1a1f1d` |
+| `--color-border` / `-border-soft` | `#3a423f` / `#262d2a` |
+| `--color-muted` / `-text-soft` / `-text` / `-bright` | `#8a938f` / `#b4bcb8` / `#d9dedb` / `#f1f3f2` |
+| `--color-accent` | `#4cc3a0` (CTA uses dark text on it) |
+| `--color-pcb` | `#3fae8e` |
+
+The chip is identical in both themes; the small deer marks switch to a brighter steel on graphite.
+
 ### Text-selection colour
 
 ```css
