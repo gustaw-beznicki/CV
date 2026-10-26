@@ -2,25 +2,27 @@
 
 /* ─── Design tokens (Tailwind v4 @theme → utilities + CSS vars) ─── */
 @theme {
-  --color-bg: #0e0f13;
-  --color-bg-alt: #14161e;
-  --color-surface: #181a23;
-  --color-border: #262936;
-  --color-border-soft: #1f2230;
-  --color-muted: #6b7282;
-  --color-text-soft: #9da3b1;
-  --color-text: #c8cad2;
-  --color-bright: #f0f0f4;
-  --color-accent: #d4a574;
-  --color-accent-soft: rgba(212, 165, 116, 0.12);
-  --color-accent-line: rgba(212, 165, 116, 0.3);
-  /* PCB green — secondary "technical" accent taken from the deer-on-a-chip logo. */
-  --color-pcb: #2fa883;
+  /* "Engineering datasheet": paper, ink, one PCB-green accent. */
+  --color-bg: #ecebe6; /* paper */
+  --color-bg-alt: #e3e1da;
+  --color-surface: #f6f5f1;
+  --color-border: #c4c1b8;
+  --color-border-soft: #d8d5cd;
+  --color-muted: #6d6a63;
+  --color-text-soft: #47453f;
+  --color-text: #23211d;
+  --color-bright: #0f0f0f; /* ink */
+  /* PCB green from the deer-on-a-chip logo, in an ink-strength shade. */
+  --color-accent: #17735d;
+  --color-accent-soft: rgba(23, 115, 93, 0.1);
+  --color-accent-line: rgba(23, 115, 93, 0.35);
+  --color-pcb: #1b7d66;
   --color-pcb-deep: #17604f;
-  --color-pcb-soft: rgba(47, 168, 131, 0.12);
-  --color-pcb-line: rgba(47, 168, 131, 0.3);
+  --color-pcb-soft: rgba(27, 125, 102, 0.12);
+  --color-pcb-line: rgba(27, 125, 102, 0.35);
+  /* Only for the chip's pins and traces. */
+  --color-gold: #c99a5b;
 
-  --font-serif: "Fraunces Variable", Georgia, serif;
   --font-sans: "Instrument Sans Variable", system-ui, sans-serif;
   --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
 }
@@ -43,7 +45,7 @@
   --pcb-deep: var(--color-pcb-deep);
   --pcb-soft: var(--color-pcb-soft);
   --pcb-line: var(--color-pcb-line);
-  --serif: var(--font-serif);
+  --gold: var(--color-gold);
   --sans: var(--font-sans);
   --mono: var(--font-mono);
   --max: 1180px;
@@ -65,35 +67,36 @@ body {
   overflow-x: hidden;
 }
 
-/* Background atmospherics */
+/* Graph paper: a fine 24px grid with a heavier 120px grid, fixed to the
+   viewport so it lines up with the circuit canvas (enhance.ts, same 24px). */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(
-      circle at 80% -10%,
-      rgba(212, 165, 116, 0.05),
-      transparent 50%
-    ),
-    radial-gradient(
-      circle at -10% 100%,
-      rgba(47, 168, 131, 0.06),
-      transparent 60%
-    );
+  background-image:
+    linear-gradient(rgba(15, 15, 15, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 15, 15, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(15, 15, 15, 0.028) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(15, 15, 15, 0.028) 1px, transparent 1px);
+  background-size:
+    120px 120px,
+    120px 120px,
+    24px 24px,
+    24px 24px;
   pointer-events: none;
   z-index: 0;
 }
 
+/* Paper grain. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
-  opacity: 0.025;
+  opacity: 0.05;
   pointer-events: none;
   z-index: 1;
-  mix-blend-mode: overlay;
+  mix-blend-mode: multiply;
 }
 
 ::selection {
@@ -109,7 +112,7 @@ body::after {
   display: flex;
   gap: 2px;
   z-index: 100;
-  background: rgba(20, 22, 30, 0.85);
+  background: rgba(246, 245, 241, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border);
@@ -177,7 +180,7 @@ body::after {
   height: 42px;
   padding: 7px;
   color: var(--accent);
-  background: rgba(20, 22, 30, 0.85);
+  background: rgba(246, 245, 241, 0.92);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 1px solid var(--border);
@@ -220,7 +223,7 @@ body::after {
   right: 0;
   height: 2px;
   z-index: 101;
-  background: linear-gradient(90deg, var(--pcb), var(--accent));
+  background: var(--accent);
   transform-origin: 0 50%;
   transform: scaleX(var(--progress, 0));
   pointer-events: none;
@@ -244,22 +247,248 @@ body::after {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: clamp(2rem, 6vw, 5rem) clamp(1.5rem, 5vw, 6rem);
+  padding: clamp(3.75rem, 5vw, 4.5rem) clamp(1.5rem, 5vw, 6rem) clamp(1.5rem, 3vw, 2.5rem);
   position: relative;
   max-width: var(--max);
   margin: 0 auto;
   z-index: 2;
-  overflow: hidden;
+}
+
+/* The hero is laid out as a component datasheet: a framed sheet with a
+   header bar, the title + key parameters on the left, FIG. 1 (the chip) on
+   the right, and a footer strip. */
+.ds {
+  position: relative;
+  border: 1px solid var(--bright);
+  background: rgba(246, 245, 241, 0.72);
+  opacity: 0;
+  animation: fadeUp 0.8s 0.05s ease forwards;
+}
+
+/* Registration ticks on the sheet corners. */
+.ds::before,
+.ds::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 0 solid var(--bright);
+  pointer-events: none;
+}
+
+.ds::before {
+  top: -8px;
+  left: -8px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+}
+
+.ds::after {
+  bottom: -8px;
+  right: -8px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+}
+
+.ds-body {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+}
+
+.ds-main {
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.ds-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.ds-kicker {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fadeUp 0.8s 0.4s ease forwards;
+}
+
+/* Key parameters: label ....... value, like a datasheet table. */
+.ds-specs {
+  margin: 1.5rem 0 0;
+  border-top: 1px solid var(--bright);
+  opacity: 0;
+  animation: fadeUp 0.8s 0.8s ease forwards;
+}
+
+.ds-specs-title {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.ds-spec {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.34rem 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: 0.92rem;
+}
+
+.ds-spec dt {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--text-soft);
+  white-space: nowrap;
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+/* Dotted leader between the label and the value. */
+.ds-spec dt::after {
+  content: "";
+  flex: 1;
+  min-width: 1.5rem;
+  border-bottom: 1px dotted var(--border);
+  transform: translateY(-0.2em);
+}
+
+.ds-spec dd {
+  color: var(--bright);
+  font-weight: 500;
+  text-align: right;
+}
+
+.ds-figure {
+  position: relative;
+  margin: 0;
+  border-left: 1px solid var(--bright);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.75rem;
+  padding: clamp(2.5rem, 4vw, 3.5rem) 1.5rem 1.5rem;
+}
+
+/* Technical-drawing dimension lines around the chip. */
+.ds-drawing {
+  position: relative;
+  width: clamp(190px, 21vw, 290px);
+}
+
+.ds-dim {
+  position: absolute;
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  pointer-events: none;
+}
+
+.ds-dim--x {
+  left: 0;
+  right: 0;
+  top: -1.9rem;
+  height: 9px;
+  border: 0 solid var(--muted);
+  border-left-width: 1px;
+  border-right-width: 1px;
+  background: linear-gradient(var(--muted), var(--muted)) center / 100% 1px
+    no-repeat;
+}
+
+.ds-dim--y {
+  top: 0;
+  bottom: 0;
+  right: -1.9rem;
+  width: 9px;
+  border: 0 solid var(--muted);
+  border-top-width: 1px;
+  border-bottom-width: 1px;
+  background: linear-gradient(var(--muted), var(--muted)) center / 1px 100%
+    no-repeat;
+}
+
+.ds-dim span {
+  position: absolute;
+  background: var(--surface);
+  padding: 0 0.35rem;
+  white-space: nowrap;
+}
+
+.ds-dim--x span {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ds-dim--y span {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.ds-figure figcaption {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  align-self: stretch;
+  text-align: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+}
+
+.ds-foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.75rem;
+  border-top: 1px solid var(--bright);
+  padding: 0.55rem clamp(1rem, 2vw, 1.5rem);
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.ds-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.ds-pin::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
 }
 
 /* Logo chip (Chip.astro) — a CPU package: PCB-green substrate with gold pins,
    traces and SMD parts, and a raised silver die with the deer engraved in it.
    Replaces the old background photo. Tilt/shift/light vars come from enhance.ts. */
 .hero-chip {
-  position: absolute;
-  right: clamp(1.5rem, 5vw, 6rem);
-  bottom: 11%;
-  width: clamp(200px, 22vw, 320px);
+  position: relative;
+  width: 100%;
   perspective: 900px;
   z-index: 0;
   opacity: 0;
@@ -289,10 +518,9 @@ body::after {
     0 4px 0 #0c3d30,
     0 5px 0 #0a3429,
     0 6px 1px #082b22,
-    0 34px 60px -18px rgba(0, 0, 0, 0.8),
-    0 0 90px -10px rgba(47, 168, 131, 0.25);
+    0 26px 34px -20px rgba(15, 15, 15, 0.45);
   transform: translate3d(0, var(--chip-shift, 0px), 0)
-    rotateX(var(--tilt-x, 10deg)) rotateY(var(--tilt-y, -16deg));
+    rotateX(var(--tilt-x, 6deg)) rotateY(var(--tilt-y, -10deg));
   transform-style: preserve-3d;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
@@ -313,7 +541,7 @@ body::after {
 
 .chip-trace {
   fill: none;
-  stroke: var(--accent);
+  stroke: var(--gold);
   stroke-width: 0.32;
   stroke-linejoin: round;
   opacity: 0.55;
@@ -321,7 +549,7 @@ body::after {
 
 .chip-via {
   fill: #0d3d32;
-  stroke: var(--accent);
+  stroke: var(--gold);
   stroke-width: 0.25;
   opacity: 0.8;
 }
@@ -497,21 +725,21 @@ body::after {
   --spec: 0;
 }
 
-/* Raised gold for the small marks. */
+/* Raised graphite steel for the small marks (ink on paper). */
 .deer--mark .wall {
-  --hue: 32;
-  --sat: 58%;
-  --amb: 18;
-  --dif: 52;
+  --hue: 200;
+  --sat: 6%;
+  --amb: 10;
+  --dif: 55;
   --spec: 120;
 }
 
 .deer--mark .floor {
-  --hue: 33;
-  --sat: 55%;
-  --amb: 30;
-  --dif: 36;
-  --spec: 60;
+  --hue: 200;
+  --sat: 5%;
+  --amb: 14;
+  --dif: 26;
+  --spec: 40;
 }
 
 .deer-trace path {
@@ -593,40 +821,46 @@ body::after {
   }
 }
 
+/* Round portrait in a thin ink ring, like an inspection stamp. */
 .hero-avatar {
-  width: 88px;
-  height: 88px;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   object-fit: cover;
   object-position: center 15%;
-  border: 2px solid var(--accent-line);
-  margin-bottom: 2rem;
+  border: 1px solid var(--bright);
+  padding: 3px;
+  background: var(--surface);
+  filter: grayscale(0.3) contrast(1.05);
+  flex-shrink: 0;
   opacity: 0;
-  animation: fadeUp 0.8s 0.15s ease forwards;
-  position: relative;
-  z-index: 1;
+  animation: fadeUp 0.8s 0.25s ease forwards;
   display: block;
 }
 
+/* Sheet header bar: part number + document type left, revision + location
+   right, typed in like a terminal. */
 .hero-meta {
   font-family: var(--mono);
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 3rem;
+  color: var(--bright);
   display: flex;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  gap: 0.35rem 1.25rem;
   align-items: center;
-  opacity: 0;
-  animation: fadeUp 0.8s 0.1s ease forwards;
+  padding: 0.7rem clamp(1rem, 2vw, 1.5rem);
+  border-bottom: 1px solid var(--bright);
 }
 
-.hero-meta::before {
-  content: "";
-  width: 24px;
-  height: 1px;
-  background: var(--accent);
+.hero-meta .ds-part {
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.hero-meta .ds-spacer {
+  flex: 1;
 }
 
 /* Typewriter: the text is always in the DOM (screen readers get it whole);
@@ -643,8 +877,8 @@ body::after {
   content: "";
   width: 0.55em;
   height: 1.1em;
-  margin-left: -1rem;
-  background: var(--pcb);
+  margin-left: -0.9rem;
+  background: var(--accent);
   opacity: 0;
 }
 
@@ -676,40 +910,55 @@ body::after {
 }
 
 .hero h1 {
-  font-family: var(--serif);
-  font-weight: 350;
-  font-variation-settings:
-    "opsz" 144,
-    "SOFT" 30;
-  font-size: clamp(3.5rem, 10vw, 8.5rem);
-  line-height: 0.95;
-  letter-spacing: -0.025em;
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(3rem, 5.6vw, 5.1rem);
+  line-height: 0.9;
+  letter-spacing: -0.045em;
   color: var(--bright);
-  margin-bottom: 2rem;
   opacity: 0;
-  animation: fadeUp 1s 0.3s ease forwards;
+  animation: fadeUp 0.9s 0.3s ease forwards;
 }
 
+.hero h1 span,
 .hero h1 em {
-  font-style: italic;
-  font-weight: 300;
-  color: var(--accent);
+  display: block;
+}
+
+/* Surname: same ink, no italics — underlined with a PCB-green bar. */
+.hero h1 em {
+  font-style: normal;
+  width: fit-content;
+  background: linear-gradient(var(--accent), var(--accent)) left bottom /
+    100% 0.09em no-repeat;
+  padding-bottom: 0.06em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero h1 em {
+    animation: underline 0.9s 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+  }
+}
+
+@keyframes underline {
+  from {
+    background-size: 0% 0.09em;
+  }
 }
 
 .hero-role {
   font-family: var(--sans);
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-size: clamp(1rem, 1.35vw, 1.12rem);
   color: var(--text-soft);
-  max-width: 640px;
-  margin-bottom: 3rem;
-  line-height: 1.5;
+  max-width: 600px;
+  line-height: 1.55;
   opacity: 0;
-  animation: fadeUp 1s 0.5s ease forwards;
+  animation: fadeUp 0.9s 0.5s ease forwards;
 }
 
 .hero-role strong {
   color: var(--bright);
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .hero-role a {
@@ -729,39 +978,39 @@ body::after {
 
 .hero-contact {
   display: flex;
-  gap: clamp(1rem, 3vw, 2.5rem);
+  gap: 0.5rem 1.75rem;
   flex-wrap: wrap;
   align-items: center;
   font-family: var(--mono);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--muted);
   opacity: 0;
-  animation: fadeUp 1s 0.7s ease forwards;
+  animation: fadeUp 0.9s 0.7s ease forwards;
 }
 
 .hero-contact a {
-  color: var(--text-soft);
+  color: var(--text);
   text-decoration: none;
   transition: color 0.2s;
-  border-bottom: 1px solid transparent;
-  padding-bottom: 2px;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 1px;
 }
 
 .hero-contact a:hover {
   color: var(--accent);
-  border-bottom-color: var(--accent-line);
+  border-bottom-color: var(--accent);
 }
 
 /* ─── HERO CTA — Download / Save as PDF ─── */
 .hero-actions {
-  margin-top: 2.25rem;
+  margin: 1.5rem 0 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
   position: relative;
   z-index: 1;
   opacity: 0;
-  animation: fadeUp 1s 0.85s ease forwards;
+  animation: fadeUp 0.9s 0.6s ease forwards;
 }
 
 .hero-cta {
@@ -770,22 +1019,20 @@ body::after {
   align-items: center;
   gap: 0.65rem;
   font-family: var(--mono);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 600;
-  letter-spacing: 0.04em;
-  color: var(--bg);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #fff;
   background: var(--accent);
-  border: 0;
-  border-radius: 8px;
-  padding: 0.85rem 1.35rem;
+  border: 1px solid var(--bright);
+  border-radius: 2px;
+  padding: 0.85rem 1.3rem;
   cursor: pointer;
   overflow: hidden;
-  box-shadow:
-    0 0 0 1px rgba(212, 165, 116, 0.5),
-    0 10px 30px -10px rgba(212, 165, 116, 0.55);
   transition:
-    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
-    box-shadow 0.25s;
+    transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.2s;
 }
 
 /* Light sweep across the button on hover. */
@@ -796,7 +1043,7 @@ body::after {
   background: linear-gradient(
     110deg,
     transparent 30%,
-    rgba(255, 255, 255, 0.45) 50%,
+    rgba(255, 255, 255, 0.3) 50%,
     transparent 70%
   );
   transform: translateX(-120%);
@@ -804,10 +1051,8 @@ body::after {
 }
 
 .hero-cta:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 0 0 1px var(--accent),
-    0 16px 40px -10px rgba(212, 165, 116, 0.7);
+  background: #105a48;
+  transform: translateY(-1px);
 }
 
 .hero-cta:hover::before {
@@ -820,8 +1065,8 @@ body::after {
 }
 
 .hero-cta svg {
-  width: 18px;
-  height: 18px;
+  width: 17px;
+  height: 17px;
   fill: none;
   stroke: currentColor;
   stroke-width: 2.2;
@@ -840,27 +1085,24 @@ body::after {
   }
 }
 
+/* Scroll hint lives at the right end of the sheet's footer strip. */
 .hero-scroll {
-  position: absolute;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  opacity: 0;
-  animation:
-    fadeUp 1s 1s ease forwards,
-    float 2.5s 1.5s ease-in-out infinite;
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--bright);
 }
 
 .hero-scroll::after {
   content: "↓";
-  display: block;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-scroll::after {
+    animation: float 2.5s 1.5s ease-in-out infinite;
+  }
 }
 
 @keyframes fadeUp {
@@ -877,10 +1119,10 @@ body::after {
 @keyframes float {
   0%,
   100% {
-    transform: translate(-50%, 0);
+    transform: translateY(0);
   }
   50% {
-    transform: translate(-50%, 6px);
+    transform: translateY(4px);
   }
 }
 
@@ -1031,8 +1273,8 @@ main {
   height: 1px;
   background: linear-gradient(
     90deg,
-    var(--accent),
-    var(--pcb) 35%,
+    var(--bright),
+    var(--accent) 30%,
     transparent 80%
   );
   transform-origin: 0 50%;
@@ -1060,7 +1302,7 @@ main {
   height: 6px;
   border-radius: 50%;
   background: var(--pcb);
-  box-shadow: 0 0 8px var(--pcb);
+  box-shadow: 0 0 0 2px var(--pcb-soft);
   align-self: center;
 }
 
@@ -1098,15 +1340,12 @@ main {
 }
 
 .section-title {
-  font-family: var(--serif);
-  font-weight: 300;
-  font-variation-settings:
-    "opsz" 144,
-    "SOFT" 50;
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
   line-height: 1;
   color: var(--bright);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.025em;
 }
 
 /* ─── SUMMARY ─── */
@@ -1137,7 +1376,7 @@ main {
   border-bottom: 1px solid var(--border-soft);
   background: radial-gradient(
     320px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(212, 165, 116, calc(0.1 * var(--spot))),
+    rgba(23, 115, 93, calc(0.08 * var(--spot))),
     transparent 70%
   );
   transition:
@@ -1178,21 +1417,17 @@ main {
 }
 
 .highlight-text {
-  font-family: var(--serif);
-  font-weight: 350;
-  font-variation-settings:
-    "opsz" 144,
-    "SOFT" 50;
-  font-size: 1.15rem;
-  line-height: 1.5;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 1.08rem;
+  line-height: 1.55;
   color: var(--text);
   letter-spacing: -0.005em;
 }
 
 .highlight-text strong {
   color: var(--bright);
-  font-weight: 500;
-  font-style: italic;
+  font-weight: 600;
 }
 
 /* ─── SKILLS ─── */
@@ -1241,7 +1476,7 @@ main {
   color: var(--pcb);
   background: var(--pcb-soft);
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px -6px rgba(47, 168, 131, 0.5);
+  box-shadow: 0 3px 0 -1px var(--pcb-line);
 }
 
 .skill-tag.is-lead {
@@ -1260,7 +1495,7 @@ main {
   scroll-margin-top: 2rem;
   background: radial-gradient(
     420px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(212, 165, 116, calc(0.06 * var(--spot))),
+    rgba(23, 115, 93, calc(0.06 * var(--spot))),
     transparent 70%
   );
   transition: --spot 0.35s;
@@ -1279,8 +1514,7 @@ main {
   top: 0;
   width: 1px;
   height: calc(var(--fill, 0) * 100%);
-  background: linear-gradient(to bottom, var(--accent), var(--pcb));
-  box-shadow: 0 0 6px rgba(47, 168, 131, 0.6);
+  background: linear-gradient(to bottom, var(--bright), var(--accent));
 }
 
 .exp-item:last-child::after {
@@ -1324,10 +1558,10 @@ main {
 
 @keyframes dotOn {
   0% {
-    box-shadow: 0 0 0 0 rgba(212, 165, 116, 0.6);
+    box-shadow: 0 0 0 0 rgba(23, 115, 93, 0.5);
   }
   100% {
-    box-shadow: 0 0 0 10px rgba(212, 165, 116, 0);
+    box-shadow: 0 0 0 10px rgba(23, 115, 93, 0);
   }
 }
 
@@ -1356,12 +1590,9 @@ main {
 }
 
 .exp-title {
-  font-family: var(--serif);
-  font-weight: 400;
-  font-variation-settings:
-    "opsz" 144,
-    "SOFT" 30;
-  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: clamp(1.2rem, 1.9vw, 1.4rem);
   color: var(--bright);
   line-height: 1.2;
   margin-bottom: 0.35rem;
@@ -1513,7 +1744,7 @@ main {
 }
 
 .cert-item:hover {
-  background: rgba(255, 255, 255, 0.015);
+  background: rgba(15, 15, 15, 0.025);
 }
 
 .cert-year {
@@ -1537,15 +1768,11 @@ main {
 
 /* ─── INTERESTS ─── */
 .interests-list {
-  font-family: var(--serif);
-  font-weight: 350;
-  font-variation-settings:
-    "opsz" 144,
-    "SOFT" 60;
-  font-size: 1.25rem;
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: 1.15rem;
   line-height: 1.7;
   color: var(--text);
-  font-style: italic;
   letter-spacing: -0.005em;
   max-width: 60ch;
 }
@@ -1568,9 +1795,9 @@ footer {
 }
 
 .footer-cta {
-  font-family: var(--serif);
-  font-style: italic;
-  font-weight: 300;
+  font-family: var(--sans);
+  font-weight: 600;
+  letter-spacing: -0.02em;
   font-size: clamp(1.4rem, 3vw, 2rem);
   color: var(--bright);
   margin-bottom: 2rem;
@@ -1647,25 +1874,61 @@ footer {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 860px) {
-  /* Avatar left, chip right, on one row. */
-  .hero-id {
+  .hero {
+    min-height: auto;
+    padding: 4.25rem 1rem 2rem;
+  }
+
+  /* One column; .ds-main dissolves so FIG. 1 can sit between the intro and
+     the parameters table. */
+  .ds-body {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
+    flex-direction: column;
+    padding: 1.5rem 1.25rem 1.25rem;
   }
 
-  .hero-chip {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    width: 116px;
-    margin: 0 0.5rem 0 0;
+  .ds-main {
+    display: contents;
   }
 
-  .hero-meta {
-    flex-wrap: wrap;
-    row-gap: 0.35rem;
-    margin-bottom: 2.25rem;
+  .ds-title {
+    order: 1;
+  }
+
+  .ds-kicker {
+    order: 2;
+  }
+
+  .hero-role {
+    order: 3;
+  }
+
+  .ds-figure {
+    border-left: 0;
+    border-top: 1px solid var(--bright);
+    border-bottom: 1px solid var(--bright);
+    margin: 1.5rem -1.25rem 0;
+    padding: 2.75rem 1rem 1rem;
+  }
+
+  .ds-drawing {
+    width: min(190px, 50vw);
+  }
+
+  .hero-actions {
+    order: 4;
+  }
+
+  .hero-contact {
+    order: 5;
+  }
+
+  .ds-figure {
+    order: 6;
+  }
+
+  .ds-specs {
+    order: 7;
   }
 
   main {
@@ -1737,8 +2000,8 @@ body #stcm-wrapper {
   --primaryColor: var(--accent); /* site gold — not the bundled #F9D000 yellow */
   --backgroundColor: var(--surface); /* opaque — used by the preferences modal */
   --textColor: var(--text);
-  --boxShadow: 0 0 0 1px var(--accent-line), 0 12px 40px rgba(0, 0, 0, 0.5);
-  --backdropBackgroundColor: rgba(0, 0, 0, 0.55);
+  --boxShadow: 0 0 0 1px var(--border), 0 12px 32px rgba(15, 15, 15, 0.14);
+  --backdropBackgroundColor: rgba(15, 15, 15, 0.35);
   --iconColor: var(--bg);
   --iconBackgroundColor: var(--accent);
 }
@@ -1746,7 +2009,7 @@ body #stcm-wrapper {
 /* Transparent, glassy prompt. The preferences modal stays opaque (it uses
    --backgroundColor); only the always-visible prompt goes see-through. */
 body #stcm-wrapper #stcm-banner {
-  background-color: rgba(14, 15, 19, 0.4);
+  background-color: rgba(246, 245, 241, 0.88);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border: 1px solid var(--accent-line);
@@ -1761,7 +2024,7 @@ body #stcm-wrapper #stcm-banner::before {
   right: 1.5rem;
   height: 2px;
   border-radius: 0 0 2px 2px;
-  background: linear-gradient(90deg, var(--pcb), var(--accent));
+  background: linear-gradient(90deg, var(--bright), var(--accent));
 }
 
 /* "On" switches in the preferences modal light up PCB green, like the LEDs. */
@@ -1829,8 +2092,35 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   .hero-actions,
   .hero-avatar,
   .hero-meta,
-  .hero-scroll {
+  .hero-scroll,
+  .ds-kicker,
+  .ds-specs,
+  .ds-figure,
+  .ds-foot,
+  .ds::before,
+  .ds::after {
     display: none;
+  }
+
+  /* Flatten the datasheet frame back to the classic CV header. */
+  .ds {
+    border: 0;
+    background: none;
+  }
+
+  .ds-body,
+  .ds-main,
+  .ds-title {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+
+  .hero h1 span,
+  .hero h1 em {
+    display: inline;
+    background: none;
+    padding: 0;
   }
 
   .hero h1 {
@@ -2371,6 +2661,9 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  .ds,
+  .ds-kicker,
+  .ds-specs,
   .hero-chip,
   .hero-avatar,
   .hero-meta,

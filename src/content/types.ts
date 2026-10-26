@@ -70,7 +70,6 @@ export interface CVContent {
   };
   ui: {
     cvLabel: string;
-    year: string;
     locationMeta: string;
     scroll: string;
     sectionsLabel: string;
@@ -105,6 +104,21 @@ export interface CVContent {
     /** May contain inline <strong>. */
     roleHtml: string;
     locationInline: string;
+    /** Datasheet header: part number, e.g. "GB-01". */
+    partNumber: string;
+    /** Datasheet header: revision, e.g. "Rev. 2026". */
+    revision: string;
+    /** Title line under the name (mono kicker). */
+    docTitle: string;
+    /** Column headings of the key-parameters table. */
+    specsHead: [string, string];
+    /** Key parameters, rendered as "label ........ value". */
+    specs: { label: string; value: string }[];
+    /** Caption under the chip illustration. */
+    figCaption: string;
+    /** Footer strip of the datasheet frame. */
+    pinLabel: string;
+    sheetLabel: string;
   };
   contact: {
     email: string;

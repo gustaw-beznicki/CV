@@ -158,7 +158,7 @@ const onScroll = () => {
 
   // Circuit layer: full strength over the hero, quieter behind the content.
   if (canvas) {
-    canvas.style.opacity = String(1 - Math.min(y / heroH, 1) * 0.65);
+    canvas.style.opacity = String(1 - Math.min(y / heroH, 1) * 0.5);
   }
 
   if (!prefersReducedMotion) {
@@ -236,8 +236,8 @@ if (hero && chip && finePointer && !prefersReducedMotion) {
     const cy = r.top + r.height / 2;
     const nx = (e.clientX - cx) / window.innerWidth;
     const ny = (e.clientY - cy) / window.innerHeight;
-    chip.style.setProperty("--tilt-y", `${(-16 + nx * 28).toFixed(2)}deg`);
-    chip.style.setProperty("--tilt-x", `${(10 - ny * 22).toFixed(2)}deg`);
+    chip.style.setProperty("--tilt-y", `${(-10 + nx * 26).toFixed(2)}deg`);
+    chip.style.setProperty("--tilt-x", `${(6 - ny * 20).toFixed(2)}deg`);
 
     const lx = e.clientX - cx;
     const ly = e.clientY - cy;
@@ -262,10 +262,10 @@ if (canvas) {
 }
 
 function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
-  const GRID = 26;
+  const GRID = 24; // matches the graph-paper grid in global.css
   const GLOW = 170; // cursor highlight radius (CSS px)
-  const PCB = "47, 168, 131";
-  const GOLD = "212, 165, 116";
+  const PCB = "23, 115, 93";
+  const INK = "15, 15, 15";
   const DIRS: Pt[] = [
     { x: 1, y: 0 },
     { x: 1, y: 1 },
@@ -286,7 +286,7 @@ function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
   const lens = document.createElement("canvas");
   const mouse = { x: -9999, y: -9999, active: false };
 
-  type Pulse = { t: Trace; d: number; speed: number; gold: boolean };
+  type Pulse = { t: Trace; d: number; speed: number; ink: boolean };
 
   let pulses: Pulse[] = [];
 
@@ -371,8 +371,8 @@ function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
       traces.push({ pts, len, seg });
     }
 
-    paint(dim, `rgba(${PCB}, 0.13)`, `rgba(${PCB}, 0.22)`);
-    paint(bright, `rgba(${PCB}, 0.75)`, `rgba(${GOLD}, 0.9)`);
+    paint(dim, `rgba(${INK}, 0.075)`, `rgba(${INK}, 0.14)`);
+    paint(bright, `rgba(${PCB}, 0.6)`, `rgba(${PCB}, 0.85)`);
     pulses = [];
   };
 
@@ -502,7 +502,7 @@ function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
         t,
         d: -Math.random() * 200,
         speed: 60 + Math.random() * 90,
-        gold: Math.random() < 0.35,
+        ink: Math.random() < 0.35,
       });
     }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -511,7 +511,7 @@ function initCircuit(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
       p.d += p.speed * dt;
       if (p.d > p.t.len + 30) return false;
       if (p.d < 0) return true;
-      const rgb = p.gold ? GOLD : PCB;
+      const rgb = p.ink ? INK : PCB;
       const head = pointAt(p.t, Math.min(p.d, p.t.len));
       const TAIL = 28;
       const steps = 7;
