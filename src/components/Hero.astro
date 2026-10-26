@@ -1,6 +1,6 @@
 ---
 import type { CVContent } from "../content/types";
-import Logo from "./Logo.astro";
+import Chip from "./Chip.astro";
 
 interface Props {
   content: CVContent;
@@ -27,14 +27,7 @@ const meta = [ui.cvLabel, ui.year, ui.locationMeta].map((text) => {
   </div>
   <div class="hero-id">
     <img class="hero-avatar" src="/profile.png" alt={`${hero.name} ${hero.surname}`} width="88" height="88" />
-    <div class="hero-chip" aria-hidden="true">
-      <div class="chip">
-        <div class="chip-die">
-          <Logo variant="chip" />
-          <span class="chip-sheen"></span>
-        </div>
-      </div>
-    </div>
+    <Chip />
   </div>
   <h1>{hero.name} <em>{hero.surname}</em></h1>
   <p class="hero-role" set:html={hero.roleHtml}></p>

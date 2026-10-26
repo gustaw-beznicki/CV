@@ -252,8 +252,9 @@ body::after {
   overflow: hidden;
 }
 
-/* Logo chip — the deer etched on a CPU die, sat on a PCB-green substrate.
-   Replaces the old background photo. Tilt/shift vars are driven by enhance.ts. */
+/* Logo chip (Chip.astro) — a CPU package: PCB-green substrate with gold pins,
+   traces and SMD parts, and a raised silver die with the deer engraved in it.
+   Replaces the old background photo. Tilt/shift/light vars come from enhance.ts. */
 .hero-chip {
   position: absolute;
   right: clamp(1.5rem, 5vw, 6rem);
@@ -269,13 +270,26 @@ body::after {
   position: relative;
   aspect-ratio: 1;
   padding: 10%;
-  border-radius: 7%;
+  border-radius: 6%;
   background:
-    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.08), transparent 55%),
-    linear-gradient(145deg, #1d7360, var(--pcb-deep) 60%, #0f4337);
+    radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.1), transparent 55%),
+    repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.05) 0 1px,
+      transparent 1px 4px
+    ),
+    linear-gradient(145deg, #1f7a66, var(--pcb-deep) 55%, #0d3d32);
+  /* Stacked shadows = the laminate's edge thickness, then the drop shadow. */
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
-    0 30px 60px -20px rgba(0, 0, 0, 0.7),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 1px 0 #145a4a,
+    0 2px 0 #11503f,
+    0 3px 0 #0f4637,
+    0 4px 0 #0c3d30,
+    0 5px 0 #0a3429,
+    0 6px 1px #082b22,
+    0 34px 60px -18px rgba(0, 0, 0, 0.8),
     0 0 90px -10px rgba(47, 168, 131, 0.25);
   transform: translate3d(0, var(--chip-shift, 0px), 0)
     rotateX(var(--tilt-x, 10deg)) rotateY(var(--tilt-y, -16deg));
@@ -283,65 +297,124 @@ body::after {
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Gold pins on all four sides, tucked behind the substrate. */
-.chip::before,
-.chip::after {
-  content: "";
+.chip-board {
   position: absolute;
-  z-index: -1;
-  --pin: repeating-linear-gradient(
-    var(--pin-dir),
-    var(--accent) 0 5px,
-    transparent 5px 13px
-  );
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
 }
 
-.chip::before {
-  --pin-dir: to bottom;
-  inset: 15% -6%;
-  background:
-    var(--pin) left / 7% 100% no-repeat,
-    var(--pin) right / 7% 100% no-repeat;
-  opacity: 0.75;
+.chip-pin {
+  fill: url(#chip-pin);
+  stroke: rgba(0, 0, 0, 0.35);
+  stroke-width: 0.15;
 }
 
-.chip::after {
-  --pin-dir: to right;
-  inset: -6% 15%;
-  background:
-    var(--pin) top / 100% 7% no-repeat,
-    var(--pin) bottom / 100% 7% no-repeat;
-  opacity: 0.75;
+.chip-trace {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.32;
+  stroke-linejoin: round;
+  opacity: 0.55;
 }
 
+.chip-via {
+  fill: #0d3d32;
+  stroke: var(--accent);
+  stroke-width: 0.25;
+  opacity: 0.8;
+}
+
+.smd-body {
+  fill: #b9a27a;
+}
+
+.smd-cap {
+  fill: #d9dbdd;
+}
+
+.chip-fiducial {
+  fill: none;
+  stroke: #e6c793;
+  stroke-width: 0.35;
+  opacity: 0.7;
+}
+
+/* The die sits on the substrate (lifted in 3D, so it parallaxes on tilt). */
 .chip-die {
   position: relative;
   height: 100%;
-  border-radius: 9%;
+  border-radius: 7%;
   overflow: hidden;
+  transform: translateZ(14px);
   background:
     repeating-linear-gradient(
       90deg,
-      rgba(255, 255, 255, 0.05) 0 1px,
+      rgba(255, 255, 255, 0.06) 0 1px,
       transparent 1px 3px
     ),
-    linear-gradient(140deg, #e9e6e0 0%, #cdcac4 45%, #a9a6a0 100%);
+    conic-gradient(
+      from 210deg at 50% 50%,
+      rgba(255, 255, 255, 0.22),
+      transparent 22%,
+      rgba(255, 255, 255, 0.14) 48%,
+      transparent 72%,
+      rgba(255, 255, 255, 0.22)
+    ),
+    linear-gradient(140deg, #ece9e3 0%, #cfccc6 45%, #a7a49e 100%);
+  /* Chamfered rim + the die's own edge thickness. */
   box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.5) inset,
-    0 -2px 6px rgba(0, 0, 0, 0.25) inset,
-    0 6px 14px rgba(0, 0, 0, 0.45);
+    inset 1.5px 1.5px 0 rgba(255, 255, 255, 0.75),
+    inset -1.5px -1.5px 0 rgba(0, 0, 0, 0.28),
+    inset 0 0 0 4px rgba(255, 255, 255, 0.06),
+    inset 0 -10px 18px -8px rgba(0, 0, 0, 0.25),
+    0 1px 0 #96938d,
+    0 2px 0 #87847e,
+    0 3px 0 #77746f,
+    0 4px 1px #5f5c58,
+    0 12px 18px -4px rgba(0, 0, 0, 0.55);
 }
 
-/* Pin-1 marker dot, like on a real package. */
+/* Pin-1 marker, milled like the deer. */
 .chip-die::before {
   content: "";
   position: absolute;
   left: 7%;
   top: 7%;
-  width: 4%;
+  width: 4.5%;
   aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(0, 0, 0, 0.25);
+  background: radial-gradient(circle at 65% 65%, #8b8883, #4a4845);
+  box-shadow:
+    inset 1px 1px 1px rgba(0, 0, 0, 0.5),
+    0.5px 0.5px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Specular glint on the die, sliding towards the light. */
+.chip-die::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at calc(50% + var(--lx, -0.48) * 55%)
+      calc(50% + var(--ly, -0.56) * 55%),
+    rgba(255, 255, 255, 0.42),
+    rgba(255, 255, 255, 0.1) 32%,
+    rgba(0, 0, 0, 0.08) 75%
+  );
+  pointer-events: none;
+}
+
+.die-mark {
+  position: absolute;
+  left: 7%;
+  bottom: 5.5%;
+  width: 40%;
+  font-family: var(--mono);
+  font-size: 4.2px;
+  letter-spacing: 0.06em;
+  fill: rgba(40, 38, 35, 0.45);
 }
 
 .chip-sheen {
@@ -356,6 +429,7 @@ body::after {
   background-size: 300% 100%;
   background-position: 120% 0;
   mix-blend-mode: soft-light;
+  pointer-events: none;
 }
 
 /* ─── DEER LOGO ─── */
@@ -368,19 +442,76 @@ body::after {
 
 .deer--chip {
   position: absolute;
-  inset: 12%;
-  width: 76%;
-}
-
-.deer--chip .deer-shard {
-  fill: #121317;
+  inset: 10%;
+  width: 80%;
+  z-index: 1; /* above the die glint — the facets shade themselves */
 }
 
 .deer-shard {
-  fill: currentColor;
   transform-box: fill-box;
   transform-origin: center;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Lambert + a specular kick, per face, from its normal (--nx/--ny/--nz).
+   Light direction (--lx/--ly/--lz): unit vector, y down, z towards the
+   viewer; defaults to top-left, enhance.ts steers it on `.chip`. */
+.deer .facet {
+  --dot: max(
+    0,
+    calc(
+      var(--nx) * var(--lx, -0.48) + var(--ny) * var(--ly, -0.56) + var(--nz) *
+        var(--lz, 0.67)
+    )
+  );
+  --shade: hsl(
+    var(--hue) var(--sat)
+      calc(
+        (
+            var(--amb) + var(--dif) * var(--dot) + var(--spec) *
+              max(0, calc(var(--dot) - 0.88))
+          ) *
+          1%
+      )
+  );
+  fill: var(--shade);
+  stroke: var(--shade); /* hides hairline seams between faces */
+  stroke-width: 0.12;
+  stroke-linejoin: round;
+}
+
+/* Engraved silver: bright chamfers, dark satin floors. */
+.deer--chip .wall {
+  --hue: 40;
+  --sat: 6%;
+  --amb: 16;
+  --dif: 72;
+  --spec: 110;
+}
+
+.deer--chip .floor {
+  --hue: 40;
+  --sat: 4%;
+  --amb: 7;
+  --dif: 22;
+  --spec: 0;
+}
+
+/* Raised gold for the small marks. */
+.deer--mark .wall {
+  --hue: 32;
+  --sat: 58%;
+  --amb: 18;
+  --dif: 52;
+  --spec: 120;
+}
+
+.deer--mark .floor {
+  --hue: 33;
+  --sat: 55%;
+  --amb: 30;
+  --dif: 36;
+  --spec: 60;
 }
 
 .deer-trace path {

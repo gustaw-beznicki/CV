@@ -126,11 +126,26 @@ Two-column grid (`160px 1fr`). Hover: cursor-following gold spotlight (`radial-g
 
 ### Logo (deer)
 
-`src/components/Logo.astro` — a low-poly deer hand-traced from the brand artwork, one `<path>` per shard (`viewBox 0 0 100 100`, gaps made by insetting each shard towards its centroid). Variants: `chip` (black shards on the silver die in the hero) and `mark` (`currentColor`, gold — floating back-to-top badge and footer). Hovering a mark scatters the shards slightly.
+`src/components/Logo.astro` — a low-poly deer hand-traced from the brand artwork (`viewBox 0 0 100 100`). Large shards are split at build time (~53 shards in total). Every shard is a **milled pocket**: a flat floor plus chamfered walls. Each face carries its 3D normal as `--nx/--ny/--nz`, and `global.css` shades it with Lambert lighting plus a specular kick against the light vector `--lx/--ly/--lz`. Floors get a slight random tilt, so neighbouring shards catch the light differently.
+
+- `chip`: engraved into the silver die (satin-dark floors, bright chamfers).
+- `mark`: the same geometry raised, in gold (floating back-to-top badge and footer).
+
+Hovering a mark scatters the shards slightly.
 
 ### Hero chip
 
-The deer sits on a CSS-built CPU: silver brushed die, PCB-green substrate, gold pins on all four sides, pin-1 dot. Tilted in 3D (`--tilt-x/--tilt-y`, follows the cursor) and shifted on scroll (`--chip-shift`). Below 860 px it sits on the avatar row.
+`src/components/Chip.astro` — a CPU package:
+
+- **Substrate:** PCB green, with the laminate edge thickness built from stacked shadows.
+- **Board details (inline SVG):** 4 × 14 metallic pins, fan-in gold traces with vias, SMD capacitors, fiducials.
+- **Die:** raised silver (`translateZ(14px)`, so it parallaxes against the board on tilt), with chamfered rim, brushed and conic sheen, a milled pin-1 dot and a `GB-01 · 2026` marking.
+
+Interaction and layout:
+
+- The package tilts towards the cursor (`--tilt-x/--tilt-y`) and shifts on scroll (`--chip-shift`).
+- The light vector on `.chip` follows the cursor like a lamp held above the die, eased in rAF. It drives both the deer facets and a specular glint on the die.
+- Below 860 px the chip sits on the avatar row.
 
 ### Hero CTA
 

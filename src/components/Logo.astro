@@ -1,7 +1,11 @@
 ---
 // Low-poly deer mark, hand-traced from the brand artwork (deer on a CPU die).
-// Pure geometry — no copy lives here. Each shard is its own <path> so CSS can
-// assemble / scatter them (see `.deer-shard` in global.css).
+// Pure geometry — no copy lives here. Every shard is milled as a pocket: a
+// flat floor plus chamfered walls. Each face carries its 3D normal as CSS
+// vars (--nx/--ny/--nz) and global.css shades it against the light vector
+// (--lx/--ly/--lz) set on `.deer` — so moving the light (enhance.ts) moves
+// the highlights. `chip` is engraved into the silver die; `mark` is the same
+// geometry raised, in gold.
 
 interface Props {
   variant: "chip" | "mark";
@@ -144,36 +148,127 @@ const polygons: Pt[][] = [
   v([43.4, 45.7], "A", [49.8, 53.9], [38, 51]),
 ];
 
-// Pull every vertex towards the shard's centroid → the "cracked glass" gaps.
-const GAP = 0.8;
+const GAP = 0.55; // die surface left between shards
+const BEVEL = 0.85; // chamfer width
+const DEPTH = variant === "chip" ? -1 : 1; // engraved vs raised
+const MAX_AREA = 70; // bigger shards are split for more facets
+
 // Deterministic pseudo-random in [0, 1) so builds are reproducible.
 const rand = (n: number) => {
   const x = Math.sin(n * 12.9898) * 43758.5453;
   return x - Math.floor(x);
 };
 
-const shards = polygons.map((poly, i) => {
-  const cx = poly.reduce((s, p) => s + p[0], 0) / poly.length;
-  const cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
-  const pts = poly.map(([x, y]) => {
-    const dx = cx - x;
-    const dy = cy - y;
-    const k = Math.min(GAP / Math.hypot(dx, dy), 0.35);
-    return `${(x + dx * k).toFixed(2)} ${(y + dy * k).toFixed(2)}`;
+const area = (p: Pt[]) =>
+  Math.abs(
+    p.reduce((s, a, i) => {
+      const b = p[(i + 1) % p.length];
+      return s + a[0] * b[1] - b[0] * a[1];
+    }, 0),
+  ) / 2;
+
+// Split large shards: quads along the shorter diagonal, pentagons by an ear,
+// triangles by (slightly off-centre) bisection of the longest edge.
+const split = (poly: Pt[], seed: number): Pt[][] => {
+  if (area(poly) < MAX_AREA) return [poly];
+  if (poly.length === 4) {
+    const [a, b, c, d] = poly;
+    const ac = Math.hypot(a[0] - c[0], a[1] - c[1]);
+    const bd = Math.hypot(b[0] - d[0], b[1] - d[1]);
+    return ac < bd
+      ? [...split([a, b, c], seed * 3 + 1), ...split([a, c, d], seed * 3 + 2)]
+      : [...split([b, c, d], seed * 3 + 1), ...split([b, d, a], seed * 3 + 2)];
+  }
+  if (poly.length > 4) {
+    const n = poly.length;
+    return [
+      ...split([poly[n - 1], poly[0], poly[1]], seed * 3 + 1),
+      ...split([poly[1], ...poly.slice(2)], seed * 3 + 2),
+    ];
+  }
+  let li = 0;
+  let best = 0;
+  for (let i = 0; i < 3; i++) {
+    const a = poly[i];
+    const b = poly[(i + 1) % 3];
+    const l = Math.hypot(a[0] - b[0], a[1] - b[1]);
+    if (l > best) {
+      best = l;
+      li = i;
+    }
+  }
+  const a = poly[li];
+  const b = poly[(li + 1) % 3];
+  const c = poly[(li + 2) % 3];
+  const t = 0.42 + rand(seed) * 0.16;
+  const m: Pt = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t];
+  return [...split([a, m, c], seed * 3 + 1), ...split([m, b, c], seed * 3 + 2)];
+};
+
+const fmt = (p: Pt) => `${p[0].toFixed(2)} ${p[1].toFixed(2)}`;
+const normal = (n: number[]) => {
+  const l = Math.hypot(n[0], n[1], n[2]);
+  const s = n[2] < 0 ? -l : l; // always face the viewer
+  return `--nx:${(n[0] / s).toFixed(3)};--ny:${(n[1] / s).toFixed(3)};--nz:${(n[2] / s).toFixed(3)}`;
+};
+
+const shards = polygons
+  .flatMap((p, i) => split(p, i + 11))
+  .map((poly, i) => {
+    const cx = poly.reduce((s, p) => s + p[0], 0) / poly.length;
+    const cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+    // Pull vertices towards the centroid by `d` (capped for thin spikes).
+    const pull = (pts: Pt[], d: number, cap: number) =>
+      pts.map(([x, y]): Pt => {
+        const dx = cx - x;
+        const dy = cy - y;
+        const k = Math.min(d / Math.hypot(dx, dy), cap);
+        return [x + dx * k, y + dy * k];
+      });
+    const outer = pull(poly, GAP, 0.35);
+    const inner = pull(outer, BEVEL, 0.55);
+
+    const walls = outer.map((a, j) => {
+      const b = outer[(j + 1) % outer.length];
+      const c = inner[(j + 1) % outer.length];
+      const d = inner[j];
+      // Normal of the plane through a, b (z=0) and d (z=DEPTH).
+      const u = [b[0] - a[0], b[1] - a[1], 0];
+      const w = [d[0] - a[0], d[1] - a[1], DEPTH];
+      return {
+        d: `M${fmt(a)}L${fmt(b)}L${fmt(c)}L${fmt(d)}Z`,
+        style: normal([
+          u[1] * w[2] - u[2] * w[1],
+          u[2] * w[0] - u[0] * w[2],
+          u[0] * w[1] - u[1] * w[0],
+        ]),
+      };
+    });
+    // Floors are tilted a touch each, so neighbouring shards catch the light
+    // differently — the faceted low-poly look.
+    const floor = {
+      d: `M${inner.map(fmt).join("L")}Z`,
+      style: normal([
+        (rand(i + 3) - 0.5) * 0.45,
+        (rand(i + 17) - 0.5) * 0.45,
+        1,
+      ]),
+    };
+
+    // Scatter vector for the assembly animation: outward, with jitter.
+    const ox = cx - 55;
+    const oy = cy - 50;
+    const len = Math.hypot(ox, oy) || 1;
+    const dist = 28 + rand(i + 1) * 30;
+    const style = [
+      `--i:${i}`,
+      `--dx:${((ox / len) * dist + (rand(i + 7) - 0.5) * 20).toFixed(1)}px`,
+      `--dy:${((oy / len) * dist + (rand(i + 13) - 0.5) * 20).toFixed(1)}px`,
+      `--r:${Math.round((rand(i + 29) - 0.5) * 160)}deg`,
+    ].join(";");
+
+    return { outline: `M${outer.map(fmt).join("L")}Z`, walls, floor, style };
   });
-  // Scatter vector: outward from the mark's centre, with some jitter.
-  const ox = cx - 55;
-  const oy = cy - 50;
-  const len = Math.hypot(ox, oy) || 1;
-  const dist = 28 + rand(i + 1) * 30;
-  const style = [
-    `--i:${i}`,
-    `--dx:${((ox / len) * dist + (rand(i + 7) - 0.5) * 20).toFixed(1)}px`,
-    `--dy:${((oy / len) * dist + (rand(i + 13) - 0.5) * 20).toFixed(1)}px`,
-    `--r:${Math.round((rand(i + 29) - 0.5) * 160)}deg`,
-  ].join(";");
-  return { d: `M${pts.join("L")}Z`, style };
-});
 ---
 
 <svg
@@ -186,11 +281,16 @@ const shards = polygons.map((poly, i) => {
   focusable="false"
 >
   <g class="deer-shards">
-    {shards.map((s) => <path class="deer-shard" d={s.d} style={s.style} />)}
+    {shards.map((s) => (
+      <g class="deer-shard" style={s.style}>
+        <path class="facet floor" d={s.floor.d} style={s.floor.style} />
+        {s.walls.map((w) => <path class="facet wall" d={w.d} style={w.style} />)}
+      </g>
+    ))}
   </g>
   {variant === "chip" && (
     <g class="deer-trace">
-      {shards.map((s) => <path d={s.d} pathLength="1" />)}
+      {shards.map((s) => <path d={s.outline} pathLength="1" />)}
     </g>
   )}
 </svg>

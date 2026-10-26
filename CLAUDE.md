@@ -23,7 +23,7 @@ Package manager is **pnpm** (`pnpm@11.2.2`). Never use `npm` or `npx`.
 ```text
 src/pages/index.astro | pl/index.astro   one page per locale
 src/layouts/Base.astro                   <head>, SEO, JSON-LD, fonts
-src/components/*.astro                   one component per CV section (+ CookieBanner.astro, Logo.astro = deer SVG)
+src/components/*.astro                   one component per CV section (+ CookieBanner.astro, Logo.astro = deer SVG, Chip.astro = hero logo chip)
 src/content/types.ts                     CVContent interface — source of truth for shape
 src/content/en.ts | pl.ts               all copy, fully typed against CVContent
 src/content/companies.ts                 company/brand names (single source, interpolated into both locales)

@@ -189,18 +189,63 @@ window.addEventListener(
 );
 onScroll();
 
-// Chip tilts towards the cursor while it's over the hero.
+// Chip tilts towards the cursor while it's over the hero, and the light on
+// the engraved deer + die follows it like a lamp held above the chip (eased
+// in rAF; the vars live on .chip so the deer and the die glint share them).
 if (hero && chip && finePointer && !prefersReducedMotion) {
-  hero.addEventListener("pointermove", (e) => {
-    const r = chip.getBoundingClientRect();
-    const nx = (e.clientX - (r.left + r.width / 2)) / window.innerWidth;
-    const ny = (e.clientY - (r.top + r.height / 2)) / window.innerHeight;
-    chip.style.setProperty("--tilt-y", `${(-16 + nx * 28).toFixed(2)}deg`);
-    chip.style.setProperty("--tilt-x", `${(10 - ny * 22).toFixed(2)}deg`);
-  });
-  hero.addEventListener("pointerleave", () => {
+  const LIGHT_HEIGHT = 380; // lamp height above the die, px
+  const rest = { x: -0.48, y: -0.56, z: 0.67 };
+  const light = { ...rest };
+  let target = { ...rest };
+  let lightRaf = 0;
+
+  const stepLight = () => {
+    light.x += (target.x - light.x) * 0.15;
+    light.y += (target.y - light.y) * 0.15;
+    light.z += (target.z - light.z) * 0.15;
+    chip.style.setProperty("--lx", light.x.toFixed(3));
+    chip.style.setProperty("--ly", light.y.toFixed(3));
+    chip.style.setProperty("--lz", light.z.toFixed(3));
+    const done =
+      Math.abs(target.x - light.x) +
+        Math.abs(target.y - light.y) +
+        Math.abs(target.z - light.z) <
+      0.002;
+    lightRaf = done ? 0 : requestAnimationFrame(stepLight);
+  };
+  const aimLight = (next: typeof rest) => {
+    target = next;
+    if (!lightRaf) lightRaf = requestAnimationFrame(stepLight);
+  };
+
+  const reset = () => {
     chip.style.removeProperty("--tilt-x");
     chip.style.removeProperty("--tilt-y");
+    aimLight({ ...rest });
+  };
+
+  // Listen on window: the hero is a centred 1180px column, but the effect
+  // should follow the cursor across the whole first screen.
+  window.addEventListener("pointermove", (e) => {
+    if (e.clientY > hero.getBoundingClientRect().bottom) {
+      reset();
+      return;
+    }
+    const r = chip.getBoundingClientRect();
+    const cx = r.left + r.width / 2;
+    const cy = r.top + r.height / 2;
+    const nx = (e.clientX - cx) / window.innerWidth;
+    const ny = (e.clientY - cy) / window.innerHeight;
+    chip.style.setProperty("--tilt-y", `${(-16 + nx * 28).toFixed(2)}deg`);
+    chip.style.setProperty("--tilt-x", `${(10 - ny * 22).toFixed(2)}deg`);
+
+    const lx = e.clientX - cx;
+    const ly = e.clientY - cy;
+    const len = Math.hypot(lx, ly, LIGHT_HEIGHT);
+    aimLight({ x: lx / len, y: ly / len, z: LIGHT_HEIGHT / len });
+  });
+  document.addEventListener("pointerout", (e) => {
+    if (!e.relatedTarget) reset();
   });
 }
 
