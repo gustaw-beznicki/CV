@@ -17,7 +17,7 @@ Public contact: contact@gustawbeznicki.dev, linkedin.com/in/gustawbeznicki, gith
 
 ## Day job: software engineering
 
-Senior Software Engineer & Solution Expert at KMD Poland (Warsaw, since Feb 2023, senior since Jul 2025) — a cloud settlement & billing platform. Leads a six-person Polish-Danish engineering team: owns architecture decisions, coaches engineers, and represents the team in cross-team and delivery-management discussions. Seven years in enterprise .NET across banking, energy, e-commerce, and logistics, before that.
+Senior .NET Developer at KMD Poland (remote, since Feb 2023, senior since Jul 2025) - a cloud settlement & billing platform for major Danish energy companies. Works in a six-person Polish-Danish team: drives architecture decisions for major epics, ships backend and Angular code, works with the Product Owner on user stories, mentors teammates and runs onboarding. Seven years in .NET across banking, energy and e-commerce.
 
 Actively pushing AI adoption at work: shared Copilot instructions, agentic coding workflows, and an in-house agent that drafts High-Level Design docs from rough notes. Runs a self-hosted AI assistant as a private after-hours project.
 

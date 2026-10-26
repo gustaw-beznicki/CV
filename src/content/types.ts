@@ -24,13 +24,24 @@ export interface ExperienceGroup {
   items: string[];
 }
 
+export interface ExperiencePosition {
+  title: string;
+  period: string;
+  pill?: string;
+  /** Short aside after the title, e.g. "promoted to Senior". */
+  note?: string;
+}
+
 export interface Experience {
+  /** With `positions`, only the overall span; the positions are rendered instead of period + title. */
   period: string;
   /** Optional badge shown next to the period (e.g. "Now"). */
   pill?: string;
   /** Highlights the timeline dot as an active role. */
   current?: boolean;
   title: string;
+  /** Several roles at one company, newest first. */
+  positions?: ExperiencePosition[];
   /** May contain inline <em> for the company name. */
   company: string;
   /** Anchor id for in-page links (e.g. from the hero). */
@@ -76,7 +87,7 @@ export interface CVContent {
     contactLabel: string;
     exportLabel: string;
     printAction: string;
-    /** Prominent hero button label — opens print / Save as PDF. */
+    /** Prominent hero button label - opens print / Save as PDF. */
     downloadCta: string;
     /** Accessible name for the deer logo mark. */
     logoLabel: string;
@@ -89,6 +100,8 @@ export interface CVContent {
     linkedinLabel: string;
     locationLabel: string;
     recruiterNote: string;
+    /** Print-only heading above the hero summary. */
+    summaryLabel: string;
     techLabel: string;
   };
   nav: NavItem[];

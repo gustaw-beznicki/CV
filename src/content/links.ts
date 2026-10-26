@@ -2,8 +2,8 @@
  * Single source of truth for URLs and contact constants.
  *
  * Shared across both locales, same pattern as companies.ts. Edit a value here
- * and it updates everywhere it appears — contact block, footer, and the
- * experience timeline — in both en.ts and pl.ts.
+ * and it updates everywhere it appears - contact block, footer, and the
+ * experience timeline - in both en.ts and pl.ts.
  */
 export const links = {
   email: "contact@gustawbeznicki.dev",

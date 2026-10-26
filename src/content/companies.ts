@@ -2,8 +2,8 @@
  * Single source of truth for company / venture brand names.
  *
  * Shared across both locales (proper nouns are not translated). Edit a name
- * here and it updates everywhere it appears — meta, hero, highlights, and the
- * experience timeline — in both en.ts and pl.ts.
+ * here and it updates everywhere it appears - meta, hero, highlights, and the
+ * experience timeline - in both en.ts and pl.ts.
  */
 export const companies = {
   kmd: "KMD",

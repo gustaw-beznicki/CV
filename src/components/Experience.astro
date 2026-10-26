@@ -17,10 +17,25 @@ const { techLabel } = content.ui;
   {content.experience.map((job) => (
     <div id={job.anchor} class:list={["exp-item", job.current && "current"]}>
       <div class="exp-header">
-        <div class="exp-period">
-          {job.period}{job.pill && <span class="pill">{job.pill}</span>}
-        </div>
-        <h3 class="exp-title">{job.title}</h3>
+        {job.positions ? (
+          job.positions.map((pos) => (
+            <div class="exp-position">
+              <div class="exp-period">
+                {pos.period}{pos.pill && <span class="pill">{pos.pill}</span>}
+              </div>
+              <h3 class="exp-title">
+                {pos.title}{pos.note && <span class="exp-note">{pos.note}</span>}
+              </h3>
+            </div>
+          ))
+        ) : (
+          <Fragment>
+            <div class="exp-period">
+              {job.period}{job.pill && <span class="pill">{job.pill}</span>}
+            </div>
+            <h3 class="exp-title">{job.title}</h3>
+          </Fragment>
+        )}
         <div class="exp-company" set:html={job.company}></div>
       </div>
 
