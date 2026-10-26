@@ -23,13 +23,13 @@ Package manager is **pnpm** (`pnpm@11.2.2`). Never use `npm` or `npx`.
 ```text
 src/pages/index.astro | pl/index.astro   one page per locale
 src/layouts/Base.astro                   <head>, SEO, JSON-LD, fonts
-src/components/*.astro                   one component per CV section (+ CookieBanner.astro)
+src/components/*.astro                   one component per CV section (+ CookieBanner.astro, Logo.astro = deer SVG)
 src/content/types.ts                     CVContent interface — source of truth for shape
 src/content/en.ts | pl.ts               all copy, fully typed against CVContent
 src/content/companies.ts                 company/brand names (single source, interpolated into both locales)
 src/content/links.ts                     URLs + contact constants (email, socials, company links — single source)
 src/styles/global.css                    @theme tokens + bespoke design system + ~500-line print sheet
-src/scripts/enhance.ts                   IntersectionObserver nav highlight, fade-in, print button
+src/scripts/enhance.ts                   nav highlight, fade-ins, print button, PCB canvas, chip parallax, scroll effects
 worker/index.js                          www→apex redirect + /_a Umami proxy + security headers (CSP, HSTS, …)
 public/vendor/silktide/                  self-hosted cookie-consent banner (Silktide, MIT, pinned)
 docs/                                     cookie analysis + umami-deployment.md (Raspberry Pi guide)

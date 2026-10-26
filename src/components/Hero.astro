@@ -1,27 +1,55 @@
 ---
 import type { CVContent } from "../content/types";
+import Logo from "./Logo.astro";
 
 interface Props {
   content: CVContent;
 }
 const { content } = Astro.props;
 const { ui, hero, contact } = content;
+
+// Typewriter timing for the meta line: each span types after the previous one.
+const TYPE_START = 0.5;
+const CHAR = 0.045;
+const PAUSE = 0.15;
+let at = TYPE_START;
+const meta = [ui.cvLabel, ui.year, ui.locationMeta].map((text) => {
+  const n = [...text].length;
+  const style = `--n:${n};--d:${at.toFixed(2)}s`;
+  at += n * CHAR + PAUSE;
+  return { text, style };
+});
 ---
 
-<header class="hero">
-  <div class="hero-bg-photo" aria-hidden="true"></div>
-  <div class="hero-meta">
-    <span>{ui.cvLabel}</span>
-    <span>{ui.year}</span>
-    <span>{ui.locationMeta}</span>
+<header class="hero" id="top">
+  <div class="hero-meta" style={`--typed:${at.toFixed(2)}s`}>
+    {meta.map((m) => <span class="typed" style={m.style}>{m.text}</span>)}
   </div>
-  <img class="hero-avatar" src="/profile.png" alt={`${hero.name} ${hero.surname}`} width="88" height="88" />
+  <div class="hero-id">
+    <img class="hero-avatar" src="/profile.png" alt={`${hero.name} ${hero.surname}`} width="88" height="88" />
+    <div class="hero-chip" aria-hidden="true">
+      <div class="chip">
+        <div class="chip-die">
+          <Logo variant="chip" />
+          <span class="chip-sheen"></span>
+        </div>
+      </div>
+    </div>
+  </div>
   <h1>{hero.name} <em>{hero.surname}</em></h1>
   <p class="hero-role" set:html={hero.roleHtml}></p>
   <div class="hero-contact">
     <a href={`mailto:${contact.email}`}>{contact.email}</a>
     <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer">{contact.linkedinLabel}</a>
     <span>{hero.locationInline}</span>
+  </div>
+  <div class="hero-actions">
+    <button type="button" class="hero-cta" data-print>
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"></path>
+      </svg>
+      <span>{ui.downloadCta}</span>
+    </button>
   </div>
   <div class="hero-scroll">{ui.scroll}</div>
 </header>

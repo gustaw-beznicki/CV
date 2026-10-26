@@ -1,0 +1,196 @@
+---
+// Low-poly deer mark, hand-traced from the brand artwork (deer on a CPU die).
+// Pure geometry — no copy lives here. Each shard is its own <path> so CSS can
+// assemble / scatter them (see `.deer-shard` in global.css).
+
+interface Props {
+  variant: "chip" | "mark";
+  /** Accessible name; omit for decorative use (rendered aria-hidden). */
+  label?: string;
+}
+const { variant, label } = Astro.props;
+
+type Pt = [number, number];
+
+// Shared head vertices (viewBox 0 0 100 100).
+const P: Record<string, Pt> = {
+  A: [49, 48],
+  B: [61, 42],
+  C: [74, 43.6],
+  D: [88, 66],
+  E: [82, 76],
+  F: [77, 96],
+  G: [65, 86],
+  H: [48, 78],
+  I: [56, 62],
+  J: [68, 57],
+  K: [73, 74],
+  M: [62, 77],
+};
+const v = (...pts: (string | Pt)[]): Pt[] =>
+  pts.map((p) => (typeof p === "string" ? P[p] : p));
+
+const polygons: Pt[][] = [
+  // head
+  v("A", "B", "J", "I"),
+  v("B", "C", "J"),
+  v("C", "D", [78, 62], "J"),
+  v("J", [78, 62], "K"),
+  v([78, 62], "D", "E", "K"),
+  v("A", "I", "H"),
+  v("I", "J", "K"),
+  v("H", "I", "M"),
+  v("I", "K", "M"),
+  v("H", "M", "G"),
+  v("M", "K", "G"),
+  v("K", "E", "F"),
+  v("K", "F", "G"),
+  // right antler
+  [
+    [71.4, 1.8],
+    [74.1, 11.9],
+    [76.6, 10.1],
+  ],
+  [
+    [62.6, 5.3],
+    [71.9, 10.7],
+    [71.5, 13.7],
+    [67.4, 11.9],
+  ],
+  [
+    [75.8, 3.4],
+    [79.4, 11.2],
+    [76.9, 12.6],
+  ],
+  [
+    [87.9, 19.6],
+    [79.9, 17.3],
+    [81.7, 24],
+  ],
+  [
+    [72.3, 14.2],
+    [79, 13],
+    [80.4, 17.3],
+    [74.6, 24.9],
+    [70.5, 21.9],
+  ],
+  [
+    [52, 10.7],
+    [70.3, 23.4],
+    [68.5, 26.5],
+  ],
+  [
+    [55, 22.3],
+    [70.1, 26.3],
+    [69.2, 29],
+  ],
+  [
+    [71, 25.8],
+    [79, 23.7],
+    [76.4, 35.6],
+    [69.2, 35],
+  ],
+  [
+    [77.6, 31.2],
+    [84.7, 33.8],
+    [76.5, 36.5],
+  ],
+  v([68.3, 36.1], [76.5, 36.8], "C", "B"),
+  // left antler
+  [
+    [13.2, 23.7],
+    [18.1, 32],
+    [15.8, 33.3],
+  ],
+  [
+    [23.8, 20.8],
+    [22.4, 32.6],
+    [19.4, 31.5],
+  ],
+  [
+    [33.8, 18.3],
+    [35.4, 40],
+    [31.3, 39.7],
+  ],
+  [
+    [39.3, 27.6],
+    [40.7, 40.9],
+    [37.2, 40],
+  ],
+  [
+    [12.3, 45.7],
+    [23.8, 42.2],
+    [21.7, 48.6],
+  ],
+  [
+    [24.7, 41.8],
+    [38.1, 41.8],
+    [43.4, 45.7],
+    [36.3, 51.1],
+    [23, 48.9],
+  ],
+  [
+    [15.8, 34.5],
+    [30, 37.5],
+    [36, 41],
+    [22, 40],
+  ],
+  [
+    [26.5, 53.9],
+    [46.1, 50.4],
+    [48.8, 58.2],
+    [36.3, 56.4],
+  ],
+  v([43.4, 45.7], "A", [49.8, 53.9], [38, 51]),
+];
+
+// Pull every vertex towards the shard's centroid → the "cracked glass" gaps.
+const GAP = 0.8;
+// Deterministic pseudo-random in [0, 1) so builds are reproducible.
+const rand = (n: number) => {
+  const x = Math.sin(n * 12.9898) * 43758.5453;
+  return x - Math.floor(x);
+};
+
+const shards = polygons.map((poly, i) => {
+  const cx = poly.reduce((s, p) => s + p[0], 0) / poly.length;
+  const cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+  const pts = poly.map(([x, y]) => {
+    const dx = cx - x;
+    const dy = cy - y;
+    const k = Math.min(GAP / Math.hypot(dx, dy), 0.35);
+    return `${(x + dx * k).toFixed(2)} ${(y + dy * k).toFixed(2)}`;
+  });
+  // Scatter vector: outward from the mark's centre, with some jitter.
+  const ox = cx - 55;
+  const oy = cy - 50;
+  const len = Math.hypot(ox, oy) || 1;
+  const dist = 28 + rand(i + 1) * 30;
+  const style = [
+    `--i:${i}`,
+    `--dx:${((ox / len) * dist + (rand(i + 7) - 0.5) * 20).toFixed(1)}px`,
+    `--dy:${((oy / len) * dist + (rand(i + 13) - 0.5) * 20).toFixed(1)}px`,
+    `--r:${Math.round((rand(i + 29) - 0.5) * 160)}deg`,
+  ].join(";");
+  return { d: `M${pts.join("L")}Z`, style };
+});
+---
+
+<svg
+  class:list={["deer", `deer--${variant}`]}
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+>
+  <g class="deer-shards">
+    {shards.map((s) => <path class="deer-shard" d={s.d} style={s.style} />)}
+  </g>
+  {variant === "chip" && (
+    <g class="deer-trace">
+      {shards.map((s) => <path d={s.d} pathLength="1" />)}
+    </g>
+  )}
+</svg>

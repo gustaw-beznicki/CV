@@ -77,6 +77,12 @@ export interface CVContent {
     contactLabel: string;
     exportLabel: string;
     printAction: string;
+    /** Prominent hero button label — opens print / Save as PDF. */
+    downloadCta: string;
+    /** Accessible name for the deer logo mark. */
+    logoLabel: string;
+    /** Label for the floating logo link that scrolls back to the top. */
+    backToTop: string;
     emailLabel: string;
     linkedinLabel: string;
     locationLabel: string;

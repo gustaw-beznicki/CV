@@ -21,6 +21,10 @@
 | `--color-accent` | `#d4a574` | Warm gold — primary brand accent |
 | `--color-accent-soft` | `rgba(212,165,116,0.12)` | Accent tint for hover fills |
 | `--color-accent-line` | `rgba(212,165,116,0.30)` | Accent tint for borders |
+| `--color-pcb` | `#2fa883` | PCB green — secondary "technical" accent (from the logo) |
+| `--color-pcb-deep` | `#17604f` | Chip substrate base |
+| `--color-pcb-soft` | `rgba(47,168,131,0.12)` | PCB tint for hover fills |
+| `--color-pcb-line` | `rgba(47,168,131,0.30)` | PCB tint for borders |
 
 ### Accent swatch
 
@@ -31,7 +35,7 @@
 #f0f0f4  ████  bright text
 ```
 
-The overall mood is **dark + warm**: a near-black slate background warmed by a single gold accent. No secondary hue is used in the UI; the faint blue atmospheric glow (`rgba(100,130,180,0.04)`) in the background pseudo-element is purely decorative and not a design colour.
+The overall mood is **dark + warm**: a near-black slate background warmed by gold as the primary accent. **PCB green** — the circuit-board substrate from the deer-on-a-chip logo — is the secondary, technical accent: circuit traces in the background, section numbers + LEDs, skill-tag hover, the timeline current and the chip substrate. Gold stays reserved for the name, CTAs, links and active states.
 
 ### Text-selection colour
 
@@ -118,7 +122,19 @@ Default: `--surface` fill, `--border-soft` border, `4px` radius. Lead skills (`.
 
 ### Highlight rows
 
-Two-column grid (`160px 1fr`). Hover: `linear-gradient(90deg, var(--accent-soft) 0%, transparent 60%)` sweep + `padding-left: 0.75rem` slide. Tag prefix uses em-dash accent line decoration.
+Two-column grid (`160px 1fr`). Hover: cursor-following gold spotlight (`radial-gradient` at `--mx/--my`, faded in via the registered `--spot` property) + `padding-left: 0.75rem` slide. Tag prefix uses em-dash accent line decoration. Experience cards share the spotlight.
+
+### Logo (deer)
+
+`src/components/Logo.astro` — a low-poly deer hand-traced from the brand artwork, one `<path>` per shard (`viewBox 0 0 100 100`, gaps made by insetting each shard towards its centroid). Variants: `chip` (black shards on the silver die in the hero) and `mark` (`currentColor`, gold — floating back-to-top badge and footer). Hovering a mark scatters the shards slightly.
+
+### Hero chip
+
+The deer sits on a CSS-built CPU: silver brushed die, PCB-green substrate, gold pins on all four sides, pin-1 dot. Tilted in 3D (`--tilt-x/--tilt-y`, follows the cursor) and shifted on scroll (`--chip-shift`). Below 860 px it sits on the avatar row.
+
+### Hero CTA
+
+`.hero-cta` — filled gold button with a download icon under the contact row; triggers print / Save as PDF (`[data-print]`). Full width below 600 px. The sidebar keeps a secondary outlined `.print-link`.
 
 ### Footer links
 
@@ -134,10 +150,9 @@ Fixed top-right pill group. Active locale: `--accent` fill, `--bg` text. Inactiv
 
 Two layered pseudo-elements on `body` create depth without images:
 
-1. **Radial gradients** (`body::before`): warm gold glow at top-right corner (`rgba(212,165,116,0.05)`), cool blue at bottom-left (`rgba(100,130,180,0.04)`).
+1. **Radial gradients** (`body::before`): warm gold glow at top-right corner (`rgba(212,165,116,0.05)`), PCB green at bottom-left (`rgba(47,168,131,0.06)`).
 2. **Grain texture** (`body::after`): inline SVG fractal noise at `opacity: 0.025`, `mix-blend-mode: overlay`.
-
-Hero background photo (`/scotland.jpg`): right 55% of viewport, `opacity: 0.14`, masked with a left-to-right gradient fade. Reduces to full-width at `0.08` opacity below 860 px.
+3. **Circuit canvas** (`.circuit-bg`, drawn by `enhance.ts`): random-walk PCB traces on a 26 px grid (90°/45° turns, pads at the ends) with gold/green signal pulses running along them and a brighter "lens" around the cursor. Full strength over the hero, ~35 % behind the content. Static (no pulses) under reduced motion; paused when the tab is hidden.
 
 ---
 
@@ -150,13 +165,23 @@ Hero background photo (`/scotland.jpg`): right 55% of viewport, `opacity: 0.14`,
 | `hero h1` | `fadeUp` | 1.0s / 0.30s |
 | `.hero-role` | `fadeUp` | 1.0s / 0.50s |
 | `.hero-contact` | `fadeUp` | 1.0s / 0.70s |
+| `.hero-meta .typed` | typewriter (`steps()` on width, one mono cell per char) + blinking caret | 45ms/char from 0.5s |
+| `.hero-chip` | `chipIn` (rise + scale) | 1.2s / 0.2s |
+| `.deer-shard` (chip) | `shardIn` — shards fly in and assemble | 1.1s / 0.5s + 32ms stagger |
+| `.deer-trace` | gold outline drawn along the shards, then fades | 2.4s / 1.7s |
+| `.chip-sheen` | light sweep across the die | 7s loop / 3s |
+| `.hero-actions` | `fadeUp` | 1.0s / 0.85s |
 | `.hero-scroll` | `fadeUp` + `float` loop | 1.0s / 1.0s + 2.5s loop |
+| Section header | divider trace draws from the left + LED flicker (on scroll) | 1.4s / 1.2s |
+| Skill tags | cascade in per row (on scroll) | 0.4s, 35ms stagger |
+| Experience rail | gold→green fill follows the reading line; dots pulse when passed | scroll-linked |
+| Scroll progress | 2 px gold→green bar at the top | scroll-linked |
 | Sidebar nav active | `padding-left` slide | `0.25s` |
 | Skill tag hover | colour + `translateY` | `0.2s` |
-| Highlight hover | gradient sweep + pad | `0.3s` |
+| Highlight / experience hover | cursor spotlight + pad | `0.35s` |
 | Consent banner | `backdrop-filter blur(12px)` | CSS |
 
-`prefers-reduced-motion: reduce` collapses all durations to `0.001ms` and sets hero elements to `opacity: 1`.
+`prefers-reduced-motion: reduce` collapses all durations to `0.001ms` and sets hero elements to `opacity: 1`; the new effects are only declared under `prefers-reduced-motion: no-preference` (CSS) or behind the `has-motion` class on `<html>` (set by `enhance.ts`).
 
 ---
 
@@ -167,7 +192,7 @@ When the browser prints (or the user clicks the print button), the stylesheet sw
 - Background resets to `white`; all text to `#1a1a1a` / `#333` / `#555`
 - Sidebar hidden; single-column layout, A4 margins (`1.4cm × 1.6cm`)
 - Fraunces replaced by `Georgia` (h1) and `Helvetica Neue, Helvetica, Arial` (all other text)
-- Hero avatar, bg photo, meta and scroll indicator hidden
+- Hero avatar, chip, CTA, meta and scroll indicator hidden; circuit canvas, progress bar and logo marks hidden
 - Experience timeline border/nodes removed; period floats right
 - All colour is stripped — no gold, no tints
 
@@ -177,10 +202,9 @@ When the browser prints (or the user clicks the print button), the stylesheet sw
 
 | File | Purpose |
 |---|---|
-| `/public/favicon.png` | Browser tab icon + Apple touch icon |
+| `/public/favicon.png` | Browser tab icon + Apple touch icon (deer on a chip) |
 | `/public/og-image.png` | Open Graph / Twitter card preview (1200×630) |
 | `/public/profile.png` | Avatar in hero (88×88 px circle, `object-position: center 15%`) |
-| `/public/scotland.jpg` | Hero background photo (right-side fade) |
 
 ---
 

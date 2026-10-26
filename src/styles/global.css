@@ -14,6 +14,11 @@
   --color-accent: #d4a574;
   --color-accent-soft: rgba(212, 165, 116, 0.12);
   --color-accent-line: rgba(212, 165, 116, 0.3);
+  /* PCB green — secondary "technical" accent taken from the deer-on-a-chip logo. */
+  --color-pcb: #2fa883;
+  --color-pcb-deep: #17604f;
+  --color-pcb-soft: rgba(47, 168, 131, 0.12);
+  --color-pcb-line: rgba(47, 168, 131, 0.3);
 
   --font-serif: "Fraunces Variable", Georgia, serif;
   --font-sans: "Instrument Sans Variable", system-ui, sans-serif;
@@ -34,6 +39,10 @@
   --accent: var(--color-accent);
   --accent-soft: var(--color-accent-soft);
   --accent-line: var(--color-accent-line);
+  --pcb: var(--color-pcb);
+  --pcb-deep: var(--color-pcb-deep);
+  --pcb-soft: var(--color-pcb-soft);
+  --pcb-line: var(--color-pcb-line);
   --serif: var(--font-serif);
   --sans: var(--font-sans);
   --mono: var(--font-mono);
@@ -69,7 +78,7 @@ body::before {
     ),
     radial-gradient(
       circle at -10% 100%,
-      rgba(100, 130, 180, 0.04),
+      rgba(47, 168, 131, 0.06),
       transparent 60%
     );
   pointer-events: none;
@@ -134,6 +143,16 @@ body::after {
 }
 
 @media (max-width: 600px) {
+  .hero-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* The CTA is the last thing in the hero on phones; the hint would collide. */
+  .hero-scroll {
+    display: none;
+  }
+
   .lang-switcher {
     top: 0.75rem;
     right: 0.75rem;
@@ -142,6 +161,81 @@ body::after {
     padding: 0.3rem 0.5rem;
     font-size: 0.68rem;
   }
+}
+
+/* ─── BRAND MARK (floating back-to-top logo) ───
+   Hidden over the hero (the chip is the logo there); enhance.ts adds
+   .is-shown once the hero scrolls away. */
+.brand-mark {
+  position: fixed;
+  top: 1.25rem;
+  left: 1.25rem;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 7px;
+  color: var(--accent);
+  background: rgba(20, 22, 30, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition:
+    opacity 0.3s,
+    transform 0.3s,
+    visibility 0.3s,
+    border-color 0.2s;
+}
+
+.brand-mark.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.brand-mark:hover {
+  border-color: var(--accent-line);
+}
+
+@media (max-width: 600px) {
+  .brand-mark {
+    top: 0.75rem;
+    left: 0.75rem;
+    width: 36px;
+    height: 36px;
+    padding: 6px;
+  }
+}
+
+/* ─── SCROLL PROGRESS ─── */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  z-index: 101;
+  background: linear-gradient(90deg, var(--pcb), var(--accent));
+  transform-origin: 0 50%;
+  transform: scaleX(var(--progress, 0));
+  pointer-events: none;
+}
+
+/* ─── CIRCUIT BACKGROUND (canvas, drawn by enhance.ts) ─── */
+.circuit-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* enhance.ts sets an exact px height */
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.4s linear;
 }
 
 /* ─── HERO ─── */
@@ -158,28 +252,214 @@ body::after {
   overflow: hidden;
 }
 
-.hero-bg-photo {
+/* Logo chip — the deer etched on a CPU die, sat on a PCB-green substrate.
+   Replaces the old background photo. Tilt/shift vars are driven by enhance.ts. */
+.hero-chip {
   position: absolute;
-  right: 0;
-  top: 0;
-  width: 55%;
-  height: 100%;
-  background: url("/scotland.jpg") 28% center / cover no-repeat;
-  opacity: 0.14;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.5) 28%,
-    black 62%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent,
-    rgba(0, 0, 0, 0.5) 28%,
-    black 62%
-  );
-  pointer-events: none;
+  right: clamp(1.5rem, 5vw, 6rem);
+  bottom: 11%;
+  width: clamp(200px, 22vw, 320px);
+  perspective: 900px;
   z-index: 0;
+  opacity: 0;
+  animation: chipIn 1.2s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.chip {
+  position: relative;
+  aspect-ratio: 1;
+  padding: 10%;
+  border-radius: 7%;
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.08), transparent 55%),
+    linear-gradient(145deg, #1d7360, var(--pcb-deep) 60%, #0f4337);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset,
+    0 30px 60px -20px rgba(0, 0, 0, 0.7),
+    0 0 90px -10px rgba(47, 168, 131, 0.25);
+  transform: translate3d(0, var(--chip-shift, 0px), 0)
+    rotateX(var(--tilt-x, 10deg)) rotateY(var(--tilt-y, -16deg));
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* Gold pins on all four sides, tucked behind the substrate. */
+.chip::before,
+.chip::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  --pin: repeating-linear-gradient(
+    var(--pin-dir),
+    var(--accent) 0 5px,
+    transparent 5px 13px
+  );
+}
+
+.chip::before {
+  --pin-dir: to bottom;
+  inset: 15% -6%;
+  background:
+    var(--pin) left / 7% 100% no-repeat,
+    var(--pin) right / 7% 100% no-repeat;
+  opacity: 0.75;
+}
+
+.chip::after {
+  --pin-dir: to right;
+  inset: -6% 15%;
+  background:
+    var(--pin) top / 100% 7% no-repeat,
+    var(--pin) bottom / 100% 7% no-repeat;
+  opacity: 0.75;
+}
+
+.chip-die {
+  position: relative;
+  height: 100%;
+  border-radius: 9%;
+  overflow: hidden;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.05) 0 1px,
+      transparent 1px 3px
+    ),
+    linear-gradient(140deg, #e9e6e0 0%, #cdcac4 45%, #a9a6a0 100%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.5) inset,
+    0 -2px 6px rgba(0, 0, 0, 0.25) inset,
+    0 6px 14px rgba(0, 0, 0, 0.45);
+}
+
+/* Pin-1 marker dot, like on a real package. */
+.chip-die::before {
+  content: "";
+  position: absolute;
+  left: 7%;
+  top: 7%;
+  width: 4%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.chip-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.55) 50%,
+    transparent 65%
+  );
+  background-size: 300% 100%;
+  background-position: 120% 0;
+  mix-blend-mode: soft-light;
+}
+
+/* ─── DEER LOGO ─── */
+.deer {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.deer--chip {
+  position: absolute;
+  inset: 12%;
+  width: 76%;
+}
+
+.deer--chip .deer-shard {
+  fill: #121317;
+}
+
+.deer-shard {
+  fill: currentColor;
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.deer-trace path {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 0.6;
+  stroke-linejoin: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 0;
+  opacity: 0;
+}
+
+/* Hover on a mark scatters the shards a little — the logo "breathes". */
+.chip:hover .deer-shard,
+.brand-mark:hover .deer-shard,
+.footer-mark:hover .deer-shard {
+  transform: translate(calc(var(--dx) * 0.08), calc(var(--dy) * 0.08))
+    rotate(calc(var(--r) * 0.08));
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .deer--chip .deer-shard {
+    animation: shardIn 1.1s cubic-bezier(0.2, 0.8, 0.2, 1)
+      calc(0.5s + var(--i) * 32ms) backwards;
+  }
+
+  .deer-trace path {
+    animation: traceDraw 2.4s ease-in-out 1.7s;
+  }
+
+  .chip-sheen {
+    animation: sheen 7s ease-in-out 3s infinite;
+  }
+}
+
+@keyframes chipIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes shardIn {
+  from {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) rotate(var(--r)) scale(0.6);
+  }
+  60% {
+    opacity: 1;
+  }
+}
+
+@keyframes traceDraw {
+  0% {
+    opacity: 1;
+    stroke-dashoffset: 1;
+  }
+  60% {
+    opacity: 1;
+    stroke-dashoffset: 0;
+  }
+  100% {
+    opacity: 0;
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes sheen {
+  0% {
+    background-position: 120% 0;
+  }
+  35%,
+  100% {
+    background-position: -20% 0;
+  }
 }
 
 .hero-avatar {
@@ -216,6 +496,52 @@ body::after {
   width: 24px;
   height: 1px;
   background: var(--accent);
+}
+
+/* Typewriter: the text is always in the DOM (screen readers get it whole);
+   only the visible width steps open, one monospace cell per character. */
+.hero-meta .typed {
+  display: inline-block;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+
+.hero-meta::after {
+  content: "";
+  width: 0.55em;
+  height: 1.1em;
+  margin-left: -1rem;
+  background: var(--pcb);
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-meta .typed {
+    width: calc(var(--n) * (1ch + 0.08em));
+    animation: typing calc(var(--n) * 45ms) steps(var(--n), end) var(--d)
+      backwards;
+  }
+
+  .hero-meta::after {
+    animation: caret 1s steps(1) var(--typed) 6;
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+}
+
+@keyframes caret {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 .hero h1 {
@@ -293,6 +619,94 @@ body::after {
 .hero-contact a:hover {
   color: var(--accent);
   border-bottom-color: var(--accent-line);
+}
+
+/* ─── HERO CTA — Download / Save as PDF ─── */
+.hero-actions {
+  margin-top: 2.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  animation: fadeUp 1s 0.85s ease forwards;
+}
+
+.hero-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--bg);
+  background: var(--accent);
+  border: 0;
+  border-radius: 8px;
+  padding: 0.85rem 1.35rem;
+  cursor: pointer;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 1px rgba(212, 165, 116, 0.5),
+    0 10px 30px -10px rgba(212, 165, 116, 0.55);
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 0.25s;
+}
+
+/* Light sweep across the button on hover. */
+.hero-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    110deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.45) 50%,
+    transparent 70%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.7s ease;
+}
+
+.hero-cta:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 0 1px var(--accent),
+    0 16px 40px -10px rgba(212, 165, 116, 0.7);
+}
+
+.hero-cta:hover::before {
+  transform: translateX(120%);
+}
+
+.hero-cta:focus-visible {
+  outline: 2px solid var(--bright);
+  outline-offset: 3px;
+}
+
+.hero-cta svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
+.hero-cta:hover svg {
+  animation: nudge 0.8s ease-in-out infinite;
+}
+
+@keyframes nudge {
+  50% {
+    transform: translateY(2px);
+  }
 }
 
 .hero-scroll {
@@ -437,19 +851,23 @@ main {
 }
 
 .print-link {
-  font-family: inherit;
-  font-size: 0.85rem;
-  background: none;
-  border: 0;
-  border-bottom: 1px solid var(--border);
-  padding: 0 0 1px;
-  color: var(--text-soft);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  white-space: nowrap;
+  background: var(--accent-soft);
+  border: 1px solid var(--accent-line);
+  border-radius: 6px;
+  padding: 0.45rem 0.7rem;
+  color: var(--accent);
   cursor: pointer;
-  transition: color 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 
 .print-link:hover {
-  color: var(--accent);
+  color: var(--bg);
+  background: var(--accent);
 }
 
 /* ─── CONTENT ─── */
@@ -463,6 +881,7 @@ main {
 }
 
 .section-header {
+  position: relative;
   display: flex;
   align-items: baseline;
   gap: 1rem;
@@ -471,11 +890,80 @@ main {
   border-bottom: 1px solid var(--border-soft);
 }
 
+/* Gold→green trace drawn along the divider (from the left when scrolled to). */
+.section-header::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    var(--accent),
+    var(--pcb) 35%,
+    transparent 80%
+  );
+  transform-origin: 0 50%;
+  transition: transform 1.4s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s;
+}
+
+.has-motion .section-header:not(.is-visible)::after {
+  transform: scaleX(0);
+}
+
 .section-num {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   font-family: var(--mono);
   font-size: 0.75rem;
-  color: var(--accent);
+  color: var(--pcb);
   letter-spacing: 0.1em;
+}
+
+/* Status LED next to the section number; flickers on when scrolled to. */
+.section-num::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--pcb);
+  box-shadow: 0 0 8px var(--pcb);
+  align-self: center;
+}
+
+.has-motion .section-header.is-visible .section-num::before {
+  animation: led 1.2s steps(1);
+}
+
+@keyframes led {
+  0% {
+    opacity: 0.15;
+  }
+  12% {
+    opacity: 1;
+  }
+  22% {
+    opacity: 0.15;
+  }
+  34% {
+    opacity: 1;
+  }
+  48% {
+    opacity: 0.35;
+  }
+  62% {
+    opacity: 1;
+  }
+}
+
+/* Cursor-following spotlight on highlight rows and experience cards.
+   --mx/--my come from enhance.ts; --spot fades the light in and out. */
+@property --spot {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
 }
 
 .section-title {
@@ -516,9 +1004,14 @@ main {
   align-items: baseline;
   padding: 1.25rem 0;
   border-bottom: 1px solid var(--border-soft);
+  background: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(212, 165, 116, calc(0.1 * var(--spot))),
+    transparent 70%
+  );
   transition:
     padding-left 0.3s,
-    background 0.3s;
+    --spot 0.35s;
 }
 
 .highlight:first-child {
@@ -529,7 +1022,7 @@ main {
 }
 
 .highlight:hover {
-  background: linear-gradient(90deg, var(--accent-soft) 0%, transparent 60%);
+  --spot: 1;
   padding-left: 0.75rem;
 }
 
@@ -613,10 +1106,11 @@ main {
 }
 
 .skill-tag:hover {
-  border-color: var(--accent-line);
-  color: var(--accent);
-  background: var(--accent-soft);
+  border-color: var(--pcb-line);
+  color: var(--pcb);
+  background: var(--pcb-soft);
   transform: translateY(-1px);
+  box-shadow: 0 4px 14px -6px rgba(47, 168, 131, 0.5);
 }
 
 .skill-tag.is-lead {
@@ -633,6 +1127,33 @@ main {
   margin-bottom: 0;
   border-left: 1px solid var(--border-soft);
   scroll-margin-top: 2rem;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(212, 165, 116, calc(0.06 * var(--spot))),
+    transparent 70%
+  );
+  transition: --spot 0.35s;
+}
+
+.exp-item:hover {
+  --spot: 1;
+}
+
+/* Timeline "current" flowing down the rail as the page scrolls (--fill set
+   by enhance.ts; stays empty without JS, leaving the plain rail). */
+.exp-item::after {
+  content: "";
+  position: absolute;
+  left: -1px;
+  top: 0;
+  width: 1px;
+  height: calc(var(--fill, 0) * 100%);
+  background: linear-gradient(to bottom, var(--accent), var(--pcb));
+  box-shadow: 0 0 6px rgba(47, 168, 131, 0.6);
+}
+
+.exp-item:last-child::after {
+  display: none;
 }
 
 .exp-item:last-child {
@@ -656,6 +1177,27 @@ main {
 .exp-item.current::before {
   background: var(--accent);
   box-shadow: 0 0 0 4px var(--accent-soft);
+}
+
+.exp-item::before {
+  z-index: 1;
+}
+
+.has-motion .exp-item:not(.is-lit):not(.current)::before {
+  border-color: var(--border);
+}
+
+.has-motion .exp-item.is-lit:not(.current)::before {
+  animation: dotOn 0.9s ease-out;
+}
+
+@keyframes dotOn {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 165, 116, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(212, 165, 116, 0);
+  }
 }
 
 .exp-header {
@@ -888,6 +1430,12 @@ footer {
   z-index: 2;
 }
 
+.footer-mark {
+  width: 56px;
+  margin: 0 auto 1.75rem;
+  color: var(--accent);
+}
+
 .footer-cta {
   font-family: var(--serif);
   font-style: italic;
@@ -968,21 +1516,25 @@ footer {
 
 /* ─── RESPONSIVE ─── */
 @media (max-width: 860px) {
-  .hero-bg-photo {
-    width: 100%;
-    opacity: 0.08;
-    -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent,
-      rgba(0, 0, 0, 0.5) 40%,
-      black 80%
-    );
-    mask-image: linear-gradient(
-      to bottom,
-      transparent,
-      rgba(0, 0, 0, 0.5) 40%,
-      black 80%
-    );
+  /* Avatar left, chip right, on one row. */
+  .hero-id {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .hero-chip {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    width: 116px;
+    margin: 0 0.5rem 0 0;
+  }
+
+  .hero-meta {
+    flex-wrap: wrap;
+    row-gap: 0.35rem;
+    margin-bottom: 2.25rem;
   }
 
   main {
@@ -1104,7 +1656,13 @@ body #stcm-wrapper #stcm-banner {
     display: none !important;
   }
 
-  .lang-switcher {
+  .lang-switcher,
+  .brand-mark,
+  .scroll-progress,
+  .circuit-bg,
+  .footer-mark,
+  .section-header::after,
+  .exp-item::after {
     display: none;
   }
 
@@ -1119,7 +1677,8 @@ body #stcm-wrapper #stcm-banner {
     padding-bottom: 0.35cm;
   }
 
-  .hero-bg-photo,
+  .hero-chip,
+  .hero-actions,
   .hero-avatar,
   .hero-meta,
   .hero-scroll {
@@ -1352,6 +1911,7 @@ body #stcm-wrapper #stcm-banner {
   .exp-item {
     padding: 0 0 0.3cm 0;
     border-left: 0;
+    background: none;
     margin-bottom: 0;
     page-break-inside: auto;
   }
@@ -1663,11 +2223,13 @@ body #stcm-wrapper #stcm-banner {
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
   }
+  .hero-chip,
   .hero-avatar,
   .hero-meta,
   .hero h1,
   .hero-role,
   .hero-contact,
+  .hero-actions,
   .hero-scroll {
     opacity: 1;
   }
