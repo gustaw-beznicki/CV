@@ -2032,10 +2032,26 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   background: var(--pcb);
 }
 
+.print-only {
+  display: none;
+}
+
+.exp-position + .exp-position {
+  margin-top: 1rem;
+}
+
+.exp-note {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  margin-left: 0.6rem;
+}
+
 @media print {
   @page {
-    size: A4;
-    margin: 1.4cm 1.6cm;
+    margin: 0.5in;
   }
 
   /* Hard reset */
@@ -2052,9 +2068,9 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   body {
     background: white;
     color: #1a1a1a;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     font-size: 9.5pt;
-    line-height: 1.4;
+    line-height: 1.25;
   }
 
   body::before,
@@ -2083,17 +2099,14 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
     min-height: auto;
     padding: 0;
     max-width: none;
-    margin: 0 0 0.5cm;
+    margin: 0 0 0.3cm;
     display: block;
-    border-bottom: 2px solid #1a1a1a;
-    padding-bottom: 0.35cm;
   }
 
   .hero-actions,
   .hero-avatar,
   .hero-meta,
   .hero-scroll,
-  .ds-kicker,
   .ds-specs,
   .ds-figure,
   .ds-foot,
@@ -2109,11 +2122,58 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   }
 
   .ds-body,
-  .ds-main,
   .ds-title {
     display: block;
     padding: 0;
     margin: 0;
+  }
+
+  /* Header block order: name, headline, contact line, then the summary. */
+  .ds-main {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ds-title {
+    order: 0;
+  }
+
+  .ds-kicker {
+    display: block;
+    order: 1;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 10.5pt;
+    font-weight: 600;
+    letter-spacing: 0;
+    text-transform: none;
+    color: #1a1a1a;
+    margin: 0 0 0.1cm;
+  }
+
+  .hero-contact {
+    order: 2;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+  }
+
+  .hero-summary-title {
+    display: block;
+    order: 3;
+    margin: 0.3cm 0 0.15cm;
+    padding-bottom: 0.08cm;
+    border-bottom: 1px solid #888;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    color: #1a1a1a;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    line-height: 1;
+  }
+
+  .hero-role {
+    order: 4;
   }
 
   .hero h1 span,
@@ -2141,12 +2201,12 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   }
 
   .hero-role {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     font-size: 10pt;
     color: #333;
     line-height: 1.4;
     max-width: none;
-    margin-bottom: 0.2cm;
+    margin-bottom: 0;
   }
 
   .hero-role strong {
@@ -2155,11 +2215,12 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   }
 
   .hero-contact {
-    font-size: 9pt;
+    font-size: 9.5pt;
     color: #444;
     gap: 0;
     margin-bottom: 0;
     display: block;
+    white-space: nowrap;
   }
 
   .hero-contact a,
@@ -2194,16 +2255,43 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
     display: none;
   }
 
+  /* Print order: Summary (hero), Experience, Skills, Education, Certifications, Languages. */
+  /* Grid, not flex: Chrome refuses to split flex items across pages. */
+  .content {
+    display: grid;
+  }
+
+  #highlights,
+  #interests {
+    display: none;
+  }
+
+  #experience {
+    order: 1;
+  }
+  #skills {
+    order: 2;
+  }
+  #education {
+    order: 3;
+  }
+  #certifications {
+    order: 4;
+  }
+  #languages {
+    order: 5;
+  }
+
   .content section {
-    margin-bottom: 0.4cm;
+    margin-bottom: 0.22cm;
     page-break-inside: auto;
   }
 
   /* ── SECTION HEADERS ── */
   .section-header {
     display: block;
-    margin: 0 0 0.2cm;
-    padding-bottom: 0.08cm;
+    margin: 0 0 0.12cm;
+    padding-bottom: 0.06cm;
     border-bottom: 1px solid #888;
     page-break-after: avoid;
   }
@@ -2213,7 +2301,7 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   }
 
   .section-title {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     font-weight: 700;
     font-variation-settings: normal;
     font-size: 11pt;
@@ -2221,73 +2309,6 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
     text-transform: uppercase;
     letter-spacing: 0.08em;
     line-height: 1;
-  }
-
-  /* ── HIGHLIGHTS ── */
-  .highlights {
-    display: block;
-  }
-
-  .highlight {
-    display: block;
-    padding: 0.05cm 0 0.05cm 0.45cm;
-    border: 0;
-    background: none;
-    position: relative;
-    page-break-inside: avoid;
-    grid-template-columns: none;
-    gap: 0;
-  }
-
-  .highlight::before {
-    content: "•";
-    position: absolute;
-    left: 0;
-    top: 0.05cm;
-    color: #1a1a1a;
-    font-weight: 700;
-  }
-
-  .highlight:hover {
-    background: none;
-    padding-left: 0.45cm;
-  }
-
-  .highlight-tag {
-    display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9.5pt;
-    font-weight: 700;
-    color: #1a1a1a;
-    text-transform: none;
-    letter-spacing: 0;
-    padding: 0;
-  }
-
-  .highlight-tag::before {
-    display: none;
-  }
-  .highlight-tag::after {
-    content: " — ";
-    color: #666;
-    font-weight: 400;
-  }
-
-  .highlight-text {
-    display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 9.5pt;
-    color: #1a1a1a;
-    line-height: 1.4;
-    letter-spacing: 0;
-  }
-
-  .highlight-text strong {
-    color: #1a1a1a;
-    font-weight: 600;
-    font-style: normal;
   }
 
   /* ── SKILLS ── */
@@ -2306,7 +2327,7 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .skill-cat {
     display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     font-size: 9.5pt;
     font-weight: 700;
     color: #1a1a1a;
@@ -2327,7 +2348,7 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   .skill-tag,
   .skill-tag.is-lead {
     display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     font-size: 9.5pt;
     font-weight: 400;
     background: none;
@@ -2347,11 +2368,12 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   /* ── EXPERIENCE ── */
   .exp-item {
-    padding: 0 0 0.3cm 0;
+    padding: 0 0 0.18cm 0;
     border-left: 0;
     background: none;
     margin-bottom: 0;
-    page-break-inside: auto;
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 
   .exp-item::before {
@@ -2366,8 +2388,8 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .exp-period {
     float: right;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 8.5pt;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
     color: #555;
     letter-spacing: 0;
     margin: 0;
@@ -2378,8 +2400,33 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
     display: none;
   }
 
+  .exp-position {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.4cm;
+  }
+
+  .exp-position .exp-period {
+    float: none;
+  }
+
+  .exp-note {
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
+    font-weight: 400;
+    color: #555;
+    letter-spacing: 0;
+    margin-left: 0.2cm;
+  }
+
+  .exp-position + .exp-position {
+    margin-top: 0;
+  }
+
   .exp-title {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     font-weight: 700;
     font-variation-settings: normal;
     font-size: 10.5pt;
@@ -2390,7 +2437,7 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   }
 
   .exp-company {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
     color: #333;
     font-size: 9.5pt;
     font-style: normal;
@@ -2410,15 +2457,15 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .exp-context {
     color: #444;
-    font-size: 9pt;
+    font-size: 9.5pt;
     font-style: italic;
     margin: 0.1cm 0;
     line-height: 1.35;
   }
 
   .exp-group-label {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9pt;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
     font-weight: 700;
     color: #1a1a1a;
     text-transform: none;
@@ -2434,9 +2481,9 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .exp-list li {
     padding-left: 0.4cm;
-    margin-bottom: 0.05cm;
+    margin-bottom: 0.02cm;
     color: #1a1a1a;
-    font-size: 9pt;
+    font-size: 9.5pt;
     line-height: 1.35;
     position: relative;
   }
@@ -2451,14 +2498,14 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .exp-body {
     color: #1a1a1a;
-    font-size: 9pt;
+    font-size: 9.5pt;
     line-height: 1.4;
     margin: 0.05cm 0 0.1cm;
   }
 
   .exp-tech {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 8.5pt;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
     color: #555;
     line-height: 1.35;
     padding-top: 0.08cm;
@@ -2487,8 +2534,8 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .edu-year {
     display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9pt;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
     font-weight: 700;
     color: #1a1a1a;
   }
@@ -2519,20 +2566,23 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .edu-detail span {
     color: #333;
-    font-size: 9pt;
+    font-size: 9.5pt;
   }
 
   .edu-detail em {
     display: block;
     color: #555;
     font-style: italic;
-    font-size: 8.5pt;
+    font-size: 9.5pt;
     margin: 0.02cm 0 0 0;
     padding-left: 0;
   }
 
   .cert-list {
-    display: block;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 0.6cm;
   }
 
   .cert-item {
@@ -2550,8 +2600,8 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .cert-year {
     display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9pt;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
     font-weight: 700;
     color: #1a1a1a;
   }
@@ -2565,7 +2615,7 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
   .cert-name {
     display: inline;
     color: #1a1a1a;
-    font-size: 9pt;
+    font-size: 9.5pt;
   }
 
   .cert-name::after {
@@ -2575,79 +2625,20 @@ body #stcm-wrapper #stcm-modal .stcm-toggle input:checked + .stcm-toggle-track {
 
   .cert-issuer {
     display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9pt;
+    font-family: Arial, "Liberation Sans", Helvetica, sans-serif;
+    font-size: 9.5pt;
     color: #555;
     text-transform: none;
     letter-spacing: 0;
   }
 
-  /* ── INTERESTS ── */
-  .interests-list {
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9.5pt;
-    font-weight: 400;
-    font-style: normal;
-    font-variation-settings: normal;
-    color: #1a1a1a;
-    line-height: 1.4;
-    letter-spacing: 0;
-    max-width: none;
+  .exp-tech {
+    margin-top: 0.05cm;
+    padding-top: 0;
   }
 
-  /* ── FOOTER ── */
   footer {
-    display: block;
-    margin-top: 0.4cm;
-    padding-top: 0.2cm;
-    border-top: 1px solid #888;
-    text-align: left;
-  }
-
-  .footer-cta,
-  .footer-meta {
     display: none;
-  }
-
-  .footer-links {
-    display: block;
-    margin: 0;
-    text-align: left;
-  }
-
-  .footer-link {
-    display: inline;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-    font-size: 9pt;
-    font-weight: 400;
-    color: #1a1a1a;
-    background: none;
-    border: 0;
-    border-radius: 0;
-    padding: 0;
-    margin: 0 0.5cm 0 0;
-    text-decoration: none;
-  }
-
-  .footer-link:hover {
-    background: none;
-    transform: none;
-  }
-
-  .footer-link svg {
-    display: none;
-  }
-
-  .footer-link span::before {
-    font-weight: 700;
-    margin-right: 0.15cm;
-  }
-
-  .footer-link:nth-of-type(1) span::before {
-    content: "GitHub:";
-  }
-  .footer-link:nth-of-type(2) span::before {
-    content: "LinkedIn:";
   }
 }
 

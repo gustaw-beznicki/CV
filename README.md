@@ -2,7 +2,7 @@
 
 <img src="public/profile.png" alt="Gustaw Beznicki" width="120" align="right" style="border-radius:8px; margin-left:16px;" />
 
-**Gustaw Beznicki** — Senior Software Engineer  
+**Gustaw Beznicki** - Senior Backend Engineer  
 📍 Gdansk, Poland &nbsp;·&nbsp; 🌐 [gustawbeznicki.dev](https://gustawbeznicki.dev) &nbsp;·&nbsp; 💼 [LinkedIn](https://www.linkedin.com/in/gustawbeznicki/)
 
 [![CI](https://github.com/gustaw-beznicki/CV/actions/workflows/ci.yml/badge.svg)](https://github.com/gustaw-beznicki/CV/actions/workflows/ci.yml)

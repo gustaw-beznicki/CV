@@ -41,6 +41,7 @@ const headRight = [typed(hero.revision), typed(ui.locationMeta)];
           <img class="hero-avatar" src="/profile.png" alt={`${hero.name} ${hero.surname}`} width="92" height="92" />
         </div>
         <p class="ds-kicker">{hero.docTitle}</p>
+        <h2 class="print-only hero-summary-title">{ui.summaryLabel}</h2>
         <p class="hero-role" set:html={hero.roleHtml}></p>
 
         <div class="hero-actions">

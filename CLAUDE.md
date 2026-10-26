@@ -52,6 +52,8 @@ Company/venture brand names live in `companies.ts`; URLs and contact constants (
 
 ### Experience entry shape
 
+An entry with several roles at one company sets `positions` (title, period, optional `pill`/`note`); those are rendered instead of `period` + `title`.
+
 Each `Experience` object uses **one** of three description fields:
 
 | Field | When to use |
@@ -74,7 +76,7 @@ Fonts are self-hosted via Fontsource (imported in `Base.astro`). Do not add Goog
 
 Light + dark themes: dark overrides live in `@media screen { :root[data-theme="dark"] }` in `global.css` (set by the inline script in `Base.astro` + `ThemeToggle`); use tokens, never hard-coded colours, so both themes stay in sync.
 
-The print sheet hides the sidebar and footer CTA. Anything that must appear in a PDF export must live in the hero or another print-visible area.
+The print sheet (no fixed paper size, 0.5in margins, built to fit Letter and A4) hides the sidebar, highlights, interests, avatar, FIG. 1 and footer, and orders the page as Header, Summary, Experience, Skills, Education, Certifications, Languages. Job entries never split across pages. Anything that must appear in a PDF export must live in the hero or another print-visible area.
 
 ## Deploy & security
 
