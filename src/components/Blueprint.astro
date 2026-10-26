@@ -1,0 +1,216 @@
+---
+// FIG. 1 of the hero datasheet: the deer as a technical drawing, plotted
+// line by line — construction lines, mesh edges (silhouette heavier),
+// nodes, hatching, dimensions and balloons. CSS animates the plot;
+// enhance.ts adds the pen head, the CAD cursor and click-to-replot.
+// Decorative only (aria-hidden).
+import { type Pt, polygons, rand, shards } from "./deer-geometry";
+
+const f1 = (n: number) => n.toFixed(1);
+const f2 = (n: number) => n.toFixed(2);
+const key = (p: Pt) => `${p[0].toFixed(2)},${p[1].toFixed(2)}`;
+
+// ── Unique edges; ones used by a single shard form the silhouette. ──
+type Edge = { a: Pt; b: Pt; uses: number };
+const edgeMap = new Map<string, Edge>();
+for (const poly of shards) {
+  poly.forEach((a, i) => {
+    const b = poly[(i + 1) % poly.length];
+    const k = [key(a), key(b)].sort().join("|");
+    const e = edgeMap.get(k);
+    if (e) e.uses++;
+    else edgeMap.set(k, { a, b, uses: 1 });
+  });
+}
+
+// ── Plot order: greedy nearest-neighbour walk from the muzzle, so the pen
+// travels like a real plotter instead of jumping around. ──
+const pending = [...edgeMap.values()];
+const plotted: (Edge & { start: number; dur: number })[] = [];
+const PEN_START = 0.9; // s — after the sheet has faded in
+const PLOT_TIME = 3.2; // s — the whole outline, whatever its total length
+const SPEED = 190; // relative drawing speed (rescaled to PLOT_TIME below)
+let pen: Pt = [77, 96];
+let clock = PEN_START;
+while (pending.length) {
+  let best = 0;
+  let bestD = Number.POSITIVE_INFINITY;
+  let flip = false;
+  pending.forEach((e, i) => {
+    const da = Math.hypot(e.a[0] - pen[0], e.a[1] - pen[1]);
+    const db = Math.hypot(e.b[0] - pen[0], e.b[1] - pen[1]);
+    if (Math.min(da, db) < bestD) {
+      bestD = Math.min(da, db);
+      best = i;
+      flip = db < da;
+    }
+  });
+  const [e] = pending.splice(best, 1);
+  const a = flip ? e.b : e.a;
+  const b = flip ? e.a : e.b;
+  const len = Math.hypot(b[0] - a[0], b[1] - a[1]);
+  clock += bestD / (SPEED * 3); // pen-up travel is quicker
+  const dur = Math.max(len / SPEED, 0.03);
+  plotted.push({ a, b, uses: e.uses, start: clock, dur });
+  clock += dur;
+  pen = b;
+}
+// Rescale the raw timeline so the whole plot takes PLOT_TIME.
+const scale = PLOT_TIME / (clock - PEN_START);
+for (const e of plotted) {
+  e.start = PEN_START + (e.start - PEN_START) * scale;
+  e.dur *= scale;
+}
+const PLOT_END = PEN_START + PLOT_TIME;
+
+// ── Nodes, numbered in the order the pen first reaches them. ──
+const nodes = new Map<string, { p: Pt; n: number; at: number }>();
+for (const e of plotted) {
+  for (const [p, at] of [
+    [e.a, e.start],
+    [e.b, e.start + e.dur],
+  ] as const) {
+    if (!nodes.has(key(p))) nodes.set(key(p), { p, n: nodes.size + 1, at });
+  }
+}
+
+// ── Hatching: each shard gets one of three patterns, picked from a fake
+// facet tilt — denser = "further from the light". ──
+const hatched = shards.map((poly, i) => ({
+  d: `M${poly.map((p) => `${f2(p[0])} ${f2(p[1])}`).join("L")}Z`,
+  pattern: Math.floor(rand(i + 3) * 3) + 1,
+  at: PLOT_END + 0.1 + i * 0.008,
+}));
+
+// ── Bounding box + annotations. ──
+const all = polygons.flat();
+const minX = Math.min(...all.map((p) => p[0]));
+const maxX = Math.max(...all.map((p) => p[0]));
+const minY = Math.min(...all.map((p) => p[1]));
+const maxY = Math.max(...all.map((p) => p[1]));
+const cx = (minX + maxX) / 2;
+const cy = (minY + maxY) / 2;
+
+// Antler spread angle, measured at the skull between the two outer tips.
+const apex: Pt = [60, 42];
+const tipL: Pt = [13.2, 23.7];
+const tipR: Pt = [71.4, 1.8];
+const angL = Math.atan2(tipL[1] - apex[1], tipL[0] - apex[0]);
+const angR = Math.atan2(tipR[1] - apex[1], tipR[0] - apex[0]);
+const spread = Math.round((Math.abs(angR - angL) * 180) / Math.PI);
+const R = 13;
+const arcFrom: Pt = [
+  apex[0] + R * Math.cos(angL),
+  apex[1] + R * Math.sin(angL),
+];
+const arcTo: Pt = [apex[0] + R * Math.cos(angR), apex[1] + R * Math.sin(angR)];
+const arcMid = (angL + angR) / 2;
+
+const balloons = [
+  { n: 1, at: [104, 70] as Pt, to: [85, 70] as Pt }, // head
+  { n: 2, at: [6, 10] as Pt, to: [14.5, 25] as Pt }, // left antler
+  { n: 3, at: [96, 6] as Pt, to: [78.5, 8] as Pt }, // right antler
+];
+---
+
+<svg
+  class="bp"
+  viewBox="-8 -8 117 121"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-hidden="true"
+  focusable="false"
+  style={`--plot-end:${PLOT_END.toFixed(2)}s`}
+>
+  <defs>
+    <pattern id="bp-hatch-1" class="bp-hatch" width="2.2" height="2.2" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="2.2"></line>
+    </pattern>
+    <pattern id="bp-hatch-2" class="bp-hatch" width="1.5" height="1.5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <line x1="0" y1="0" x2="0" y2="1.5"></line>
+    </pattern>
+    <pattern id="bp-hatch-3" class="bp-hatch" width="1" height="1" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="1"></line>
+    </pattern>
+  </defs>
+
+  <!-- Construction: centre lines, envelope, spread angle. -->
+  <g class="bp-construct">
+    <path d={`M${f1(cx)} -6V${f1(maxY + 6)}`}></path>
+    <path d={`M${f1(minX - 8)} ${f1(cy)}H${f1(maxX + 8)}`}></path>
+    <rect class="bp-envelope" x={f2(minX)} y={f2(minY)} width={f2(maxX - minX)} height={f2(maxY - minY)}></rect>
+    <path d={`M${f2(apex[0])} ${f2(apex[1])}L${f2(tipL[0])} ${f2(tipL[1])}M${f2(apex[0])} ${f2(apex[1])}L${f2(tipR[0])} ${f2(tipR[1])}`}></path>
+  </g>
+
+  <!-- Hatching fills in after the outline is done. -->
+  <g class="bp-fills">
+    {hatched.map((h) => (
+      <path d={h.d} fill={`url(#bp-hatch-${h.pattern})`} style={`--at:${h.at.toFixed(2)}s`}></path>
+    ))}
+  </g>
+
+  <!-- Mesh edges in plot order. -->
+  <g class="bp-edges">
+    {plotted.map((e) => (
+      <path
+        class:list={["bp-edge", e.uses === 1 && "is-outline"]}
+        d={`M${f2(e.a[0])} ${f2(e.a[1])}L${f2(e.b[0])} ${f2(e.b[1])}`}
+        pathLength="1"
+        style={`--at:${e.start.toFixed(3)}s;--dur:${e.dur.toFixed(3)}s`}
+      ></path>
+    ))}
+  </g>
+
+  <g class="bp-nodes">
+    {[...nodes.values()].map((n) => (
+      <circle
+        class="bp-node"
+        cx={f2(n.p[0])}
+        cy={f2(n.p[1])}
+        r="0.55"
+        data-n={n.n}
+        style={`--at:${n.at.toFixed(3)}s`}
+      ></circle>
+    ))}
+  </g>
+
+  <!-- Annotations: dimensions, spread angle, balloons, scale. -->
+  <g class="bp-notes">
+    <g class="bp-dim">
+      <path d={`M${f2(minX)} ${f1(maxY + 2)}V${f1(maxY + 8)}M${f2(maxX)} ${f1(maxY + 2)}V${f1(maxY + 8)}M${f2(minX)} ${f1(maxY + 6)}H${f2(maxX)}`}></path>
+      <path class="bp-tick" d={`M${f2(minX - 1)} ${f1(maxY + 7)}l2 -2M${f2(maxX - 1)} ${f1(maxY + 7)}l2 -2`}></path>
+      <text class="bp-text" x={f1(cx)} y={f1(maxY + 5)} text-anchor="middle">{f1(maxX - minX)}</text>
+    </g>
+    <g class="bp-dim">
+      <path d={`M${f1(minX - 2)} ${f2(minY)}H-4M${f1(minX - 2)} ${f2(maxY)}H-4M-2 ${f2(minY)}V${f2(maxY)}`}></path>
+      <path class="bp-tick" d={`M-3 ${f2(minY + 1)}l2 -2M-3 ${f2(maxY + 1)}l2 -2`}></path>
+      <text class="bp-text" x="-3.2" y={f1(cy)} text-anchor="middle" transform={`rotate(-90 -3.2 ${f1(cy)})`}>{f1(maxY - minY)}</text>
+    </g>
+    <g class="bp-dim">
+      <path d={`M${f2(arcFrom[0])} ${f2(arcFrom[1])}A${R} ${R} 0 0 1 ${f2(arcTo[0])} ${f2(arcTo[1])}`}></path>
+      <text class="bp-text" x={f1(apex[0] + (R + 3.2) * Math.cos(arcMid))} y={f1(apex[1] + (R + 3.2) * Math.sin(arcMid))} text-anchor="middle">{spread}°</text>
+    </g>
+    {balloons.map((b) => (
+      <g class="bp-balloon">
+        <path d={`M${f2(b.at[0])} ${f2(b.at[1])}L${f2(b.to[0])} ${f2(b.to[1])}`}></path>
+        <circle class="bp-leader-dot" cx={f2(b.to[0])} cy={f2(b.to[1])} r="0.5"></circle>
+        <circle cx={f2(b.at[0])} cy={f2(b.at[1])} r="3"></circle>
+        <text class="bp-text" x={f2(b.at[0])} y={f2(b.at[1] + 1)} text-anchor="middle">{b.n}</text>
+      </g>
+    ))}
+    <text class="bp-text bp-scale" x="-6" y="111">SCALE 1:1 · UNITS mm · {plotted.length} EDGES · {nodes.size} NODES</text>
+  </g>
+
+  <!-- Plotter pen head (driven by enhance.ts). -->
+  <g class="bp-pen" transform="translate(77 96)">
+    <circle r="1.6"></circle>
+    <path d="M-3 0H3M0 -3V3"></path>
+  </g>
+
+  <!-- CAD cursor: nearest node + readout (driven by enhance.ts). -->
+  <g class="bp-cursor">
+    <path class="bp-guide"></path>
+    <circle class="bp-ring" r="1.8"></circle>
+    <rect class="bp-tag"></rect>
+    <text class="bp-text bp-readout"></text>
+  </g>
+</svg>

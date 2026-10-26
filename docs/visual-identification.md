@@ -7,31 +7,50 @@
 
 ## Colour Palette
 
+Direction: **engineering datasheet**. The page reads like a component data sheet for "part GB-01": paper, ink, one PCB-green accent. It deliberately avoids the generic dark + gold + serif-italic + glow look.
+
 | Token | Hex / Value | Role |
 |---|---|---|
-| `--color-bg` | `#0e0f13` | Page background (near-black) |
-| `--color-bg-alt` | `#14161e` | Alternate background |
-| `--color-surface` | `#181a23` | Card / tag surface |
-| `--color-border` | `#262936` | Hard border |
-| `--color-border-soft` | `#1f2230` | Subtle dividers |
-| `--color-muted` | `#6b7282` | De-emphasised text, labels |
-| `--color-text-soft` | `#9da3b1` | Secondary body copy |
-| `--color-text` | `#c8cad2` | Primary body copy |
-| `--color-bright` | `#f0f0f4` | Headings, high-contrast text |
-| `--color-accent` | `#d4a574` | Warm gold — primary brand accent |
-| `--color-accent-soft` | `rgba(212,165,116,0.12)` | Accent tint for hover fills |
-| `--color-accent-line` | `rgba(212,165,116,0.30)` | Accent tint for borders |
+| `--color-bg` | `#ecebe6` | Paper — page background |
+| `--color-bg-alt` | `#e3e1da` | Alternate background |
+| `--color-surface` | `#f6f5f1` | Sheet / card / tag surface |
+| `--color-border` | `#c4c1b8` | Hard border |
+| `--color-border-soft` | `#d8d5cd` | Subtle dividers |
+| `--color-muted` | `#6d6a63` | De-emphasised text, labels |
+| `--color-text-soft` | `#47453f` | Secondary body copy |
+| `--color-text` | `#23211d` | Primary body copy |
+| `--color-bright` | `#0f0f0f` | Ink — headings, frame lines |
+| `--color-accent` | `#17735d` | PCB green (ink strength) — links, CTA, active states, kicker |
+| `--color-accent-soft` | `rgba(23,115,93,0.10)` | Accent tint for hover fills |
+| `--color-accent-line` | `rgba(23,115,93,0.35)` | Accent tint for borders |
+| `--color-pcb` | `#1b7d66` | Section numbers, LEDs, skill-tag hover |
+| `--color-pcb-soft` / `-line` | `rgba(27,125,102,0.12 / 0.35)` | PCB tints |
 
-### Accent swatch
+### Dark theme
 
-```
-#0e0f13  ████  background
-#181a23  ████  surface
-#d4a574  ████  accent (warm gold)
-#f0f0f4  ████  bright text
-```
+The same datasheet at night: graphite paper, light ink, glowing PCB green.
 
-The overall mood is **dark + warm**: a near-black slate background warmed by a single gold accent. No secondary hue is used in the UI; the faint blue atmospheric glow (`rgba(100,130,180,0.04)`) in the background pseudo-element is purely decorative and not a design colour.
+- **Selection:** follows the OS (`prefers-color-scheme`) by default. The top-right toggle (`ThemeToggle.astro`, next to EN/PL) overrides it and saves the choice in `localStorage` (`theme`).
+- **No flash:** an inline script in `Base.astro`'s `<head>` sets `data-theme` on `<html>` before first paint.
+- **No JS:** the page stays light and the toggle stays hidden.
+- **Where the tokens live:** the dark tokens override the `--color-*` palette under `@media screen { :root[data-theme="dark"] }`. Print therefore always stays black on white.
+- **Non-palette values** are tokens too, so both themes stay in sync:
+  - `--grid-*`, `--grain-*` (background),
+  - `--sheet`, `--glass` (frames and floating UI),
+  - `--hover-tint`, `--accent-rgb` (tints and spotlights),
+  - `--cta-text/--cta-hover` (the PDF button),
+  - `--shadow-rgb`,
+  - `--trace-rgb/--pulse-rgb` (canvas; `enhance.ts` re-paints the same traces on a `themechange` event).
+
+| Token | Dark value |
+|---|---|
+| `--color-bg` / `-bg-alt` / `-surface` | `#111413` / `#161a19` / `#1a1f1d` |
+| `--color-border` / `-border-soft` | `#3a423f` / `#262d2a` |
+| `--color-muted` / `-text-soft` / `-text` / `-bright` | `#8a938f` / `#b4bcb8` / `#d9dedb` / `#f1f3f2` |
+| `--color-accent` | `#4cc3a0` (CTA uses dark text on it) |
+| `--color-pcb` | `#3fae8e` |
+
+The blueprint follows the tokens; the small deer marks switch to a brighter steel on graphite.
 
 ### Text-selection colour
 
@@ -39,43 +58,33 @@ The overall mood is **dark + warm**: a near-black slate background warmed by a s
 ::selection { background: var(--accent); color: var(--bg); }
 ```
 
-Gold background, near-black text.
-
 ---
 
 ## Typography
 
 ### Typefaces
 
-| Role | Family | Source | Variable axes |
-|---|---|---|---|
-| Display / headings | **Fraunces Variable** | `@fontsource-variable/fraunces` | `wght`, `opsz`, `SOFT`, italic |
-| Body / UI | **Instrument Sans Variable** | `@fontsource-variable/instrument-sans` | `wght` |
-| Code / labels / mono UI | **JetBrains Mono Variable** | `@fontsource-variable/jetbrains-mono` | `wght` |
+| Role | Family | Source |
+|---|---|---|
+| Display / headings / body | **Instrument Sans Variable** | `@fontsource-variable/instrument-sans` |
+| Labels / tables / header bar | **JetBrains Mono Variable** | `@fontsource-variable/jetbrains-mono` |
 
-All three are self-hosted via Fontsource (zero external requests). Google Fonts is explicitly excluded to keep the CSP `'self'`-only.
+Both are self-hosted via Fontsource (zero external requests); Google Fonts is excluded to keep the CSP `'self'`-only. Fraunces (the old display serif) was removed.
 
 ### Type scale
 
 | Element | Size | Family | Weight / Settings |
 |---|---|---|---|
-| Hero h1 | `clamp(3.5rem, 10vw, 8.5rem)` | Fraunces | `350`, `"opsz" 144 "SOFT" 30` |
-| Hero h1 `em` | inherits | Fraunces italic | `300`, accent gold |
-| Section title | `clamp(1.6rem, 3vw, 2.1rem)` | Fraunces | `300`, `"opsz" 144 "SOFT" 50` |
-| Experience title | `clamp(1.25rem, 2vw, 1.5rem)` | Fraunces | `400`, `"opsz" 144 "SOFT" 30` |
-| Footer CTA | `clamp(1.4rem, 3vw, 2rem)` | Fraunces italic | `300` |
-| Interests list | `1.25rem` | Fraunces italic | `350`, `"opsz" 144 "SOFT" 60` |
-| Highlight text | `1.15rem` | Fraunces | `350`, `"opsz" 144 "SOFT" 50` |
-| Body copy | `16px` / `1rem` | Instrument Sans | regular |
-| Secondary body | `0.95rem` | Instrument Sans | regular |
-| Small body | `0.85–0.88rem` | Instrument Sans | regular |
-| Nav / mono labels | `0.65–0.78rem` | JetBrains Mono | `500`, `letter-spacing: 0.08–0.15em`, uppercase |
-| Hero meta | `0.78rem` | JetBrains Mono | `500`, uppercase, `letter-spacing: 0.08em` |
-| Tech stack line | `0.75rem` | JetBrains Mono | regular |
-
-**Line-heights:** body `1.6`; hero role `1.5`; summary `1.7`; lists `1.55`; tight headings `0.95–1.2`.
-
-**Letter-spacing:** headings `−0.025em` to `−0.01em` (tighten); mono labels `+0.08em` to `+0.20em` (open up).
+| Hero h1 (two lines) | `clamp(3rem, 5.6vw, 5.1rem)` | Instrument Sans | `600`, `letter-spacing: −0.045em`, line-height `0.9` |
+| Hero h1 `em` (surname) | inherits | Instrument Sans | upright, PCB-green underline bar that draws in |
+| Hero kicker (doc title) | `0.8rem` | JetBrains Mono | uppercase, accent |
+| Spec table | `0.78rem` label / `0.92rem` value | Mono / Sans | dotted leaders |
+| Section title | `clamp(1.5rem, 2.6vw, 1.95rem)` | Instrument Sans | `600`, `−0.025em` |
+| Experience title | `clamp(1.2rem, 1.9vw, 1.4rem)` | Instrument Sans | `600` |
+| Highlight text | `1.08rem` | Instrument Sans | `400`, `strong` `600` |
+| Footer CTA | `clamp(1.4rem, 3vw, 2rem)` | Instrument Sans | `600` |
+| Body copy | `16px` | Instrument Sans | regular |
+| Mono labels | `0.62–0.8rem` | JetBrains Mono | uppercase, `+0.06–0.15em` |
 
 ---
 
@@ -100,9 +109,21 @@ All three are self-hosted via Fontsource (zero external requests). Google Fonts 
 
 ## Component Patterns
 
-### Accent line / em-dash decoration
+### Hero datasheet (`Hero.astro`)
 
-A recurring micro-pattern: a short `24px × 1px` horizontal rule in `--accent` placed before `.hero-meta`, and `8px × 1px` accent marks before `.highlight-tag`, connect decorative elements to content without borders.
+The hero is a framed sheet (`.ds`, 1 px ink border, registration ticks on two corners):
+
+- **Header bar** (`.hero-meta`): part number `GB-01` + "Curriculum Vitae" on the left, revision + location on the right. Typed in, with a green caret.
+- **Left column** (`.ds-main`):
+  - two-line name with a round portrait in an ink ring,
+  - mono kicker (`hero.docTitle`) and `.hero-role`,
+  - green `Download CV (PDF)` CTA, mono contact links,
+  - **key parameters** table (`hero.specs`, dotted leaders).
+- **Right column** (`.ds-figure`): FIG. 1, the plotted blueprint of the deer, with a caption.
+- **Footer strip** (`.ds-foot`): `● Pin 1 · Sheet 1/1 · domain · Scroll ↓`.
+- **Below 860 px:** one column; `.ds-main` uses `display: contents`, so FIG. 1 sits between the CTA and the parameters table.
+
+All hero copy lives in `hero` in `en.ts`/`pl.ts`: `partNumber`, `revision`, `docTitle`, `specsHead`, `specs`, `figCaption`, `pinLabel`, `sheetLabel`.
 
 ### Sidebar navigation
 
@@ -118,7 +139,36 @@ Default: `--surface` fill, `--border-soft` border, `4px` radius. Lead skills (`.
 
 ### Highlight rows
 
-Two-column grid (`160px 1fr`). Hover: `linear-gradient(90deg, var(--accent-soft) 0%, transparent 60%)` sweep + `padding-left: 0.75rem` slide. Tag prefix uses em-dash accent line decoration.
+Two-column grid (`160px 1fr`). Hover: cursor-following green spotlight (`radial-gradient` at `--mx/--my`, faded in via the registered `--spot` property) + `padding-left: 0.75rem` slide. Tag prefix uses em-dash accent line decoration. Experience cards share the spotlight.
+
+### Logo (deer)
+
+`src/components/deer-geometry.ts` holds the hand-traced low-poly deer: a 0–100 coordinate space, big shards split at build time into ~53 facets. It is shared by:
+
+- **`Logo.astro`** — the small marks (floating back-to-top badge, footer). Each shard is a raised plateau with chamfered walls; every face carries its 3D normal (`--nx/--ny/--nz`) and is shaded against a top-left light. Graphite steel on paper, brighter steel in the dark theme; hovering scatters the shards slightly.
+- **`Blueprint.astro`** — FIG. 1 in the hero (below).
+
+### FIG. 1 — blueprint (`Blueprint.astro`)
+
+The deer as a technical drawing, plotted like a pen plotter:
+
+1. Construction lines fade in: dash-dot centre lines, the dashed envelope, and the antler-spread lines.
+2. The 131 unique mesh edges are drawn one by one (`stroke-dashoffset`). The order comes from a greedy nearest-neighbour walk starting at the muzzle, and every edge's `--at` / `--dur` is computed at build time and rescaled so the whole plot takes 3.2 s. Silhouette edges (used by a single facet) are heavier.
+3. 88 nodes pop in as the pen reaches them.
+4. Facets fill with one of three hatch patterns, as a depth cue.
+5. Annotations appear: width/height dimensions with architect ticks, the antler-spread angle, numbered balloons, and the `SCALE 1:1 · UNITS mm` note.
+
+Interaction (`enhance.ts`):
+
+- **Pen head:** a crosshair follows the edge being drawn. It uses the last edge's CSS animation as its clock, so the two never drift.
+- **CAD cursor:** snaps to the nearest node and shows `Nxx · X · Y` with guide lines.
+- **Replot:** clicking restarts the drawing. Animations are toggled off for one style flush via `.bp.is-reset`.
+
+Under reduced motion or without JS, the drawing is shown complete. All colours come from tokens, so both themes work.
+
+### Hero CTA
+
+`.hero-cta` — filled PCB-green button (white mono uppercase label, 1 px ink border, 2 px radius) with a download icon, right under the role text; triggers print / Save as PDF (`[data-print]`). Full width below 600 px. The sidebar keeps a secondary outlined `.print-link`.
 
 ### Footer links
 
@@ -130,14 +180,16 @@ Fixed top-right pill group. Active locale: `--accent` fill, `--bg` text. Inactiv
 
 ---
 
-## Background Atmospherics
+## Background
 
-Two layered pseudo-elements on `body` create depth without images:
+1. **Graph paper** (`body::before`): a 24 px grid plus a heavier 120 px grid in ink at low alpha, fixed to the viewport.
+2. **Paper grain** (`body::after`): inline SVG fractal noise at `opacity: 0.05`, `mix-blend-mode: multiply`.
+3. **Circuit canvas** (`.circuit-bg`, drawn by `enhance.ts`):
+   - random-walk traces in faint ink, snapped to the same 24 px grid (90°/45° turns, pads at the ends),
+   - green and graphite signal pulses running along the traces,
+   - a green "lens" around the cursor.
 
-1. **Radial gradients** (`body::before`): warm gold glow at top-right corner (`rgba(212,165,116,0.05)`), cool blue at bottom-left (`rgba(100,130,180,0.04)`).
-2. **Grain texture** (`body::after`): inline SVG fractal noise at `opacity: 0.025`, `mix-blend-mode: overlay`.
-
-Hero background photo (`/scotland.jpg`): right 55% of viewport, `opacity: 0.14`, masked with a left-to-right gradient fade. Reduces to full-width at `0.08` opacity below 860 px.
+   Full strength over the hero, ~50% behind the content. Static under reduced motion; paused when the tab is hidden.
 
 ---
 
@@ -145,18 +197,25 @@ Hero background photo (`/scotland.jpg`): right 55% of viewport, `opacity: 0.14`,
 
 | Element | Animation | Duration / Delay |
 |---|---|---|
-| `.hero-meta` | `fadeUp` (opacity 0→1, translateY 20px→0) | 0.8s / 0.10s |
+| `.ds` (sheet) | `fadeUp` (opacity 0→1, translateY 20px→0) | 0.8s / 0.05s |
 | `.hero-avatar` | `fadeUp` | 0.8s / 0.15s |
 | `hero h1` | `fadeUp` | 1.0s / 0.30s |
 | `.hero-role` | `fadeUp` | 1.0s / 0.50s |
 | `.hero-contact` | `fadeUp` | 1.0s / 0.70s |
+| `.hero-meta .typed` | typewriter (`steps()` on width, one mono cell per char) + blinking caret | 45ms/char from 0.5s |
+| `.bp-edge` / `.bp-node` / `.bp-fills` | plotter: edges draw in plot order, nodes pop, hatching fills | 3.2s from 0.9s |
+| `.hero-actions` | `fadeUp` | 1.0s / 0.85s |
 | `.hero-scroll` | `fadeUp` + `float` loop | 1.0s / 1.0s + 2.5s loop |
+| Section header | divider trace draws from the left + LED flicker (on scroll) | 1.4s / 1.2s |
+| Skill tags | cascade in per row (on scroll) | 0.4s, 35ms stagger |
+| Experience rail | ink→green fill follows the reading line; dots pulse when passed | scroll-linked |
+| Scroll progress | 2 px green bar at the top | scroll-linked |
 | Sidebar nav active | `padding-left` slide | `0.25s` |
 | Skill tag hover | colour + `translateY` | `0.2s` |
-| Highlight hover | gradient sweep + pad | `0.3s` |
+| Highlight / experience hover | cursor spotlight + pad | `0.35s` |
 | Consent banner | `backdrop-filter blur(12px)` | CSS |
 
-`prefers-reduced-motion: reduce` collapses all durations to `0.001ms` and sets hero elements to `opacity: 1`.
+`prefers-reduced-motion: reduce` collapses all durations to `0.001ms` and sets hero elements to `opacity: 1`; the new effects are only declared under `prefers-reduced-motion: no-preference` (CSS) or behind the `has-motion` class on `<html>` (set by `enhance.ts`).
 
 ---
 
@@ -166,10 +225,10 @@ When the browser prints (or the user clicks the print button), the stylesheet sw
 
 - Background resets to `white`; all text to `#1a1a1a` / `#333` / `#555`
 - Sidebar hidden; single-column layout, A4 margins (`1.4cm × 1.6cm`)
-- Fraunces replaced by `Georgia` (h1) and `Helvetica Neue, Helvetica, Arial` (all other text)
-- Hero avatar, bg photo, meta and scroll indicator hidden
+- `Georgia` (h1) and `Helvetica Neue, Helvetica, Arial` (all other text)
+- The datasheet frame flattens to the classic CV header (name on one line, role, contact). Header bar, kicker, parameters table, FIG. 1, footer strip, avatar and CTA are hidden; so are the circuit canvas, progress bar and logo marks.
 - Experience timeline border/nodes removed; period floats right
-- All colour is stripped — no gold, no tints
+- All colour is stripped — no tints
 
 ---
 
@@ -177,33 +236,23 @@ When the browser prints (or the user clicks the print button), the stylesheet sw
 
 | File | Purpose |
 |---|---|
-| `/public/favicon.png` | Browser tab icon + Apple touch icon |
+| `/public/favicon.png` | Browser tab icon + Apple touch icon (original deer-on-a-chip artwork) |
 | `/public/og-image.png` | Open Graph / Twitter card preview (1200×630) |
-| `/public/profile.png` | Avatar in hero (88×88 px circle, `object-position: center 15%`) |
-| `/public/scotland.jpg` | Hero background photo (right-side fade) |
+| `/public/profile.png` | Round portrait in the hero (92 px, ink ring) |
 
 ---
 
 ## Consent Banner Theming
 
-The self-hosted Silktide banner is overridden to match the site palette:
-
-```css
---primaryColor:          #d4a955   /* warm gold (slightly more saturated) */
---backgroundColor:       var(--surface)
---textColor:             var(--text)
---boxShadow:             0 0 0 1px var(--accent-line), 0 12px 40px rgba(0,0,0,0.5)
---iconBackgroundColor:   #d4a955
-```
-
-The banner prompt (`.stcm-banner`) uses `rgba(14,15,19,0.4)` fill + `backdrop-filter: blur(12px)` + `border: 1px solid var(--accent-line)` — matching the glassmorphism style of other floating UI (language switcher).
+The self-hosted Silktide banner follows the palette: `--primaryColor: var(--accent)`, `--backgroundColor: var(--surface)`, `--textColor: var(--text)`, and a light paper prompt `rgba(246,245,241,0.88)` with blur and a 1 px border. An ink→green line runs along its top edge, and enabled switches in the preferences modal turn PCB green. It sits bottom-right, so the hero CTA stays clear.
 
 ---
 
 ## Design Principles
 
-1. **Single accent** — one warm gold (`#d4a574`) carries all interactive and decorative emphasis. No secondary accent hue.
-2. **Typographic hierarchy through Fraunces** — the variable serif does the display work; Instrument Sans handles legibility at small sizes. Mixing these two families (with mono for metadata) is the core visual identity.
-3. **Motion as polish, not decoration** — entrance animations (staggered `fadeUp`) give the hero a cinematic feel; interactive transitions (`0.2–0.3s`) are subtle enough to disappear after the first visit.
-4. **Self-hosted everything** — fonts, vendor scripts, and analytics proxy stay on-domain to maintain a `'self'` CSP and avoid third-party requests.
-5. **Print degrades gracefully** — the print sheet is a separate design, not an afterthought: clean A4, system fonts, black on white.
+1. **Datasheet, not template.** Paper, ink, frame lines, mono labels and real parameters instead of glows, gradients and serif italics.
+2. **One accent.** PCB green carries every interactive and decorative emphasis.
+3. **The logo is the illustration.** FIG. 1 of the sheet is a technical drawing of the deer, plotted live and inspectable with a CAD cursor.
+4. **Motion as instrumentation.** Typing header, drawing dividers, LEDs, a timeline current and signal pulses read like a device booting, not like decoration. All of it respects reduced motion.
+5. **Self-hosted everything.** Fonts, vendor scripts and the analytics proxy stay on-domain to keep a `'self'` CSP.
+6. **Print degrades gracefully.** The print sheet is a separate design: clean A4, system fonts, black on white.

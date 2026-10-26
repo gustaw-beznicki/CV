@@ -70,13 +70,21 @@ export interface CVContent {
   };
   ui: {
     cvLabel: string;
-    year: string;
     locationMeta: string;
     scroll: string;
     sectionsLabel: string;
     contactLabel: string;
     exportLabel: string;
     printAction: string;
+    /** Prominent hero button label — opens print / Save as PDF. */
+    downloadCta: string;
+    /** Accessible name for the deer logo mark. */
+    logoLabel: string;
+    /** Label for the floating logo link that scrolls back to the top. */
+    backToTop: string;
+    /** Theme toggle labels (accessible name = the action). */
+    themeToDark: string;
+    themeToLight: string;
     emailLabel: string;
     linkedinLabel: string;
     locationLabel: string;
@@ -99,6 +107,21 @@ export interface CVContent {
     /** May contain inline <strong>. */
     roleHtml: string;
     locationInline: string;
+    /** Datasheet header: part number, e.g. "GB-01". */
+    partNumber: string;
+    /** Datasheet header: revision, e.g. "Rev. 2026". */
+    revision: string;
+    /** Title line under the name (mono kicker). */
+    docTitle: string;
+    /** Column headings of the key-parameters table. */
+    specsHead: [string, string];
+    /** Key parameters, rendered as "label ........ value". */
+    specs: { label: string; value: string }[];
+    /** Caption under the chip illustration. */
+    figCaption: string;
+    /** Footer strip of the datasheet frame. */
+    pinLabel: string;
+    sheetLabel: string;
   };
   contact: {
     email: string;

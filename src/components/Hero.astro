@@ -1,27 +1,91 @@
 ---
 import type { CVContent } from "../content/types";
+import Blueprint from "./Blueprint.astro";
 
 interface Props {
   content: CVContent;
 }
 const { content } = Astro.props;
 const { ui, hero, contact } = content;
+const domain = new URL(Astro.site ?? "https://gustawbeznicki.dev").host;
+
+// Typewriter timing for the header bar: each span types after the previous one.
+const TYPE_START = 0.5;
+const CHAR = 0.045;
+const PAUSE = 0.15;
+let at = TYPE_START;
+const typed = (text: string) => {
+  const n = [...text].length;
+  const style = `--n:${n};--d:${at.toFixed(2)}s`;
+  at += n * CHAR + PAUSE;
+  return { text, style };
+};
+const headLeft = [typed(hero.partNumber), typed(ui.cvLabel)];
+const headRight = [typed(hero.revision), typed(ui.locationMeta)];
 ---
 
-<header class="hero">
-  <div class="hero-bg-photo" aria-hidden="true"></div>
-  <div class="hero-meta">
-    <span>{ui.cvLabel}</span>
-    <span>{ui.year}</span>
-    <span>{ui.locationMeta}</span>
+<header class="hero" id="top">
+  <div class="ds">
+    <div class="hero-meta" style={`--typed:${at.toFixed(2)}s`}>
+      {headLeft.map((m, i) => (
+        <span class:list={["typed", i === 0 && "ds-part"]} style={m.style}>{m.text}</span>
+      ))}
+      <span class="ds-spacer" aria-hidden="true"></span>
+      {headRight.map((m) => <span class="typed" style={m.style}>{m.text}</span>)}
+    </div>
+
+    <div class="ds-body">
+      <div class="ds-main">
+        <div class="ds-title">
+          <h1><span>{hero.name}</span> <em>{hero.surname}</em></h1>
+          <img class="hero-avatar" src="/profile.png" alt={`${hero.name} ${hero.surname}`} width="92" height="92" />
+        </div>
+        <p class="ds-kicker">{hero.docTitle}</p>
+        <p class="hero-role" set:html={hero.roleHtml}></p>
+
+        <div class="hero-actions">
+          <button type="button" class="hero-cta" data-print>
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12m0 0-5-5m5 5 5-5M5 21h14"></path>
+            </svg>
+            <span>{ui.downloadCta}</span>
+          </button>
+        </div>
+        <div class="hero-contact">
+          <a href={`mailto:${contact.email}`}>{contact.email}</a>
+          <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer">{contact.linkedinLabel}</a>
+          <span>{hero.locationInline}</span>
+        </div>
+
+        <div class="ds-specs">
+          <div class="ds-specs-title" aria-hidden="true">
+            <span>{hero.specsHead[0]}</span>
+            <span>{hero.specsHead[1]}</span>
+          </div>
+          <dl>
+            {hero.specs.map((s) => (
+              <div class="ds-spec">
+                <dt>{s.label}</dt>
+                <dd>{s.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+
+      <figure class="ds-figure">
+        <div class="ds-drawing">
+          <Blueprint />
+        </div>
+        <figcaption>{hero.figCaption}</figcaption>
+      </figure>
+    </div>
+
+    <div class="ds-foot">
+      <span class="ds-pin">{hero.pinLabel}</span>
+      <span>{hero.sheetLabel}</span>
+      <span>{domain}</span>
+      <span class="hero-scroll">{ui.scroll}</span>
+    </div>
   </div>
-  <img class="hero-avatar" src="/profile.png" alt={`${hero.name} ${hero.surname}`} width="88" height="88" />
-  <h1>{hero.name} <em>{hero.surname}</em></h1>
-  <p class="hero-role" set:html={hero.roleHtml}></p>
-  <div class="hero-contact">
-    <a href={`mailto:${contact.email}`}>{contact.email}</a>
-    <a href={contact.linkedinUrl} target="_blank" rel="noopener noreferrer">{contact.linkedinLabel}</a>
-    <span>{hero.locationInline}</span>
-  </div>
-  <div class="hero-scroll">{ui.scroll}</div>
 </header>

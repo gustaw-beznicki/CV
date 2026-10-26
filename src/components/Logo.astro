@@ -1,0 +1,95 @@
+---
+// Small deer mark (back-to-top badge, footer). Pure geometry — no copy lives
+// here. Every shard is a raised plateau with chamfered walls; each face
+// carries its 3D normal as CSS vars (--nx/--ny/--nz) and global.css shades it
+// against a light vector (--lx/--ly/--lz, default top-left).
+import { type Pt, shards as pieces, rand } from "./deer-geometry";
+
+interface Props {
+  /** Accessible name; omit for decorative use (rendered aria-hidden). */
+  label?: string;
+}
+const { label } = Astro.props;
+
+const GAP = 0.55; // gap left between shards
+const BEVEL = 0.85; // chamfer width
+const DEPTH = 1; // raised plateaus
+
+const fmt = (p: Pt) => `${p[0].toFixed(2)} ${p[1].toFixed(2)}`;
+const normal = (n: number[]) => {
+  const l = Math.hypot(n[0], n[1], n[2]);
+  const s = n[2] < 0 ? -l : l; // always face the viewer
+  return `--nx:${(n[0] / s).toFixed(3)};--ny:${(n[1] / s).toFixed(3)};--nz:${(n[2] / s).toFixed(3)}`;
+};
+
+const shards = pieces.map((poly, i) => {
+  const cx = poly.reduce((s, p) => s + p[0], 0) / poly.length;
+  const cy = poly.reduce((s, p) => s + p[1], 0) / poly.length;
+  // Pull vertices towards the centroid by `d` (capped for thin spikes).
+  const pull = (pts: Pt[], d: number, cap: number) =>
+    pts.map(([x, y]): Pt => {
+      const dx = cx - x;
+      const dy = cy - y;
+      const k = Math.min(d / Math.hypot(dx, dy), cap);
+      return [x + dx * k, y + dy * k];
+    });
+  const outer = pull(poly, GAP, 0.35);
+  const inner = pull(outer, BEVEL, 0.55);
+
+  const walls = outer.map((a, j) => {
+    const b = outer[(j + 1) % outer.length];
+    const c = inner[(j + 1) % outer.length];
+    const d = inner[j];
+    // Normal of the plane through a, b (z=0) and d (z=DEPTH).
+    const u = [b[0] - a[0], b[1] - a[1], 0];
+    const w = [d[0] - a[0], d[1] - a[1], DEPTH];
+    return {
+      d: `M${fmt(a)}L${fmt(b)}L${fmt(c)}L${fmt(d)}Z`,
+      style: normal([
+        u[1] * w[2] - u[2] * w[1],
+        u[2] * w[0] - u[0] * w[2],
+        u[0] * w[1] - u[1] * w[0],
+      ]),
+    };
+  });
+  // Floors are tilted a touch each, so neighbouring shards catch the light
+  // differently — the faceted low-poly look.
+  const floor = {
+    d: `M${inner.map(fmt).join("L")}Z`,
+    style: normal([(rand(i + 3) - 0.5) * 0.45, (rand(i + 17) - 0.5) * 0.45, 1]),
+  };
+
+  // Scatter vector for the assembly animation: outward, with jitter.
+  const ox = cx - 55;
+  const oy = cy - 50;
+  const len = Math.hypot(ox, oy) || 1;
+  const dist = 28 + rand(i + 1) * 30;
+  const style = [
+    `--i:${i}`,
+    `--dx:${((ox / len) * dist + (rand(i + 7) - 0.5) * 20).toFixed(1)}px`,
+    `--dy:${((oy / len) * dist + (rand(i + 13) - 0.5) * 20).toFixed(1)}px`,
+    `--r:${Math.round((rand(i + 29) - 0.5) * 160)}deg`,
+  ].join(";");
+
+  return { walls, floor, style };
+});
+---
+
+<svg
+  class="deer deer--mark"
+  viewBox="0 0 100 100"
+  xmlns="http://www.w3.org/2000/svg"
+  role={label ? "img" : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : "true"}
+  focusable="false"
+>
+  <g class="deer-shards">
+    {shards.map((s) => (
+      <g class="deer-shard" style={s.style}>
+        <path class="facet floor" d={s.floor.d} style={s.floor.style} />
+        {s.walls.map((w) => <path class="facet wall" d={w.d} style={w.style} />)}
+      </g>
+    ))}
+  </g>
+</svg>

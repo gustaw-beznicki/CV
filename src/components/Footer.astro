@@ -1,14 +1,18 @@
 ---
 import type { CVContent } from "../content/types";
+import Logo from "./Logo.astro";
 
 interface Props {
   content: CVContent;
 }
 const { content } = Astro.props;
-const { footer } = content;
+const { footer, ui } = content;
 ---
 
 <footer>
+  <div class="footer-mark">
+    <Logo label={ui.logoLabel} />
+  </div>
   <p class="footer-cta" set:html={footer.ctaHtml}></p>
 
   <div class="footer-links">
